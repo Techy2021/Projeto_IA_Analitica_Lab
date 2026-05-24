@@ -1,0 +1,77 @@
+[
+  {
+    "id": "G001",
+    "tipo": "previsao_amostra",
+    "pergunta": "Faça uma previsão para umidade 12.5, proteína 46.2, extrato etéreo 1.8, fibras 4.7, matéria mineral 4.5, urease 0.12 e solubilidade 82."
+  },
+  {
+    "id": "G002",
+    "tipo": "previsao_amostra",
+    "pergunta": "Classifique uma amostra com umidade 13.1, proteína 44.8, extrato etéreo 2.1, fibras 5.2, matéria mineral 5.0, urease 0.18 e solubilidade 78."
+  },
+  {
+    "id": "G003",
+    "tipo": "distribuicao_classe",
+    "pergunta": "Quantas amostras existem por classe de qualidade?"
+  },
+  {
+    "id": "G004",
+    "tipo": "medias_classe",
+    "pergunta": "Quais são as médias por classe de qualidade?"
+  },
+  {
+    "id": "G005",
+    "tipo": "metricas_modelo",
+    "pergunta": "Explique as métricas do modelo atual em linguagem simples."
+  },
+  {
+    "id": "G006",
+    "tipo": "colunas_treinamento",
+    "pergunta": "Quais colunas foram usadas no treinamento do modelo?"
+  },
+  {
+    "id": "G007",
+    "tipo": "interpretacao_urease",
+    "pergunta": "Como interpretar urease 0.12 UPH no farelo de soja?"
+  },
+  {
+    "id": "G008",
+    "tipo": "interpretacao_urease",
+    "pergunta": "O que pode indicar uma urease alta em uma amostra de farelo de soja?"
+  },
+  {
+    "id": "G009",
+    "tipo": "interpretacao_solubilidade",
+    "pergunta": "Como interpretar solubilidade de 82% no farelo de soja?"
+  },
+  {
+    "id": "G010",
+    "tipo": "interpretacao_solubilidade",
+    "pergunta": "O que pode significar solubilidade baixa para qualidade proteica?"
+  },
+  {
+    "id": "G011",
+    "tipo": "limitacao_modelo",
+    "pergunta": "Quais são as principais limitações do modelo preditivo atual?"
+  },
+  {
+    "id": "G012",
+    "tipo": "apoio_decisao",
+    "pergunta": "Como o modelo deve ser usado como apoio à decisão no laboratório?"
+  },
+  {
+    "id": "G013",
+    "tipo": "metricas_modelo",
+    "pergunta": "O que significam accuracy, precision, recall e F1 para este modelo?"
+  },
+  {
+    "id": "G014",
+    "tipo": "previsao_amostra",
+    "pergunta": "Faça uma previsão para umidade 11.8, proteína 48.0, extrato etéreo 1.5, fibras 4.2, matéria mineral 4.1, urease 0.08 e solubilidade 86."
+  },
+  {
+    "id": "G015",
+    "tipo": "apoio_decisao",
+    "pergunta": "Se o modelo indicar uma classe de atenção, quais cuidados o analista deve tomar antes de liberar o lote?"
+  }
+]

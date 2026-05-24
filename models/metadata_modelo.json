@@ -1,0 +1,67 @@
+{
+  "data_treinamento": "2026-05-24T11:25:41",
+  "alvo": "indice_qualidade",
+  "tipo_problema": "regression",
+  "classificacao_por_qualidade": false,
+  "regra_classe_qualidade": null,
+  "tempo_maximo_segundos": 30,
+  "linhas_dataset_original": 1000,
+  "colunas_dataset_original": 12,
+  "linhas_usadas_apos_remover_alvo_nulo": 1000,
+  "linhas_treino": 800,
+  "linhas_teste": 200,
+  "test_size": 0.2,
+  "random_state": 42,
+  "melhor_estimador": "lgbm",
+  "melhor_configuracao": {
+    "n_estimators": 799,
+    "num_leaves": 4,
+    "min_child_samples": 13,
+    "learning_rate": 0.03203514801636242,
+    "log_max_bin": 10,
+    "colsample_bytree": 0.9590163174172144,
+    "reg_alpha": 0.005633312717048398,
+    "reg_lambda": 0.0021397704455098513
+  },
+  "melhor_loss_validacao": 0.15930086381433856,
+  "metricas": {
+    "MAE": 1.158916337174367,
+    "RMSE": 1.4599681672046694,
+    "R2": 0.8475754275114175
+  },
+  "aviso_roc_auc": null,
+  "classification_report": null,
+  "matriz_confusao": null,
+  "colunas_usadas": [
+    "umidade_pct",
+    "proteina_pct",
+    "extrato_etereo_pct",
+    "fibras_pct",
+    "materia_mineral_pct",
+    "urease_uph",
+    "solubilidade_pct"
+  ],
+  "colunas_removidas_nao_numericas": [
+    "id_amostra",
+    "data_analise",
+    "lote"
+  ],
+  "colunas_removidas_por_regra": [
+    "classe_qualidade"
+  ],
+  "colunas_removidas_sem_dados": [],
+  "medianas_imputacao": {
+    "umidade_pct": 12.49,
+    "proteina_pct": 46.13,
+    "extrato_etereo_pct": 1.77,
+    "fibras_pct": 4.645,
+    "materia_mineral_pct": 4.48,
+    "urease_uph": 0.092,
+    "solubilidade_pct": 82.19
+  },
+  "arquivo_modelo": "models/modelo_flaml.pkl",
+  "arquivo_metadata": "models/metadata_modelo.json",
+  "arquivo_resultado_teste": "reports/resultado_teste_modelo.csv",
+  "arquivo_metricas": "reports/metricas_modelo.csv",
+  "arquivo_matriz_confusao": null
+}

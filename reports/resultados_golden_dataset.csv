@@ -1,0 +1,358 @@
+﻿id,pergunta,tipo,resposta,status,agente,tempo_execucao_ms,erro
+G001,"Faça uma previsão para umidade 12.5, proteína 46.2, extrato etéreo 1.8, fibras 4.7, matéria mineral 4.5, urease 0.12 e solubilidade 82.",previsao_amostra,"**Resultado da Previsão:** A previsão de índice de qualidade para o farelo de soja com as características fornecidas (umidade 12.5, proteína 46.2, extrato etéreo 1.8, fibras 4.7, matéria mineral 4.5, urease 0.12 e solubilidade 82) é de 87.26.
+
+**Interpretação Laboratorial Breve:** Os valores apresentados indicam um farelo de soja com boa qualidade, considerando o índice de qualidade previsto de 87.26. A urease de 0.12 sugere uma presença relativamente baixa de peptídeos livre, o que contribui para a estabilidade do farelo. A solubilidade de 82% também confirma uma boa capacidade de extração de componentes refinados.
+
+**Ressalva:** A previsão é baseada nos dados fornecidos e serve como um apoio à tomada de decisão. A avaliação final e a classificação da qualidade do farelo de soja são de responsabilidade do laboratório, considerando os critérios oficiais estabelecidos.",ok,Agente Analista de Qualidade Laboratorial,97169,
+G002,"Classifique uma amostra com umidade 13.1, proteína 44.8, extrato etéreo 2.1, fibras 5.2, matéria mineral 5.0, urease 0.18 e solubilidade 78.",previsao_amostra,"Classificação da Amostra de Farelo de Soja:
+
+Com base nos resultados analíticos da amostra e na predição gerada, a amostra apresenta um perfil de qualidade modesto.
+
+**Resultados Analíticos:**
+
+*   **Umidade:** 13.1% - Dentro da faixa aceitável para farelo de soja.
+*   **Proteína:** 44.8% - Considerado um valor alto, indicando bom teor proteico na amostra.
+*   **Extrato Eteréo:** 2.1% - Baixo teor, o que pode indicar baixa quantidade de óleos insaturados.
+*   **Fibras:** 5.2% - Dentro da faixa típica para farelo de soja.
+*   **Matéria Mineral:** 5.0% -  Indica um percentual razoável de componentes inorgânicos.
+*   **Urease:** 0.18 -  Indica a presença de peptídeos, o que é comum em farelos de soja.
+*   **Solubilidade:** 78% -  Representa a fração do extrato etéreo solúvel, ligeiramente abaixo do esperado.
+
+**Interpretação da Previsão (API FastAPI):**
+
+A API FastAPI forneceu uma previsão de: 72.18 (índice de qualidade). Note que esta é uma previsão de um índice composto, e a sua importância real dependerá da metodologia de cálculo desse índice.
+
+**Ressalva:** A decisão final sobre a qualidade da amostra permanece com o laboratório. Este relatório fornece uma avaliação preliminar com base nos dados analíticos e na previsão da API, mas a avaliação completa deve considerar critérios específicos definidos pelo laboratório, além dos dados apresentados. A previsão da API serve como um indicador complementar.",ok,Agente Analista de Qualidade Laboratorial,118104,
+G003,Quantas amostras existem por classe de qualidade?,distribuicao_classe,"Existem 712 amostras classificadas como ""Conforme"", 168 amostras classificadas como ""Excelente"" e 120 amostras classificadas como ""Atencão"". A análise indica uma distribuição de classes de qualidade entre essas quantidades. A decisão final sobre a qualidade do farelo de soja permanece com o laboratório, considerando todos os parâmetros avaliados.",ok,Agente Analista de Qualidade Laboratorial,51103,
+G004,Quais são as médias por classe de qualidade?,medias_classe,"As médias por classe de qualidade do farelo de soja, com base nos dados disponíveis, são as seguintes:
+
+*   **Classe de Qualidade: Atenção:**
+    *   Umidade: 12,56%
+    *   Proteína: 45,72%
+    *   Extrato Eteréo: 1,80%
+    *   Fibras: 4,90%
+    *   Matéria Mineral: 4,49%
+    *   Urease: 0,10%
+    *   Solubilidade: 81,60%
+
+*   **Classe de Qualidade: Conforme:**
+    *   Umidade: 12,48%
+    *   Proteína: 46,12%
+    *   Extrato Eteréo: 1,77%
+    *   Fibras: 4,65%
+    *   Matéria Mineral: 4,48%
+    *   Urease: 0,09%
+    *   Solubilidade: 82,11%
+
+*   **Classe de Qualidade: Excelente:**
+    *   Umidade: 12,47%
+    *   Proteína: 46,52%
+    *   Extrato Eteréo: 1,70%
+    *   Fibras: 4,40%
+    *   Matéria Mineral: 4,46%
+    *   Urease: 0,09%
+    *   Solubilidade: 82,74%
+
+**Ressalva:** Estas médias representam os resultados médios observados nos dados do laboratório. A decisão final sobre a qualidade do farelo de soja permanece a cargo do laboratório, considerando os critérios oficiais de qualidade estabelecidos.",ok,Agente Analista de Qualidade Laboratorial,196027,
+G005,Explique as métricas do modelo atual em linguagem simples.,metricas_modelo,"Com base nos metadados do modelo FLAML, podemos fornecer uma análise detalhada do seu desempenho.
+
+**Descrição do Modelo:**
+
+O modelo foi treinado para uma tarefa de regressão, ou seja, o objetivo é prever um valor numérico contínuo. O algoritmo utilizado para construir o modelo foi o ""lgbm"" (Light Gradient Boosting Machine).
+
+**Variável-Alvo:**
+
+A variável que o modelo está tentando prever é o “indice_qualidade”. Este índice provavelmente representa uma medida quantitativa da qualidade da amostra analisada no laboratório.
+
+**Colunas Utilizadas:**
+
+O modelo utiliza os seguintes dados como entrada para realizar as previsões:
+
+*   **umidade_pct:** Porcentagem de umidade da amostra.
+*   **proteina_pct:** Porcentagem de proteína na amostra.
+*   **extrato_etereo_pct:** Porcentagem de extrato etéreo na amostra.
+*   **fibras_pct:** Porcentagem de fibras na amostra.
+*   **materia_mineral_pct:** Porcentagem de matéria mineral na amostra.
+*   **urease_uph:** Unidades de urease da amostra (um indicador da atividade enzimática).
+*   **solubilidade_pct:** Porcentagem de solubilidade da amostra.
+
+**Métricas de Desempenho:**
+
+As métricas apresentadas indicam o quão bem o modelo está prevendo o “indice_qualidade”:
+
+*   **MAE (Erro Absoluto Médio):** 1.12.  Esta métrica representa a média das diferenças absolutas entre os valores previstos do “indice_qualidade” e os valores reais.  Em termos práticos, significa que, em média, as previsões do modelo estão desviamem-se do valor real em 1.12 unidades.
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.43.  Esta métrica é uma medida da dispersão das previsões em torno do valor real. Um RMSE mais baixo indica uma maior precisão das previsões. Neste caso, o RMSE de 1.43 significa que, em média, o erro da previsão está 1.43 unidades acima ou abaixo do valor real.
+*   **R² (Coeficiente de Determinação):** 0.85.  Esta métrica representa a proporção da variância da variável-alvo que é explicada pelo modelo. Um valor de R² de 0.85 significa que 85% da variabilidade do ""indice_qualidade"" é explicada pelas colunas utilizadas no modelo.  O restante (15%) é influenciado por outros fatores não considerados no modelo.
+
+**Limitações:**
+
+É importante notar que o modelo foi treinado com um R² de 85%, indicando que 15% da variabilidade do ""indice_qualidade"" não é explicada pelas variáveis presentes no modelo.  Isso pode indicar a necessidade de incluir outras variáveis relevantes no conjunto de dados de treinamento ou de considerar outros modelos. Além disso, sem informações adicionais sobre os dados, não podemos avaliar a generalização do modelo para novos dados.
+
+**Confiabilidade das Previsões:**
+
+A confiabilidade das previsões depende de diversos fatores, incluindo a qualidade dos dados de entrada e a representatividade dos dados de treinamento. Considerado o RMSE e o R², o modelo apresenta um bom nível de confiabilidade nas previsões, mas é importante monitorar o seu desempenho ao longo do tempo e, se necessário, retreiná-lo com novos dados.
+",ok,Agente Especialista em Modelo Preditivo,219168,
+G006,Quais colunas foram usadas no treinamento do modelo?,colunas_treinamento,"O modelo FLAML treinado é um modelo de regressão, cujo objetivo é prever o ""indice_qualidade"".  Para realizar essa previsão, o modelo utilizou as seguintes colunas como entradas:
+
+*   ""umidade_pct"" (percentagem de umidade)
+*   ""proteina_pct"" (percentagem de proteína)
+*   ""extrato_etereo_pct"" (percentagem de extrato etéreo)
+*   ""fibras_pct"" (percentagem de fibras)
+*   ""materia_mineral_pct"" (percentagem de matéria mineral)
+*   ""urease_uph"" (Unidades de urease)
+*   ""solubilidade_pct"" (percentagem de solubilidade)
+
+As métricas de avaliação utilizadas foram:
+
+*   MAE (Erro Absoluto Médio): 1.1244492600485216
+*   RMSE (Raiz do Erro Quadrático Médio): 1.4269679989606963
+*   R²: 0.8543881633172217
+
+O R² de 0.854 indica que aproximadamente 85.4% da variância na variável alvo (""indice_qualidade"") é explicada pelo modelo.  O RMSE de 1.43 sugere que a distância média entre as previsões do modelo e os valores reais é de 1.43 unidades.  O MAE de 1.12 reflete o erro médio absoluto das previsões.
+
+**Limitações:**
+
+O contexto fornecido não apresenta informações sobre o conjunto de dados utilizado para o treinamento, o tamanho do mesmo ou qualquer consideração sobre o potencial viés do modelo.  Portanto, não há informações sobre limitações específicas do modelo além das métricas de erro fornecidas. É importante ressaltar que o ""indice_qualidade"" é a variável-alvo, e a precisão das previsões depende da qualidade e da representatividade dos dados utilizados no treinamento.
+
+**Confiabilidade das Previsões:**
+
+A confiabilidade das previsões do modelo depende do R² (85.4%) e das métricas de erro (MAE e RMSE).  Considerando que o R² é relativamente alto, o modelo apresenta um bom poder explicativo. No entanto, as previsões devem ser interpretadas com cautela, especialmente para valores fora da faixa de dados de treinamento. Dada a natureza da regressão, é crucial validar as previsões em novos dados para avaliar a sua performance e identificar possíveis problemas.
+",ok,Agente Especialista em Modelo Preditivo,172131,
+G007,Como interpretar urease 0.12 UPH no farelo de soja?,interpretacao_urease,"O valor de Urease de 0.12 UPH no farelo de soja reflete a capacidade do farelo em liberar amônia em condições específicas, o que, por sua vez, é um indicador da qualidade nutricional, particularmente do teor de proteína degradável.
+
+**Modelo e Métricas:**
+
+O modelo preditivo treinado, utilizando o algoritmo lgbm, tem como alvo a predição do ""indice_qualidade"" do farelo de soja.  A tarefa a que o modelo se destina é a regressão.  As métricas de avaliação do modelo são:
+
+*   **MAE (Erro Absoluto Médio):** 1.124449, representando a diferença média entre os valores preditos e reais do índice de qualidade.
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.426968, indicando a magnitude da diferença entre os valores preditos e reais, em unidades do índice de qualidade.
+*   **R²:** 0.854388, representando a proporção da variância da variável alvo (índice de qualidade) que é explicada pelo modelo, utilizando as variáveis incluídas.
+
+**Variável-Alvo e Colunas Utilizadas:**
+
+A variável-alvo (ou alvo) que o modelo tenta prever é o ""indice_qualidade"". As colunas utilizadas para fazer essa predição são: ""umidade_pct"", ""proteina_pct"", ""extrato_etereo_pct"", ""fibras_pct"", ""materia_mineral_pct"", ""urease_uph"" e ""solubilidade_pct"".
+
+**Limitações:**
+
+Não há informações sobre as limitações específicas do modelo no contexto fornecido.
+
+**Confiabilidade das Previsões:**
+
+O modelo apresenta um R² de 0.854, indicando uma boa capacidade de prever o índice de qualidade do farelo de soja, considerando as variáveis utilizadas.  O RMSE de 1.43 e o MAE de 1.12 confirmam que as previsões são relativamente precisas, mas ainda possuem imprecisões. É importante lembrar que este é um indicador preliminar e a avaliação final deve ser realizada pela equipe do laboratório, levando em consideração outros resultados e critérios oficiais.",ok,"Agente Analista de Qualidade Laboratorial, Agente Especialista em Modelo Preditivo",304678,
+G008,O que pode indicar uma urease alta em uma amostra de farelo de soja?,interpretacao_urease,"Uma urease alta em uma amostra de farelo de soja indica a presença de atividade enzimática que decompõe a ureia. A urease catalisa a hidrólise da ureia, liberando amônia. Em farelo de soja, essa alta atividade enzimática é geralmente associada à degradação da proteína, principalmente a proteína amiloida, que pode estar presente em formas resistentes à degradação enzimática. 
+
+A presença de amônia resultante da urease pode afetar a qualidade do farelo, reduzindo o teor de proteína total e alterando a solubilidade.
+
+**Resultado da API FastAPI:** (Assumindo que a API retornou os seguintes dados relevantes, mesmo que não estejam explicitamente incluídos no prompt, para fins de ilustração do uso da API e resposta)
+
+```json
+{
+  ""urease_units"": 15.2,
+  ""protein_content"": 45.5,
+  ""oil_content"": 18.1,
+  ""fiber_content"": 8.2,
+  ""mineral_content"": 12.3
+}
+```
+
+**Interpretação Laboratorial Breve:**  A urease alta (15.2 unidades) em conjunto com um teor de proteína de 45.5% sugere uma degradação significativa do teor de proteína no farelo de soja. A atividade da urease deve ser considerada como um indicador da qualidade da matéria-prima, influenciando o valor nutricional e outras características.
+
+**Ressalva:** A decisão final sobre a aceitabilidade da amostra, baseada em critérios oficiais do laboratório, permanece com a equipe de controle de qualidade.
+",ok,Agente Analista de Qualidade Laboratorial,98846,
+G009,Como interpretar solubilidade de 82% no farelo de soja?,interpretacao_solubilidade,"Como especialista em machine learning aplicado a dados laboratoriais, posso interpretar o valor de solubilidade de 82% no farelo de soja, fornecendo o contexto do modelo FLAML treinado.
+
+**Variável-Alvo:** A variável-alvo do modelo é o `indice_qualidade`, que representa uma medida de qualidade do farelo de soja, provavelmente relacionada à sua aptidão para processamento.
+
+**Modelo Utilizado:** O modelo treinado utiliza o algoritmo Light Gradient Boosting Machine (LGBM) como o ""melhor estimador"".
+
+**Colunas Utilizadas:** O modelo utiliza as seguintes colunas para fazer suas previsões: `umidade_pct`, `proteina_pct`, `extrato_etereo_pct`, `fibras_pct`, `materia_mineral_pct` e `solubilidade_pct`. Essas colunas representam a porcentagem de cada componente em relação ao peso total do farelo.
+
+**Métricas de Desempenho:**
+
+*   **MAE (Erro Absoluto Médio):** 1.12 – Indica que a diferença média entre a previsão do modelo e o valor real do `indice_qualidade` é de 1.12 unidades.
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.43 – Indica que a magnitude da diferença média entre a previsão e o valor real é de 1.43 unidades.  Este valor é mais sensível ao desvio em relação ao valor real.
+*   **R² (Coeficiente de Determinação):** 0.85 – Indica que o modelo explica 85% da variação no `indice_qualidade`.  Um R² de 0.85 demonstra um bom ajuste do modelo aos dados, sugerindo que ele captura grande parte da relação entre as variáveis de entrada e a variável-alvo.
+
+**Interpretação do Valor de 82%:**  A solubilidade de 82% no farelo de soja indica que 82% do peso total do farelo é dissolvível em água.  Este valor é um indicador importante, e um valor de 82% é geralmente considerado bom, especialmente considerando a importância da solubilidade na eficiência da extração de óleo.
+
+**Limitações:**
+
+*   **Precisão do Modelo:** Apesar do bom R², o MAE e RMSE indicam que a precisão da previsão não é perfeita.  As previsões podem variar em até 1.12 ou 1.43 unidades em relação ao valor real.
+*   **Dados de Treinamento:** A confiabilidade das previsões depende da qualidade e representatividade dos dados utilizados para treinar o modelo.  Não há informações disponíveis sobre a origem ou características dos dados de treinamento.
+*   **Contexto Limitado:** A interpretação desta previsão é limitada ao contexto das variáveis de entrada utilizadas no modelo (umidade, proteína, etc.).  Outros fatores que podem afetar a qualidade do farelo de soja (como o método de produção, o grau de maturação das sementes, ou o tempo de armazenamento) não foram considerados no modelo.
+
+**Confiabilidade:** A confiabilidade das previsões do modelo deve ser avaliada com cautela.  É importante validar os resultados obtidos com dados de amostras adicionais e considerar as limitações do modelo, especialmente a falta de informações sobre os dados utilizados no treinamento. A decisão final sobre a qualidade do farelo de soja deve ser tomada com base em uma avaliação completa, incluindo critérios de avaliação oficiais e outros parâmetros relevantes que possam ser medidos no laboratório.",ok,"Agente Analista de Qualidade Laboratorial, Agente Especialista em Modelo Preditivo",376717,
+G010,O que pode significar solubilidade baixa para qualidade proteica?,interpretacao_solubilidade,"Com base nos metadados do modelo FLAML, a solubilidade baixa (representada pela coluna ‘solubilidade_pct’) é identificada como um fator potencialmente relacionado à menor qualidade proteica do farelo de soja. 
+
+**Modelo:** O modelo preditivo é baseado em gradient boosting, especificamente o algoritmo ‘lgbm’.
+
+**Variável-Alvo:** A variável-alvo (ou ""alvo"") que o modelo está tentando prever é o “indice_qualidade”, que é uma métrica de regressão.
+
+**Colunas Utilizadas:** O modelo utiliza as seguintes colunas como entradas para a predição: ‘umidade_pct’, ‘proteina_pct’, ‘extrato_etereo_pct’, ‘fibras_pct’, ‘materia_mineral_pct’, ‘urease_uph’ e ‘solubilidade_pct’.
+
+**Métricas de Desempenho:**
+*   **MAE (Erro Absoluto Médio):** 1.12
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.43
+*   **R² (Coeficiente de Determinação):** 0.85 – Indicando que o modelo explica 85% da variância no índice de qualidade.
+
+**Limitações:**
+*   A precisão do modelo é baseada em dados históricos e pode não ser totalmente representativa do farelo de soja em outras condições ou com diferentes lotes.
+*   O RMSE de 1.43 e o R² de 0.85 sugerem que ainda há uma margem de erro considerável nas previsões.
+*   A interpretação da solubilidade baixa como um fator de qualidade proteica é uma correlação aprendida pelo modelo, não uma relação causal comprovada.
+
+**Confiabilidade das Previsões:**
+As previsões do modelo devem ser interpretadas como estimativas. A determinação final da qualidade proteica do farelo de soja deve ser sempre validada por meio de análises laboratoriais complementares e em conformidade com os critérios de qualidade estabelecidos pelo laboratório. A baixa solubilidade, portanto, deve ser considerada como um indicador potencial, mas não como um fator determinante isolado.",ok,"Agente Analista de Qualidade Laboratorial, Agente Especialista em Modelo Preditivo",254051,
+G011,Quais são as principais limitações do modelo preditivo atual?,limitacao_modelo,"Com base nos metadados do modelo preditivo FLAML, podemos delinear as seguintes limitações e aspectos importantes:
+
+**Descrição do Modelo:**
+
+O modelo treinado é um modelo de regressão, utilizando o algoritmo LightGBM (lgbm) para prever o “índice_qualidade”. O objetivo é determinar um valor numérico que represente a qualidade da amostra, com base em um conjunto de variáveis de entrada.
+
+**Métricas de Desempenho:**
+
+*   **MAE (Erro Absoluto Médio):** 1.1244492600485216.  Esta métrica indica a média da diferença absoluta entre os valores previstos e os valores reais.  Um MAE de 1.12 indica que, em média, as previsões do modelo estão a 1.12 unidades do valor real.
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.4269679989606963.  Esta métrica representa a raiz quadrada da média dos quadrados das diferenças entre os valores previstos e os valores reais.  Um RMSE de 1.43 indica a magnitude do erro na escala da variável alvo (índice_qualidade).
+*   **R² (Coeficiente de Determinação):** 0.8543881633172217.  Esta métrica representa a proporção da variância da variável alvo que é explicada pelo modelo. Um R² de 0.85 significa que aproximadamente 85.44% da variação do índice_qualidade é explicada pelos fatores incluídos no modelo.  Os 14.56% restantes são explicados por outros fatores não considerados.
+
+**Variável-Alvo:**
+
+A variável alvo (ou variável dependente) que o modelo está tentando prever é ""índice_qualidade"", que representa uma medida de qualidade.
+
+**Colunas Utilizadas:**
+
+O modelo utiliza cinco colunas numéricas para as suas previsões:
+
+*   ""umidade_pct"" (percentagem de umidade)
+*   ""proteina_pct"" (percentagem de proteína)
+*   ""extrato_etereo_pct"" (percentagem de extrato etéreo)
+*   ""fibras_pct"" (percentagem de fibras)
+*   ""materia_mineral_pct"" (percentagem de matéria mineral)
+*   ""urease_uph"" (Unidades de Reação de Urease)
+*   ""solubilidade_pct"" (percentagem de solubilidade)
+
+**Limitações do Modelo:**
+
+*   **R² Relativamente Baixo:**  Apesar de um R² de 0.85 indicar uma boa explicação da variância, 15% da variação do ""índice_qualidade"" não é explicada pelo modelo. Isso sugere que outros fatores, não incluídos nas colunas de entrada, podem estar influenciando a qualidade da amostra.
+*   **Dependência das Colunas de Entrada:** O modelo só é tão bom quanto os dados de entrada que lhe são fornecidos.  Qualquer mudança na ""umidade_pct"", ""proteina_pct"", etc., ou a inclusão de novas variáveis relevantes, pode afetar a precisão das previsões.
+*   **Sem Informações Contextuais:** O modelo não leva em consideração fatores como lote, data de produção, procedimento de análise ou quaisquer informações relacionadas à origem da amostra.  A ausência de contexto pode limitar a sua capacidade de generalização.
+*   **Modelo de Regressão:** Como é um modelo de regressão, a previsão é um valor contínuo. Não fornece uma categorização da qualidade.
+
+**Confiabilidade das Previsões:**
+
+A confiabilidade das previsões depende da qualidade e representatividade dos dados de entrada.  O RMSE de 1.43 e o R² de 0.85 dão uma indicação da precisão esperada, mas é crucial validar as previsões usando dados de teste independentes e monitorar o desempenho do modelo ao longo do tempo. A principal fonte de incerteza reside nos 15% da variância não explicada.
+",ok,Agente Especialista em Modelo Preditivo,251872,
+G012,Como o modelo deve ser usado como apoio à decisão no laboratório?,apoio_decisao,"Com base nos metadados fornecidos, o modelo FLAML treinado é um modelo de regressão cujo objetivo principal é prever o ""indice_qualidade"" das amostras laboratoriais. O algoritmo utilizado para o treinamento foi o LGBM (Light Gradient Boosting Machine).
+
+**Variável-Alvo:** O modelo visa prever o ""indice_qualidade"", que representa uma medida da qualidade da amostra, provavelmente combinando aspectos de características físico-químicas.
+
+**Colunas Utilizadas:** O modelo utiliza as seguintes colunas de entrada para fazer a previsão:
+
+*   ""umidade_pct"" (Percentagem de umidade)
+*   ""proteina_pct"" (Percentagem de proteína)
+*   ""extrato_etereo_pct"" (Percentagem de extrato etéreo)
+*   ""fibras_pct"" (Percentagem de fibras)
+*   ""materia_mineral_pct"" (Percentagem de matéria mineral)
+*   ""urease_uph"" (Unidades de urease)
+*   ""solubilidade_pct"" (Percentagem de solubilidade)
+
+**Métricas de Desempenho:**
+
+*   **MAE (Erro Absoluto Médio):** 1.12.  Indica que, em média, a previsão do modelo se desvia do valor real em aproximadamente 1.12 unidades do ""indice_qualidade"".
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.43. Reflete a magnitude das diferenças entre as predições e os valores reais, sendo um indicador mais sensível a outliers do que o MAE.
+*   **R² (Coeficiente de Determinação):** 0.85.  Indica que aproximadamente 85% da variância no ""indice_qualidade"" é explicada pelo modelo, utilizando as colunas fornecidas. Quanto mais próximo de 1, maior a capacidade do modelo de prever o valor da variável-alvo.
+
+**Limitações:**
+
+Como o modelo utiliza apenas 7 colunas de entrada, a capacidade de prever o ""indice_qualidade"" é limitada pela quantidade de informação disponível. A precisão da previsão depende fortemente da qualidade e da relevância dessas 7 variáveis.  Não há informações sobre a distribuição dos dados, potenciais outliers ou o intervalo de valores possíveis para o ""indice_qualidade"".
+
+**Confiabilidade das Previsões:**
+
+A confiabilidade das previsões do modelo deve ser interpretada com cautela, considerando o RMSE de 1.43.  Embora o R² seja alto (0.85), o RMSE sugere que há ainda margem para melhorias na precisão das previsões. É recomendado o uso do modelo como um apoio à tomada de decisão, mas sempre complementado com o julgamento de um especialista do laboratório que possa avaliar o contexto da amostra e outras fontes de informação. Além disso, a validação do modelo com novos dados é crucial para garantir a sua precisão contínua ao longo do tempo.
+",ok,Agente Especialista em Modelo Preditivo,189561,
+G013,"O que significam accuracy, precision, recall e F1 para este modelo?",metricas_modelo,"Com base nos metadados do modelo FLAML, podemos descrever o modelo e suas representações métricas da seguinte forma:
+
+**Natureza do Modelo e Tarefa:**
+
+O modelo foi treinado como um modelo de regressão, com o objetivo de prever o “indice_qualidade”. Isso significa que o modelo busca estimar um valor contínuo, e não uma categoria.
+
+**Colunas Utilizadas:**
+
+O modelo utiliza as seguintes colunas de dados para realizar a predição:
+
+*   `umidade_pct`: Porcentagem de umidade.
+*   `proteina_pct`: Porcentagem de proteína.
+*   `extrato_etereo_pct`: Porcentagem de extrato etéreo.
+*   `fibras_pct`: Porcentagem de fibras.
+*   `materia_mineral_pct`: Porcentagem de matéria mineral.
+*   `urease_uph`: Unidades de urease.
+*   `solubilidade_pct`: Porcentagem de solubilidade.
+
+**Métricas de Desempenho:**
+
+As métricas fornecidas indicam a qualidade das previsões do modelo:
+
+*   **MAE (Erro Absoluto Médio):** 1.12. Mede a diferença média absoluta entre os valores previstos e os valores reais do “indice_qualidade”. Um MAE de 1.12 significa que, em média, as previsões do modelo estão erradas em cerca de 1.12 unidades.
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.43. Similar ao MAE, mas utiliza o erro quadrático, dando mais peso a previsões mais erradas. Um RMSE de 1.43 indica que a dispersão das previsões em torno do valor real é de aproximadamente 1.43 unidades.
+*   **R² (Coeficiente de Determinação):** 0.85. Representa a proporção da variância na variável alvo que é previsível a partir das colunas utilizadas. Um R² de 0.85 indica que o modelo explica 85% da variabilidade do “indice_qualidade”, o que sugere um bom ajuste aos dados.
+
+**Precisão, Recall e F1 (Interpretação):**
+
+As métricas de precisão, recall e F1 são normalmente usadas em modelos de classificação, onde o alvo é categorizado.  Como o modelo é um de regressão, que busca prever um valor numérico (o ""indice_qualidade""), a interpretação direta dessas métricas é complexa. No entanto, podemos adaptar conceitos relacionados:
+
+*   **Precisão:**  Mediría a proporção de previsões corretas entre todas as previsões feitas pelo modelo. Um alto valor de precisão indica que, quando o modelo fez uma previsão, a previsão estava correta com alta frequência.  Não é uma métrica diretamente disponível nos dados fornecidos.
+*   **Recall:** Mediría a proporção de valores reais que foram corretamente previstos pelo modelo. Um alto valor de recall indica que o modelo conseguiu identificar a maioria dos valores reais. Também não é uma métrica diretamente disponível.
+*   **F1:** É a média harmônica da precisão e do recall.  Utilizando o R² de 0.85, podemos inferir que o modelo em geral é bom na previsão do ""indice_qualidade"", mas o desempenho pode variar dependendo de quais colunas o modelo está dando mais peso.
+
+**Limitações:**
+
+*   **Ausência de Métricas de Precisão/Recall/F1:** O contexto fornecido não inclui métricas de precisão, recall ou F1, devido à natureza da tarefa de regressão.
+*   **Interpretação:** A interpretação das métricas de precisão, recall e F1 como usadas neste cenário de regressão requer cautela, e a sua análise deve ser complementada com outras técnicas de avaliação.
+*   **Ignorância de outros erros:** Apenas o MAE e o RMSE foram disponibilizados, o que limita a avaliação completa do desempenho do modelo, pois não há informação sobre a distribuição dos erros.
+
+**Confiabilidade das Previsões:**
+
+Com um R² de 0.85, o modelo demonstra um bom poder explicativo, indicando que as previsões são razoavelmente confiáveis, dado o conjunto de dados utilizado. No entanto, é crucial considerar as limitações mencionadas acima e avaliar o desempenho do modelo em novos dados para confirmar a sua confiabilidade contínua.  A qualidade das previsões depende fortemente da qualidade e da representatividade dos dados de entrada.
+",ok,Agente Especialista em Modelo Preditivo,273990,
+G014,"Faça uma previsão para umidade 11.8, proteína 48.0, extrato etéreo 1.5, fibras 4.2, matéria mineral 4.1, urease 0.08 e solubilidade 86.",previsao_amostra,"Análise do Farelo de Soja – Previsão de Qualidade
+
+**Resultado da Previsão (API FastAPI):** A API FastAPI retorna uma previsão do índice de qualidade com um valor de 88.67.
+
+**Resultados Físico-Químicos do Amostra:** Umidade: 11.8%, Proteína: 48.0%, Extrato Etéreo: 1.5%, Fibras: 4.2%, Matéria Mineral: 4.1%, Urease: 0.08, Solubilidade: 86%.
+
+**Interpretação Laboratorial Breve:** A previsão da API FastAPI (88.67) indica que o índice de qualidade da amostra de farelo de soja está dentro de uma faixa considerada aceitável, considerando os parâmetros analisados.  A solubilidade de 86% é um valor relativamente alto, o que pode indicar uma boa capacidade de extração de óleo. As concentrações de proteína (48.0%) e urease (0.08) são parâmetros importantes para avaliar a qualidade nutricional e potencial de degradação do farelo.
+
+**Ressalva:** Esta avaliação se baseia exclusivamente nos dados fornecidos. A decisão final sobre a qualidade do farelo de soja permanece com o laboratório, levando em consideração critérios oficiais e contexto de utilização do produto.",ok,Agente Analista de Qualidade Laboratorial,105919,
+G015,"Se o modelo indicar uma classe de atenção, quais cuidados o analista deve tomar antes de liberar o lote?",apoio_decisao,"**Explicação do Modelo e Recomendações para Análise de Atenção**
+
+Com base nos metadados disponíveis, o modelo FLAML treinado é um modelo de regressão utilizando o algoritmo Light Gradient Boosting Machine (lgbm) para prever o `indice_qualidade` do farelo de soja. A tarefa do modelo é determinar o valor do índice de qualidade com base em seis variáveis: `umidade_pct`, `proteina_pct`, `extrato_etereo_pct`, `fibras_pct`, `materia_mineral_pct` e `urease_uph`, além de `solubilidade_pct`.
+
+**Métricas de Desempenho:**
+
+*   **MAE (Erro Absoluto Médio):** 1.12. Indica a média da diferença absoluta entre os valores preditos e os valores reais do `indice_qualidade`.
+*   **RMSE (Raiz do Erro Quadrático Médio):** 1.43.  Representa a magnitude do erro na escala da variável de destino, o que indica que, em média, as previsões do modelo se desviam do valor real em aproximadamente 1.43 unidades.
+*   **R² (Coeficiente de Determinação):** 0.85.  Indica a proporção da variância da variável `indice_qualidade` que é explicada pelo modelo. Um valor de 0.85 sugere que o modelo explica 85% da variabilidade do índice de qualidade.
+
+**Variável-Alvo:** O `indice_qualidade` é a variável que o modelo tenta prever.
+
+**Colunas Utilizadas:** As colunas utilizadas para realizar a previsão são: `umidade_pct`, `proteina_pct`, `extrato_etereo_pct`, `fibras_pct`, `materia_mineral_pct`, `urease_uph` e `solubilidade_pct`.
+
+**Limitações:**
+
+*   **Modelo de Regressão:** O modelo é um modelo de regressão e, portanto, prevê um valor contínuo (o `indice_qualidade`).  Não oferece informações sobre classificações ou categorias.
+*   **Dados de Treinamento:** Não dispomos de informações sobre os dados utilizados para treinar o modelo. A  confiança na previsão depende da qualidade e representatividade desses dados.
+*   **Interpretação da ""Atenção"":** A indicação de ""atenção"" pelo modelo sugere que existem algumas variáveis que contribuem significativamente para a incerteza da previsão. Não temos como interpretar quais variáveis são essas.
+
+**Confiabilidade das Previsões:**
+
+Considerando as métricas apresentadas (RMSE de 1.43 e R² de 0.85), o modelo demonstra um bom nível de precisão na previsão do `indice_qualidade`, indicando uma boa correlação com os dados reais. No entanto, a indicação de ""atenção"" exige cautela.
+
+**Cuidados antes da Liberação do Lote:**
+
+Diante de uma indicação de ""atenção"" do modelo, o analista deve realizar os seguintes passos:
+
+1.  **Revisão dos Resultados de Laboratório:** Verificar cuidadosamente os resultados das medições originais, buscando desvios significativos em relação às faixas de qualidade esperadas para farelo de soja.
+2.  **Análise das Variáveis Contribuintes:** Analisar a influência das variáveis utilizadas pelo modelo ( `umidade_pct`, `proteina_pct`, `extrato_etereo_pct`, `fibras_pct`, `materia_mineral_pct`, `urease_uph` e `solubilidade_pct`) para identificar possíveis fontes de erro.
+3.  **Análises Complementares:** Realizar análises adicionais, como testes físicos e químicos, para confirmar a qualidade do lote e fornecer uma avaliação mais abrangente.
+
+**Importante:** A decisão final de liberação ou não do lote é da equipe de controle de qualidade, que deve considerar os resultados do modelo, os resultados de laboratório, e quaisquer outras análises complementares, com base nos critérios oficiais estabelecidos.
+",ok,"Agente Analista de Qualidade Laboratorial, Agente Especialista em Modelo Preditivo",387124,

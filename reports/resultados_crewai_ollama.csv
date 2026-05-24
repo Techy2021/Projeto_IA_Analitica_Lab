@@ -1,0 +1,6 @@
+﻿pergunta,status,modelo_ollama,resposta,agentes
+"Faça uma previsão para umidade 12.5, proteína 46.2, extrato etéreo 1.8, fibras 4.7, matéria mineral 4.5, urease 0.12 e solubilidade 82.",erro,llama3.2:3b,Modelo não encontrado. Execute: ollama pull llama3.2:3b,Agente Analista de Qualidade Laboratorial
+Quantas amostras existem por classe de qualidade?,erro,llama3.2:3b,Modelo não encontrado. Execute: ollama pull llama3.2:3b,Agente Analista de Qualidade Laboratorial
+Quais são as médias por classe?,erro,llama3.2:3b,Modelo não encontrado. Execute: ollama pull llama3.2:3b,Agente Analista de Qualidade Laboratorial
+Explique as métricas do modelo atual.,erro,llama3.2:3b,Modelo não encontrado. Execute: ollama pull llama3.2:3b,Agente Especialista em Modelo Preditivo
+Quais colunas foram usadas no treinamento?,erro,llama3.2:3b,Modelo não encontrado. Execute: ollama pull llama3.2:3b,Agente Especialista em Modelo Preditivo
