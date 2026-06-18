@@ -1,51 +1,86 @@
+# =========================
 # Ambiente virtual
+# =========================
 .venv/
 venv/
 env/
 
+# =========================
 # Variáveis de ambiente e chaves
+# =========================
 .env
+.env.local
+.env.*.local
 
+# Mantém o exemplo seguro no repositório
+!.env.example
+
+# =========================
 # Cache Python
+# =========================
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.pytest_cache/
+.mypy_cache/
 
+# =========================
 # Streamlit
+# =========================
 .streamlit/secrets.toml
 
+# =========================
 # Banco local e arquivos grandes
+# =========================
 data/*.duckdb
 data/*.db
 data/*.sqlite
 data/*.sqlite3
 
-# Modelos treinados
-models/*.pkl
-models/*.joblib
-
-# Logs e traces
-reports/*.jsonl
-
-# Cache e temporários
-.cache/
-*.log
-*.tmp
-
-# Node / Flowise
-node_modules/
-package-lock.json
-
-# Sistema operacional
-.DS_Store
-Thumbs.db
-
-# VS Code
-.vscode/
-# Arquivos tempor�rios do Word
-~$*.docx
+# =========================
 # Bases vetoriais, backups e caches de avaliação
+# =========================
 data/vectorstore/
 data/backups/
 .deepeval/
+
+# =========================
+# Modelos treinados
+# =========================
+# Ignora modelos grandes
+models/*.joblib
+
+# Permite o modelo principal necessário para o deploy
+!models/modelo_flaml.pkl
+
+# =========================
+# Logs, traces e arquivos temporários
+# =========================
+reports/*.jsonl
+*.log
+*.tmp
+.cache/
+.ipynb_checkpoints/
+
+# =========================
+# Node / Flowise
+# =========================
+node_modules/
+package-lock.json
+
+# =========================
+# Sistema operacional
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# Arquivos temporários do Word
+# =========================
+~$*.docx
