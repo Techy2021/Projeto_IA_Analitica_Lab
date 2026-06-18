@@ -1,0 +1,1272 @@
+GUIA DE DIAGNOSTICO LABORATORIAL NO PROCESSAMENTO DE SOJA
+Base de conhecimento tecnica para sistemas RAG
+
+============================================================
+1. OBJETIVO DO GUIA
+============================================================
+
+Este guia tem como objetivo apoiar a interpretacao de resultados laboratoriais no
+processamento industrial da soja. O foco e relacionar resultados analiticos com
+possiveis causas de processo, qualidade da materia-prima, eficiencia operacional e
+acoes de verificacao.
+
+O material foi estruturado para uso em sistemas RAG. Por isso, os blocos foram
+organizados de forma direta, com termos tecnicos repetidos de maneira controlada e
+com relacoes claras entre desvio observado, causa provavel, verificacao laboratorial
+e acao recomendada.
+
+Este guia pode ser usado para responder perguntas como:
+
+- O que pode causar fosforo alto no oleo degomado?
+- Como interpretar acidez elevada no oleo bruto?
+- O que significa proteina baixa no farelo de soja?
+- Por que a fibra do farelo aumentou?
+- Como interpretar urease alta no farelo?
+- Como interpretar solubilidade proteica baixa?
+- O que significa oleo residual alto no farelo?
+- Como a qualidade da soja interfere no oleo, farelo e casca?
+- Quais verificacoes devem ser feitas quando a casca apresenta proteina alta?
+- Quais variaveis podem ser usadas para diagnosticar problemas no processamento?
+
+============================================================
+2. VISAO GERAL DO PROCESSO INDUSTRIAL
+============================================================
+
+O processamento da soja envolve etapas de recepcao, limpeza, armazenamento,
+preparacao, descascamento, condicionamento, laminacao, extracao de oleo,
+dessolventizacao, tostagem, secagem, resfriamento do farelo, separacao de casca e
+degomagem do oleo.
+
+Cada etapa pode influenciar um ou mais parametros laboratoriais. O laboratorio
+industrial deve interpretar os resultados considerando o conjunto de informacoes e
+nao apenas um valor isolado.
+
+Relacoes gerais de processo:
+
+- A qualidade da soja recebida influencia a qualidade do oleo, do farelo e da casca.
+- A limpeza influencia impurezas, materia mineral e estabilidade operacional.
+- O descascamento influencia fibra e proteina do farelo.
+- A laminacao influencia a eficiencia de extracao.
+- A extracao influencia o oleo residual no farelo.
+- A tostagem influencia urease, solubilidade proteica e qualidade nutricional.
+- A degomagem influencia o fosforo no oleo degomado.
+- O armazenamento influencia umidade, acidez, oxidacao e deterioracao.
+
+============================================================
+3. PRINCIPIO DE INTERPRETACAO LABORATORIAL
+============================================================
+
+Um resultado fora do esperado deve ser interpretado por tres caminhos principais:
+
+1. Verificar se o resultado analitico e confiavel.
+2. Verificar se houve variacao na materia-prima.
+3. Verificar se houve variacao ou desvio no processo.
+
+Antes de concluir que existe problema de processo, recomenda-se avaliar:
+
+- Representatividade da amostra.
+- Identificacao correta da amostra.
+- Homogeneizacao da amostra.
+- Metodo analitico utilizado.
+- Calibracao do equipamento.
+- Repetibilidade do resultado.
+- Historico do lote.
+- Historico dos resultados anteriores.
+- Condicao operacional no momento da coleta.
+- Alteracoes recentes na materia-prima ou no processo.
+
+============================================================
+4. DIAGNOSTICO DA SOJA RECEBIDA
+============================================================
+
+------------------------------------------------------------
+4.1 Desvio observado: umidade alta na soja
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Colheita em condicao inadequada.
+- Secagem insuficiente.
+- Armazenamento em condicao inadequada.
+- Entrada de agua durante transporte.
+- Mistura de lotes secos com lotes umidos.
+- Falha de segregacao na recepcao.
+
+Riscos associados:
+
+- Crescimento microbiologico.
+- Aquecimento da massa de graos.
+- Aumento de graos ardidos ou mofados.
+- Aumento da acidez do oleo.
+- Reducao da estabilidade da materia-prima.
+- Maior dificuldade de armazenamento seguro.
+
+Verificacoes recomendadas:
+
+- Repetir a analise de umidade.
+- Avaliar temperatura da massa de graos.
+- Verificar percentual de graos avariados.
+- Avaliar odor, cor e aspecto dos graos.
+- Conferir historico de armazenamento e transporte.
+- Verificar se houve chuva ou exposicao a umidade.
+
+Acoes recomendadas:
+
+- Segregar o lote.
+- Priorizar o uso industrial.
+- Avaliar necessidade de secagem.
+- Intensificar monitoramento de acidez e avariados.
+- Evitar armazenamento prolongado sem controle.
+- Comunicar a producao e a armazenagem.
+
+------------------------------------------------------------
+4.2 Desvio observado: graos verdes elevados
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Colheita antecipada.
+- Maturacao irregular.
+- Estresse climatico.
+- Mistura de lotes com diferentes graus de maturacao.
+- Deficiencia no controle de recebimento.
+
+Impactos provaveis:
+
+- Aumento de clorofila no oleo bruto.
+- Maior dificuldade de branqueamento.
+- Alteracao da cor do oleo.
+- Possivel reducao da estabilidade oxidativa.
+- Maior consumo de insumos no refino.
+
+Verificacoes recomendadas:
+
+- Quantificar percentual de graos verdes.
+- Avaliar clorofila no oleo bruto.
+- Avaliar cor do oleo bruto.
+- Verificar historico do lote e origem.
+- Comparar com lotes anteriores.
+
+Acoes recomendadas:
+
+- Segregar lotes com alto teor de graos verdes.
+- Ajustar estrategia de processamento.
+- Informar a area de refino.
+- Avaliar necessidade de ajuste no branqueamento.
+- Monitorar cor e clorofila do oleo.
+
+------------------------------------------------------------
+4.3 Desvio observado: graos avariados, ardidos ou mofados elevados
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Armazenamento inadequado.
+- Alta umidade.
+- Ataque microbiologico.
+- Aquecimento da massa de graos.
+- Tempo excessivo de estocagem.
+- Condicoes ruins de transporte.
+
+Impactos provaveis:
+
+- Aumento da acidez do oleo.
+- Aumento de compostos de oxidacao.
+- Reducao da estabilidade do oleo.
+- Alteracao de odor.
+- Possivel impacto na qualidade nutricional do farelo.
+- Aumento de risco de contaminacao por micotoxinas, dependendo da condicao do lote.
+
+Verificacoes recomendadas:
+
+- Avaliar acidez do oleo bruto.
+- Avaliar indice de peroxido, quando aplicavel.
+- Avaliar micotoxinas, quando houver risco.
+- Avaliar odor e aspecto da soja.
+- Conferir umidade da soja.
+- Verificar temperatura de armazenamento.
+
+Acoes recomendadas:
+
+- Segregar ou restringir o uso do lote.
+- Priorizar processamento.
+- Intensificar controle de oleo e farelo.
+- Avaliar impacto economico no refino.
+- Registrar ocorrencia e comunicar as areas envolvidas.
+
+------------------------------------------------------------
+4.4 Desvio observado: impurezas altas na soja
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Limpeza insuficiente na origem.
+- Colheita com excesso de material estranho.
+- Transporte inadequado.
+- Mistura com terra, palha, pedras ou sementes estranhas.
+- Falha na etapa de pre-limpeza.
+
+Impactos provaveis:
+
+- Reducao de rendimento industrial.
+- Desgaste de equipamentos.
+- Aumento de materia mineral.
+- Possivel contaminacao do farelo ou da casca.
+- Instabilidade na operacao.
+
+Verificacoes recomendadas:
+
+- Repetir classificacao fisica.
+- Identificar o tipo de impureza.
+- Avaliar materia mineral no farelo.
+- Verificar eficiencia da limpeza.
+- Acompanhar perdas no processo.
+
+Acoes recomendadas:
+
+- Ajustar sistema de limpeza.
+- Segregar lotes muito contaminados.
+- Registrar desvio na recepcao.
+- Avaliar desconto ou tratativa com fornecedor, quando aplicavel.
+- Monitorar cinzas ou materia mineral nos produtos finais.
+
+============================================================
+5. DIAGNOSTICO DO OLEO DE SOJA
+============================================================
+
+------------------------------------------------------------
+5.1 Desvio observado: acidez alta no oleo bruto
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Soja deteriorada.
+- Soja com alta umidade.
+- Graos avariados ou ardidos.
+- Armazenamento inadequado.
+- Hidrólise de triglicerideos.
+- Tempo prolongado de estocagem da materia-prima.
+
+Impactos provaveis:
+
+- Maior consumo de soda caustica na neutralizacao.
+- Maior formacao de borra.
+- Maior perda de oleo neutro.
+- Reducao de rendimento no refino.
+- Possivel alteracao sensorial.
+
+Verificacoes recomendadas:
+
+- Confirmar o resultado de acidez.
+- Avaliar acidez em amostras anteriores e posteriores.
+- Verificar umidade e avariados da soja.
+- Avaliar tempo e condicao de armazenamento.
+- Avaliar indice de peroxido, se necessario.
+- Verificar se houve mistura de lotes deteriorados.
+
+Acoes recomendadas:
+
+- Comunicar refino sobre o aumento da acidez.
+- Avaliar necessidade de segregacao do oleo.
+- Ajustar estrategia de neutralizacao.
+- Priorizar processamento de soja sensivel.
+- Registrar desvio e investigar origem.
+
+------------------------------------------------------------
+5.2 Desvio observado: fosforo alto no oleo bruto
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Maior teor natural de fosfolipidios na materia-prima.
+- Variacao de safra ou origem.
+- Arraste de particulas finas.
+- Presenca de gomas.
+- Variacao no preparo e extracao.
+- Oleos extraidos por solvente podem carregar fosfatideos relevantes.
+
+Impactos provaveis:
+
+- Maior carga para a degomagem.
+- Maior volume de goma.
+- Maior necessidade de ajuste de agua, acido ou tempo de contato.
+- Risco de fosforo residual alto apos degomagem.
+
+Verificacoes recomendadas:
+
+- Comparar fosforo do oleo bruto com historico.
+- Medir fosforo no oleo degomado.
+- Avaliar teor de impurezas insolúveis.
+- Verificar condicoes de extracao.
+- Avaliar estabilidade da vazao e da temperatura.
+
+Acoes recomendadas:
+
+- Ajustar parametros da degomagem.
+- Intensificar monitoramento de fosforo no oleo degomado.
+- Comunicar producao e refino.
+- Avaliar necessidade de segregacao do oleo bruto.
+- Acompanhar rendimento e volume de goma.
+
+------------------------------------------------------------
+5.3 Desvio observado: fosforo alto no oleo degomado
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Degomagem ineficiente.
+- Dosagem inadequada de agua.
+- Dosagem inadequada de acido.
+- Temperatura fora da faixa operacional.
+- Tempo de contato insuficiente.
+- Mistura deficiente.
+- Centrifugacao deficiente.
+- Presenca de fosfolipidios nao hidrataveis.
+- Variacao brusca no fosforo do oleo bruto.
+
+Impactos provaveis:
+
+- Maior dificuldade no refino.
+- Maior consumo de insumos.
+- Possivel reducao de estabilidade do oleo.
+- Maior risco de problemas em etapas posteriores.
+- Perda de eficiencia da degomagem.
+
+Verificacoes recomendadas:
+
+- Confirmar o resultado de fosforo.
+- Comparar fosforo do oleo bruto e do oleo degomado.
+- Verificar dosagem real de agua e acido.
+- Verificar temperatura de degomagem.
+- Avaliar tempo de contato.
+- Verificar eficiencia de mistura.
+- Avaliar operacao da centrifuga.
+- Verificar descarte e aspecto da goma.
+- Avaliar vazao de oleo.
+
+Acoes recomendadas:
+
+- Ajustar dosagem de agua ou acido conforme procedimento interno.
+- Corrigir temperatura.
+- Melhorar mistura e tempo de contato.
+- Avaliar limpeza ou manutencao da centrifuga.
+- Reprocessar ou segregar oleo, se aplicavel.
+- Registrar ocorrencia e acompanhar tendencia.
+
+------------------------------------------------------------
+5.4 Desvio observado: umidade alta no oleo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Separacao deficiente de agua.
+- Centrifugacao ineficiente.
+- Falha na secagem do oleo.
+- Condensacao em tanque.
+- Entrada de agua no sistema.
+- Falha em trocadores de calor ou linhas de processo.
+
+Impactos provaveis:
+
+- Aumento de hidrolise.
+- Possivel aumento de acidez.
+- Formacao de emulsao.
+- Instabilidade no armazenamento.
+- Dificuldade em etapas posteriores.
+
+Verificacoes recomendadas:
+
+- Confirmar resultado de umidade.
+- Verificar tanques e linhas.
+- Avaliar separacao em centrifuga.
+- Verificar temperatura de processo.
+- Inspecionar possibilidade de entrada de agua.
+- Avaliar tendencia de acidez.
+
+Acoes recomendadas:
+
+- Corrigir etapa de secagem.
+- Avaliar drenagem de tanques.
+- Verificar centrifuga.
+- Segregar oleo com umidade elevada.
+- Monitorar acidez e estabilidade.
+
+------------------------------------------------------------
+5.5 Desvio observado: indice de peroxido elevado
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Oxidacao do oleo.
+- Exposicao a oxigenio.
+- Temperatura elevada.
+- Presenca de metais catalisadores.
+- Armazenamento inadequado.
+- Materia-prima deteriorada.
+- Tempo prolongado de armazenamento.
+
+Impactos provaveis:
+
+- Reducao da estabilidade oxidativa.
+- Alteracao de odor e sabor.
+- Maior dificuldade de controle no refino.
+- Possivel reducao da vida util.
+
+Verificacoes recomendadas:
+
+- Confirmar o indice de peroxido.
+- Avaliar acidez.
+- Avaliar metais, se aplicavel.
+- Verificar tempo de armazenamento.
+- Verificar temperatura dos tanques.
+- Avaliar contato com ar e agitacao excessiva.
+
+Acoes recomendadas:
+
+- Reduzir tempo de armazenamento.
+- Evitar exposicao desnecessaria ao ar.
+- Corrigir condicoes de tanque.
+- Avaliar segregacao.
+- Monitorar indicadores de oxidacao.
+
+------------------------------------------------------------
+5.6 Desvio observado: cor escura ou clorofila alta no oleo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Presenca elevada de graos verdes.
+- Soja deteriorada.
+- Compostos pigmentados da materia-prima.
+- Oxidacao.
+- Falha na clarificacao.
+- Condicao inadequada no branqueamento.
+
+Impactos provaveis:
+
+- Maior consumo de terra clarificante.
+- Maior dificuldade de atingir cor especificada.
+- Possivel reducao de estabilidade oxidativa.
+- Impacto na aparencia do produto final.
+
+Verificacoes recomendadas:
+
+- Avaliar graos verdes na soja.
+- Medir clorofila no oleo.
+- Avaliar cor do oleo bruto e refinado.
+- Verificar historico de origem da soja.
+- Avaliar indice de peroxido.
+
+Acoes recomendadas:
+
+- Segregar materia-prima ou oleo com pigmentacao elevada.
+- Comunicar refino.
+- Ajustar branqueamento conforme procedimento.
+- Monitorar cor e estabilidade.
+- Investigar origem da materia-prima.
+
+============================================================
+6. DIAGNOSTICO DO FARELO DE SOJA
+============================================================
+
+------------------------------------------------------------
+6.1 Desvio observado: proteina baixa no farelo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Soja com baixo teor de proteina.
+- Excesso de casca incorporada ao farelo.
+- Descascamento deficiente.
+- Mistura inadequada de lotes.
+- Erro de amostragem.
+- Variação de umidade, quando o resultado nao esta corrigido para base seca.
+- Falha analitica.
+
+Impactos provaveis:
+
+- Reducao do valor nutricional.
+- Possivel nao atendimento a especificacao comercial.
+- Necessidade de ajuste na formulacao animal.
+- Perda de valor economico.
+
+Verificacoes recomendadas:
+
+- Confirmar a analise de proteina.
+- Avaliar proteina da soja recebida.
+- Avaliar fibra do farelo.
+- Avaliar teor de casca incorporada.
+- Verificar umidade do farelo.
+- Conferir base de expressao do resultado.
+- Comparar com historico de lotes anteriores.
+
+Acoes recomendadas:
+
+- Ajustar incorporacao de casca.
+- Avaliar eficiencia do descascamento.
+- Segregar lotes, se necessario.
+- Comunicar producao e comercial.
+- Intensificar controle de fibra e proteina.
+- Registrar investigacao.
+
+------------------------------------------------------------
+6.2 Desvio observado: fibra alta no farelo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Excesso de casca no farelo.
+- Baixa eficiencia de descascamento.
+- Regulagem inadequada na separacao de casca.
+- Mistura incorreta de fluxos.
+- Variacao na materia-prima.
+- Erro de amostragem.
+
+Impactos provaveis:
+
+- Reducao da proteina.
+- Alteracao do valor nutricional.
+- Possivel nao atendimento a especificacao.
+- Mudanca na classificacao comercial do farelo.
+
+Verificacoes recomendadas:
+
+- Confirmar fibra bruta.
+- Avaliar proteina do farelo.
+- Avaliar casca residual.
+- Verificar regulagem do descascador.
+- Avaliar pureza da casca.
+- Verificar pontos de incorporacao de casca.
+
+Acoes recomendadas:
+
+- Reduzir incorporacao de casca, se aplicavel.
+- Ajustar descascamento.
+- Verificar sistema de aspiracao e separacao.
+- Monitorar proteina e fibra em conjunto.
+- Registrar desvio e acompanhar tendencia.
+
+------------------------------------------------------------
+6.3 Desvio observado: extrato etereo alto no farelo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Extracao de oleo ineficiente.
+- Laminacao inadequada.
+- Lâminas muito espessas.
+- Condicionamento inadequado.
+- Baixo tempo de contato com solvente.
+- Baixa eficiencia do extrator.
+- Massa mal preparada.
+- Canalizacao ou distribuicao irregular no extrator.
+
+Impactos provaveis:
+
+- Perda de rendimento de oleo.
+- Maior oleo residual no farelo.
+- Perda economica.
+- Alteracao do valor energetico do farelo.
+- Possivel indicativo de instabilidade operacional.
+
+Verificacoes recomendadas:
+
+- Confirmar extrato etereo.
+- Avaliar espessura de lamina.
+- Verificar umidade da massa.
+- Verificar temperatura de condicionamento.
+- Avaliar vazao e contato com solvente.
+- Verificar eficiencia do extrator.
+- Comparar rendimento de oleo.
+
+Acoes recomendadas:
+
+- Ajustar laminacao.
+- Corrigir condicionamento.
+- Avaliar operacao do extrator.
+- Verificar distribuicao da massa.
+- Intensificar monitoramento de oleo residual.
+- Comunicar manutencao, se houver falha mecanica.
+
+------------------------------------------------------------
+6.4 Desvio observado: umidade alta no farelo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Secagem insuficiente.
+- Resfriamento inadequado.
+- Condicao de vapor instavel.
+- Retencao inadequada no secador.
+- Entrada de umidade no armazenamento.
+- Falha de amostragem.
+
+Impactos provaveis:
+
+- Risco de crescimento microbiologico.
+- Empedramento.
+- Fermentacao.
+- Reducao da vida util.
+- Risco de aquecimento em armazenagem.
+- Dificuldade de transporte e manuseio.
+
+Verificacoes recomendadas:
+
+- Confirmar umidade.
+- Verificar temperatura do farelo.
+- Verificar condicoes do secador e resfriador.
+- Avaliar tempo de residencia.
+- Verificar condicoes de armazenagem.
+- Avaliar tendencia por horario de producao.
+
+Acoes recomendadas:
+
+- Ajustar secagem.
+- Corrigir resfriamento.
+- Segregar produto fora da faixa.
+- Evitar armazenamento prolongado.
+- Monitorar temperatura e umidade do silo.
+- Registrar ocorrencia.
+
+------------------------------------------------------------
+6.5 Desvio observado: umidade baixa no farelo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Secagem excessiva.
+- Temperatura elevada.
+- Tempo de residencia alto.
+- Condicao operacional agressiva.
+- Perda excessiva de agua no processo.
+
+Impactos provaveis:
+
+- Perda economica por menor massa.
+- Aumento de po.
+- Maior quebra de particulas.
+- Possivel alteracao de solubilidade, se houver excesso termico.
+
+Verificacoes recomendadas:
+
+- Confirmar umidade.
+- Avaliar temperatura de processo.
+- Avaliar solubilidade proteica.
+- Avaliar urease.
+- Verificar historico de secagem.
+- Avaliar reclamacoes de po ou manuseio.
+
+Acoes recomendadas:
+
+- Ajustar secagem.
+- Reduzir excesso termico.
+- Monitorar solubilidade e urease.
+- Avaliar impacto economico.
+- Registrar tendencia.
+
+------------------------------------------------------------
+6.6 Desvio observado: atividade ureatica alta
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Tostagem insuficiente.
+- Temperatura baixa.
+- Tempo de residencia curto.
+- Distribuicao termica irregular.
+- Sobrecarga no tostador.
+- Falha de vapor.
+- Amostra nao representativa.
+
+Impactos provaveis:
+
+- Indicio de subprocessamento termico.
+- Possivel presenca de fatores antinutricionais ativos.
+- Reducao da seguranca nutricional do farelo.
+- Risco de nao conformidade.
+
+Verificacoes recomendadas:
+
+- Repetir atividade ureatica.
+- Avaliar solubilidade proteica.
+- Avaliar PDI, se o laboratorio utilizar.
+- Verificar temperatura de tostagem.
+- Verificar tempo de residencia.
+- Verificar pressao e disponibilidade de vapor.
+- Avaliar uniformidade da amostra.
+
+Acoes recomendadas:
+
+- Ajustar tostagem.
+- Corrigir temperatura ou tempo de residencia.
+- Avaliar reprocessamento, quando aplicavel.
+- Segregar lote suspeito.
+- Intensificar controle de urease e solubilidade.
+- Registrar desvio.
+
+------------------------------------------------------------
+6.7 Desvio observado: atividade ureatica muito baixa
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Tratamento termico intenso.
+- Temperatura elevada.
+- Tempo de residencia excessivo.
+- Produto exposto a superaquecimento.
+- Condicao severa de secagem ou tostagem.
+
+Impactos provaveis:
+
+- A urease baixa isoladamente nem sempre indica problema.
+- Se associada a solubilidade proteica baixa, pode indicar superaquecimento.
+- Pode haver reducao da qualidade nutricional da proteina.
+- Possivel reducao da digestibilidade de aminoacidos.
+
+Verificacoes recomendadas:
+
+- Avaliar solubilidade proteica.
+- Avaliar historico de temperatura.
+- Avaliar tempo de residencia.
+- Avaliar cor e odor do farelo.
+- Comparar com resultados anteriores.
+
+Acoes recomendadas:
+
+- Interpretar urease junto com solubilidade.
+- Reduzir excesso termico, se confirmado.
+- Ajustar tostagem ou secagem.
+- Segregar produto suspeito, se necessario.
+- Registrar investigacao.
+
+------------------------------------------------------------
+6.8 Desvio observado: solubilidade proteica baixa
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Superaquecimento.
+- Tostagem excessiva.
+- Tempo de residencia elevado.
+- Temperatura muito alta.
+- Secagem agressiva.
+- Retencao excessiva no equipamento.
+
+Impactos provaveis:
+
+- Desnaturacao excessiva da proteina.
+- Reducao da qualidade nutricional.
+- Possivel queda de desempenho em nutricao animal.
+- Risco de farelo superprocessado.
+
+Verificacoes recomendadas:
+
+- Confirmar solubilidade em KOH.
+- Avaliar atividade ureatica.
+- Avaliar PDI, se disponivel.
+- Verificar temperatura e tempo de tostagem.
+- Avaliar cor do farelo.
+- Comparar com historico de processo.
+
+Acoes recomendadas:
+
+- Reduzir intensidade termica.
+- Ajustar tempo de residencia.
+- Avaliar segregacao do lote.
+- Monitorar solubilidade com maior frequencia.
+- Registrar ocorrencia e tendencia.
+
+------------------------------------------------------------
+6.9 Desvio observado: solubilidade proteica alta
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Tratamento termico insuficiente.
+- Tostagem baixa.
+- Tempo de residencia curto.
+- Falha no fornecimento de vapor.
+- Sobrecarga do equipamento.
+- Amostra com soja pouco processada.
+
+Impactos provaveis:
+
+- Possivel farelo subprocessado.
+- Possivel presenca de fatores antinutricionais.
+- Risco de atividade ureatica elevada.
+- Risco de nao conformidade nutricional.
+
+Verificacoes recomendadas:
+
+- Avaliar atividade ureatica.
+- Avaliar PDI, se disponivel.
+- Verificar temperatura de tostagem.
+- Verificar tempo de residencia.
+- Confirmar resultado por nova amostra.
+
+Acoes recomendadas:
+
+- Aumentar intensidade de tostagem, se confirmado.
+- Ajustar tempo ou temperatura.
+- Verificar fornecimento de vapor.
+- Segregar lote suspeito.
+- Monitorar resultados subsequentes.
+
+------------------------------------------------------------
+6.10 Desvio observado: materia mineral alta no farelo
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Impurezas minerais na soja.
+- Terra ou areia na materia-prima.
+- Limpeza insuficiente.
+- Contaminacao cruzada.
+- Arraste de materiais inorganicos.
+- Falha de amostragem.
+
+Impactos provaveis:
+
+- Alteracao da composicao nutricional.
+- Indicativo de contaminacao.
+- Risco de nao conformidade.
+- Possivel desgaste de equipamentos.
+
+Verificacoes recomendadas:
+
+- Confirmar materia mineral.
+- Avaliar impurezas na soja.
+- Avaliar eficiencia da limpeza.
+- Avaliar materia mineral na casca.
+- Verificar pontos de contaminacao.
+- Verificar amostragem.
+
+Acoes recomendadas:
+
+- Ajustar limpeza.
+- Segregar lote contaminado.
+- Investigar origem da impureza.
+- Monitorar cinzas em produtos finais.
+- Registrar ocorrencia.
+
+============================================================
+7. DIAGNOSTICO DA CASCA DE SOJA
+============================================================
+
+------------------------------------------------------------
+7.1 Desvio observado: proteina alta na casca
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Arraste de farelo para a casca.
+- Separacao incompleta.
+- Regulagem inadequada do sistema de aspiracao.
+- Excesso de finos.
+- Mistura inadequada entre fluxos.
+- Baixa eficiencia de descascamento.
+
+Impactos provaveis:
+
+- Perda de farelo para a fracao de casca.
+- Reducao de rendimento do farelo principal.
+- Alteracao da composicao da casca.
+- Possivel reducao da proteina do farelo comercial.
+- Instabilidade na classificacao dos coprodutos.
+
+Verificacoes recomendadas:
+
+- Confirmar proteina da casca.
+- Avaliar fibra da casca.
+- Avaliar proteina e fibra do farelo.
+- Verificar sistema de aspiracao.
+- Avaliar presenca visual de farelo na casca.
+- Verificar granulometria e finos.
+
+Acoes recomendadas:
+
+- Ajustar separacao de casca.
+- Corrigir aspiracao.
+- Reduzir arraste de farelo.
+- Monitorar casca e farelo em conjunto.
+- Registrar perda potencial de rendimento.
+
+------------------------------------------------------------
+7.2 Desvio observado: fibra baixa na casca
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Contaminacao da casca com farelo.
+- Separacao incompleta.
+- Excesso de material proteico arrastado.
+- Mistura inadequada de fluxos.
+- Amostragem nao representativa.
+
+Impactos provaveis:
+
+- Reducao da identidade fibrosa do produto.
+- Alteracao do valor nutricional.
+- Indicativo de perda de farelo.
+- Instabilidade comercial.
+
+Verificacoes recomendadas:
+
+- Avaliar proteina da casca.
+- Avaliar fibra bruta, FDN ou FDA, conforme rotina.
+- Verificar aspecto visual.
+- Avaliar regulagem da separacao.
+- Comparar com farelo produzido no mesmo periodo.
+
+Acoes recomendadas:
+
+- Ajustar separacao.
+- Corrigir mistura de fluxos.
+- Controlar finos.
+- Monitorar composicao da casca.
+- Registrar ocorrencia.
+
+------------------------------------------------------------
+7.3 Desvio observado: umidade alta na casca
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Secagem insuficiente.
+- Condensacao em armazenamento.
+- Entrada de umidade.
+- Armazenamento inadequado.
+- Mistura com material umido.
+
+Impactos provaveis:
+
+- Risco de fermentacao.
+- Crescimento microbiologico.
+- Empedramento.
+- Dificuldade de transporte.
+- Reducao da vida util.
+
+Verificacoes recomendadas:
+
+- Confirmar umidade.
+- Avaliar temperatura da casca.
+- Verificar condicao de silo ou armazem.
+- Avaliar odor e aspecto.
+- Verificar condensacao.
+
+Acoes recomendadas:
+
+- Segregar casca umida.
+- Melhorar secagem ou ventilacao.
+- Evitar armazenamento prolongado.
+- Monitorar temperatura.
+- Registrar desvio.
+
+------------------------------------------------------------
+7.4 Desvio observado: excesso de finos na casca
+------------------------------------------------------------
+
+Possiveis causas:
+
+- Quebra excessiva.
+- Transporte agressivo.
+- Moagem ou atrito excessivo.
+- Separacao inadequada.
+- Mistura com farelo fino.
+
+Impactos provaveis:
+
+- Poeira.
+- Perdas no transporte.
+- Dificuldade de manuseio.
+- Alteracao de densidade aparente.
+- Risco de explosividade de po em ambientes inadequados.
+
+Verificacoes recomendadas:
+
+- Avaliar granulometria.
+- Verificar pontos de queda e transporte.
+- Avaliar sistema de aspiracao.
+- Verificar presenca de farelo arrastado.
+- Avaliar reclamacoes operacionais.
+
+Acoes recomendadas:
+
+- Ajustar transporte.
+- Reduzir quedas e atrito.
+- Melhorar separacao.
+- Monitorar granulometria.
+- Registrar ocorrencia.
+
+============================================================
+8. MATRIZ RESUMIDA DE DIAGNOSTICO
+============================================================
+
+Desvio: proteina baixa no farelo.
+Causa provavel: baixa proteina da soja ou excesso de casca.
+Verificacao: proteina da soja, fibra do farelo e teor de casca.
+Acao: ajustar descascamento e incorporacao de casca.
+
+Desvio: fibra alta no farelo.
+Causa provavel: excesso de casca no farelo.
+Verificacao: fibra do farelo, proteina do farelo e pureza da casca.
+Acao: ajustar separacao e incorporacao de casca.
+
+Desvio: extrato etereo alto no farelo.
+Causa provavel: extracao ineficiente.
+Verificacao: espessura de lamina, umidade da massa e operacao do extrator.
+Acao: ajustar laminacao, condicionamento e extracao.
+
+Desvio: urease alta no farelo.
+Causa provavel: tostagem insuficiente.
+Verificacao: urease, solubilidade, temperatura e tempo de residencia.
+Acao: ajustar tratamento termico.
+
+Desvio: solubilidade proteica baixa.
+Causa provavel: superaquecimento.
+Verificacao: solubilidade, urease, cor e historico de temperatura.
+Acao: reduzir intensidade termica.
+
+Desvio: acidez alta no oleo.
+Causa provavel: soja deteriorada ou alta umidade.
+Verificacao: acidez, umidade da soja, avariados e tempo de armazenamento.
+Acao: segregar lote e ajustar estrategia de refino.
+
+Desvio: fosforo alto no oleo degomado.
+Causa provavel: degomagem ineficiente.
+Verificacao: fosforo bruto e degomado, dosagem, temperatura, mistura e centrifuga.
+Acao: ajustar degomagem e avaliar centrifugacao.
+
+Desvio: clorofila alta no oleo.
+Causa provavel: graos verdes.
+Verificacao: classificacao da soja, cor e clorofila.
+Acao: segregar lotes e ajustar branqueamento.
+
+Desvio: proteina alta na casca.
+Causa provavel: arraste de farelo.
+Verificacao: proteina da casca, fibra da casca e aspecto visual.
+Acao: ajustar separacao e aspiracao.
+
+Desvio: umidade alta em farelo ou casca.
+Causa provavel: secagem insuficiente ou armazenamento inadequado.
+Verificacao: umidade, temperatura, silo e condicao de resfriamento.
+Acao: ajustar secagem, resfriamento e armazenagem.
+
+============================================================
+9. RELACAO ENTRE RESULTADO ANALITICO E ETAPA DO PROCESSO
+============================================================
+
+Resultado analitico: impurezas altas na soja.
+Etapa relacionada: recepcao, classificacao e limpeza.
+Interpretacao: pode indicar necessidade de ajuste na limpeza ou segregacao do lote.
+
+Resultado analitico: acidez alta no oleo bruto.
+Etapa relacionada: armazenamento da soja e qualidade da materia-prima.
+Interpretacao: pode indicar deterioracao, umidade elevada ou armazenamento inadequado.
+
+Resultado analitico: fosforo alto no oleo bruto.
+Etapa relacionada: extracao e composicao natural do oleo.
+Interpretacao: indica maior carga de fosfolipidios para a degomagem.
+
+Resultado analitico: fosforo alto no oleo degomado.
+Etapa relacionada: degomagem.
+Interpretacao: indica baixa eficiencia na remocao de gomas.
+
+Resultado analitico: oleo residual alto no farelo.
+Etapa relacionada: preparo, laminacao e extracao.
+Interpretacao: indica perda de rendimento de oleo e possivel ineficiencia de extracao.
+
+Resultado analitico: urease alta no farelo.
+Etapa relacionada: tostagem.
+Interpretacao: indica possivel subprocessamento termico.
+
+Resultado analitico: solubilidade proteica baixa.
+Etapa relacionada: tostagem, secagem e tratamento termico.
+Interpretacao: indica possivel superaquecimento.
+
+Resultado analitico: fibra alta no farelo.
+Etapa relacionada: descascamento e incorporacao de casca.
+Interpretacao: indica excesso de casca ou separacao deficiente.
+
+Resultado analitico: proteina alta na casca.
+Etapa relacionada: separacao de casca.
+Interpretacao: indica possivel arraste de farelo para a casca.
+
+============================================================
+10. PERGUNTAS FREQUENTES PARA O RAG
+============================================================
+
+Pergunta: O que pode causar fosforo alto no oleo degomado?
+Resposta: Fosforo alto no oleo degomado pode ser causado por degomagem ineficiente,
+dosagem inadequada de agua ou acido, temperatura incorreta, mistura deficiente,
+tempo de contato insuficiente, centrifugacao deficiente ou presenca de fosfolipidios
+nao hidrataveis. Deve-se comparar o fosforo do oleo bruto com o fosforo do oleo
+degomado e verificar as condicoes operacionais da degomagem.
+
+Pergunta: Por que a proteina do farelo pode ficar baixa?
+Resposta: A proteina baixa no farelo pode ocorrer por baixa proteina da soja,
+excesso de casca incorporada, fibra elevada, mistura de lotes, erro de amostragem
+ou variacao de umidade. A avaliacao deve considerar proteina da soja, fibra do
+farelo, umidade e eficiencia do descascamento.
+
+Pergunta: O que significa fibra alta no farelo?
+Resposta: Fibra alta no farelo geralmente indica maior presenca de casca. A casca
+possui alto teor de fibra e menor teor relativo de proteina. Quando a casca e
+incorporada em excesso, a fibra sobe e a proteina tende a cair.
+
+Pergunta: O que significa extrato etereo alto no farelo?
+Resposta: Extrato etereo alto no farelo indica maior quantidade de oleo residual.
+Isso pode significar extracao ineficiente, laminacao inadequada, preparo deficiente
+da massa ou problema no extrator. Tambem representa perda economica, pois parte do
+oleo permanece no farelo.
+
+Pergunta: O que significa urease alta no farelo?
+Resposta: Urease alta pode indicar tostagem insuficiente ou subprocessamento
+termico. Deve-se verificar temperatura, tempo de residencia, pressao de vapor e
+solubilidade proteica. A urease deve ser interpretada junto com outros indicadores
+de processamento.
+
+Pergunta: O que significa solubilidade proteica baixa?
+Resposta: Solubilidade proteica baixa pode indicar superaquecimento do farelo,
+desnaturacao excessiva da proteina e possivel perda de qualidade nutricional.
+Deve-se avaliar o historico de temperatura, tempo de residencia, urease e cor do
+farelo.
+
+Pergunta: Como a soja verde afeta o oleo?
+Resposta: Soja com graos verdes pode aumentar o teor de clorofila no oleo. A
+clorofila dificulta o branqueamento, pode alterar a cor e pode reduzir a estabilidade
+oxidativa do oleo.
+
+Pergunta: Por que a casca apresenta proteina alta?
+Resposta: Proteina alta na casca pode indicar arraste de farelo para a fracao de
+casca. Isso pode ocorrer por separacao incompleta, regulagem inadequada de aspiracao,
+excesso de finos ou mistura de fluxos.
+
+Pergunta: Como interpretar acidez alta no oleo bruto?
+Resposta: Acidez alta no oleo bruto normalmente esta relacionada a materia-prima
+deteriorada, alta umidade, graos avariados, armazenamento inadequado ou hidrolise
+de triglicerideos. O resultado deve ser correlacionado com a qualidade da soja.
+
+Pergunta: Como saber se o farelo esta superprocessado?
+Resposta: O farelo pode estar superprocessado quando apresenta solubilidade proteica
+baixa, urease muito baixa e historico de tratamento termico intenso. A cor mais
+escura e o odor alterado tambem podem reforcar a suspeita.
+
+Pergunta: Como saber se o farelo esta subprocessado?
+Resposta: O farelo pode estar subprocessado quando apresenta urease alta,
+solubilidade proteica alta e indicios de tratamento termico insuficiente. Deve-se
+verificar temperatura, tempo de residencia e fornecimento de vapor.
+
+============================================================
+11. BOAS PRATICAS PARA USO DO GUIA NO RAG
+============================================================
+
+Para melhorar a recuperacao do RAG, recomenda-se dividir o arquivo em blocos por
+tema. Cada bloco deve conter contexto suficiente para responder uma pergunta sem
+depender de muitas outras secoes.
+
+Sugestoes de segmentacao:
+
+- Um bloco para diagnostico da soja recebida.
+- Um bloco para diagnostico do oleo.
+- Um bloco para diagnostico do farelo.
+- Um bloco para diagnostico da casca.
+- Um bloco para matriz resumida de diagnostico.
+- Um bloco para perguntas frequentes.
+- Um bloco para referencias bibliograficas.
+
+Boas praticas:
+
+- Manter titulos claros.
+- Usar termos tecnicos consistentes.
+- Repetir palavras-chave importantes de forma natural.
+- Evitar tabelas muito complexas em TXT.
+- Evitar caracteres especiais que possam prejudicar a leitura.
+- Separar causa, verificacao e acao.
+- Incluir sinonimos tecnicos quando necessario.
+- Manter contexto em cada trecho.
+
+============================================================
+12. LIMITACOES DO GUIA
+============================================================
+
+Este guia nao substitui procedimentos operacionais padrao, especificacoes internas,
+metodos oficiais ou criterios comerciais definidos pela empresa. Os limites analiticos
+aceitaveis podem variar conforme contrato, tipo de produto, metodo utilizado, mercado,
+legislacao, cliente e procedimento interno.
+
+As acoes recomendadas devem ser interpretadas como apoio ao diagnostico. Qualquer
+acao operacional deve seguir os procedimentos internos, autorizacoes tecnicas e
+criterios de seguranca da unidade.
+
+============================================================
+13. REFERENCIAS BIBLIOGRAFICAS E FONTES TECNICAS
+============================================================
+
+AMERICAN OIL CHEMISTS' SOCIETY. Official Methods and Recommended Practices of the
+AOCS. AOCS Press. Referencia geral para metodos analiticos aplicados a oleos,
+gorduras, fosforo, acidez, peroxidos, atividade ureatica e produtos de soja.
+
+AMERICAN OIL CHEMISTS' SOCIETY. Introduction to Degumming. AOCS Lipid Library.
+Referencia tecnica sobre gomas, fosfatideos, oleo bruto e fundamentos da degomagem.
+
+AMERICAN OIL CHEMISTS' SOCIETY. Chemical Degumming. AOCS Lipid Library.
+Referencia tecnica sobre remocao de fosfatideos, gomas e impurezas em oleos vegetais.
+
+AMERICAN OIL CHEMISTS' SOCIETY. Enzymatic Degumming. AOCS Lipid Library.
+Referencia tecnica sobre degomagem enzimatica, reducao de fosforo e perda de oleo
+em processos de degomagem.
+
+UNITED STATES SOYBEAN EXPORT COUNCIL. Quality Manual and Analysis for Soybean
+Products in the Feed Industry. USSEC. Manual tecnico sobre qualidade de produtos
+de soja, farelo de soja, metodos analiticos, atividade ureatica, solubilidade
+proteica e controle de qualidade.
+
+VAN EYS, J. E.; OFFNER, A.; BACH, A. Manual of Quality Analyses for Soybean
+Products in the Feed Industry. American Soybean Association, 2004.
+
+FEEDIPEDIA. Soybean meal. INRAE, CIRAD, AFZ and FAO. Base tecnica sobre composicao,
+classificacao e uso do farelo de soja em alimentacao animal.
+
+FEEDIPEDIA. Soybean hulls. INRAE, CIRAD, AFZ and FAO. Base tecnica sobre composicao
+e uso da casca de soja em alimentacao animal.
+
+PARSONS, C. M.; HASHIMOTO, K.; WEDEKIND, K. J.; BAKER, D. H. Soybean protein
+solubility in potassium hydroxide: an in vitro test of in vivo protein quality.
+Journal of Animal Science, 1991.
+
+ARABA, M.; DALE, N. M. Evaluation of protein solubility as an indicator of
+overprocessing soybean meal. Poultry Science, 1990.
+
+LIU, K.; RUIZ, N. Trypsin inhibitor and urease activity of soybean meal products
+from different countries and regions. Journal of the American Oil Chemists' Society,
+2020.
+
+JOHNSON, L. A.; WHITE, P. J.; GALLOWAY, R. Soybeans: Chemistry, Production,
+Processing, and Utilization. AOCS Press, 2008.
+
+GUNSTONE, F. D. Vegetable Oils in Food Technology: Composition, Properties and Uses.
+Wiley-Blackwell.
+
+SHAHIDI, F. Bailey's Industrial Oil and Fat Products. Wiley.
+
+============================================================
+14. RESUMO FINAL
+============================================================
+
+O diagnostico laboratorial no processamento de soja deve integrar resultados de
+materia-prima, processo e produto final. O oleo de soja deve ser avaliado por
+parametros como acidez, fosforo, umidade, cor, clorofila e oxidacao. O farelo de
+soja deve ser avaliado por proteina, fibra, umidade, extrato etereo, urease e
+solubilidade proteica. A casca de soja deve ser avaliada por fibra, proteina residual,
+umidade, granulometria e pureza.
+
+A interpretacao correta depende de correlacoes. Proteina baixa e fibra alta no
+farelo podem indicar excesso de casca. Oleo residual alto no farelo pode indicar
+extracao ineficiente. Fosforo alto no oleo degomado pode indicar falha de degomagem.
+Acidez alta no oleo pode indicar soja deteriorada. Urease alta pode indicar
+subprocessamento. Solubilidade proteica baixa pode indicar superaquecimento.
+
+Esse tipo de conhecimento e adequado para sistemas RAG porque permite responder
+perguntas praticas, explicar causas provaveis, orientar verificacoes e apoiar a
+tomada de decisao tecnica no laboratorio e no processo industrial.

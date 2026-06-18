@@ -43,5 +43,9 @@ Thumbs.db
 
 # VS Code
 .vscode/
-# Arquivos tempor�rios do Word
+# Arquivos tempor�rios do Word
 ~$*.docx
+# Bases vetoriais, backups e caches de avaliação
+data/vectorstore/
+data/backups/
+.deepeval/

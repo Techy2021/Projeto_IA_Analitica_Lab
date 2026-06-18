@@ -1,0 +1,2 @@
+-- Esquema gerenciado dinamicamente pela importacao de datasets.
+-- A tabela principal da aplicacao e criada como dataset_lab.

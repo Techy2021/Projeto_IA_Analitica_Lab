@@ -16,5 +16,10 @@ crewai
 crewai-tools
 requests
 litellm
+chromadb
+pypdf
+python-docx
+markdown
 
 pywin32
+deepeval

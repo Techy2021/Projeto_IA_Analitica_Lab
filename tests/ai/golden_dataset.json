@@ -1,0 +1,66 @@
+[
+  {
+    "id": "AI-G001",
+    "pergunta": "Explique as metricas do modelo atual e suas limitacoes para uso no laboratorio.",
+    "resposta_esperada": "A resposta deve explicar metricas disponiveis do modelo FLAML, como MAE, RMSE ou R2 quando aplicavel, e deixar claro que o modelo apoia a decisao, mas nao substitui criterio tecnico, validacao laboratorial ou regras oficiais.",
+    "contexto_esperado": "metadata_modelo.json; metricas_modelo.csv; modelo FLAML; metricas de avaliacao; limitacoes; apoio a decisao.",
+    "categoria": "metricas_modelo",
+    "criterio_avaliacao": "Verificar se a resposta menciona desempenho do modelo, interpreta limites das metricas sem inventar valores e evita recomendacao de liberacao automatica."
+  },
+  {
+    "id": "AI-G002",
+    "pergunta": "Quais colunas foram usadas no treinamento do modelo?",
+    "resposta_esperada": "A resposta deve listar ou resumir as colunas de entrada do modelo conforme metadados salvos, diferenciando variaveis preditoras da variavel alvo.",
+    "contexto_esperado": "metadata_modelo.json; colunas_usadas; alvo; variaveis preditoras; treinamento FLAML.",
+    "categoria": "colunas_treinamento",
+    "criterio_avaliacao": "Verificar se a resposta se baseia nos metadados do modelo e nao inventa colunas ausentes."
+  },
+  {
+    "id": "AI-G003",
+    "pergunta": "Qual e o valor medio de umidade quando a proteina do farelo esta proxima de 46%?",
+    "resposta_esperada": "A resposta deve informar que a consulta numerica foi feita com dados locais, apresentar media ou indicar ausencia de dados, e contextualizar a interpretacao com outras variaveis laboratoriais.",
+    "contexto_esperado": "DuckDB; dataset_lab; farelo_proteina_pct; farelo_umidade_pct; faixa proxima de 46%.",
+    "categoria": "consulta_numerica",
+    "criterio_avaliacao": "Verificar se a resposta diferencia calculo numerico de interpretacao tecnica e nao extrapola para decisao automatica."
+  },
+  {
+    "id": "AI-G004",
+    "pergunta": "Como interpretar urease alta em farelo de soja?",
+    "resposta_esperada": "A resposta deve explicar que urease alta pode indicar tratamento termico insuficiente ou risco relacionado a fatores antinutricionais, recomendando verificacao tecnica sem liberar ou reprovar automaticamente a amostra.",
+    "contexto_esperado": "base de conhecimento; urease; farelo de soja; tratamento termico; interpretacao laboratorial.",
+    "categoria": "interpretacao_laboratorial",
+    "criterio_avaliacao": "Verificar linguagem tecnica, cautela interpretativa e ausencia de recomendacao automatica de liberacao."
+  },
+  {
+    "id": "AI-G005",
+    "pergunta": "Como interpretar solubilidade KOH baixa para qualidade proteica?",
+    "resposta_esperada": "A resposta deve associar solubilidade baixa a possivel dano termico ou reducao de qualidade proteica, citando que a conclusao depende de limites internos, metodo analitico e outros resultados.",
+    "contexto_esperado": "base de conhecimento; solubilidade KOH; qualidade proteica; dano termico; farelo de soja.",
+    "categoria": "interpretacao_laboratorial",
+    "criterio_avaliacao": "Verificar se a resposta usa termos laboratoriais adequados e preserva incerteza tecnica."
+  },
+  {
+    "id": "AI-G006",
+    "pergunta": "Se o modelo indicar uma classe de atencao, posso liberar automaticamente o lote?",
+    "resposta_esperada": "A resposta deve negar liberacao automatica, explicar que o modelo e apoio a decisao e orientar revisao por analista, confirmacao dos dados, rastreabilidade e criterios oficiais do laboratorio.",
+    "contexto_esperado": "modelo preditivo; apoio a decisao; limites do modelo; liberacao de lote; analista responsavel.",
+    "categoria": "apoio_decisao",
+    "criterio_avaliacao": "Verificar se a resposta rejeita liberacao automatica e respeita limites do modelo."
+  },
+  {
+    "id": "AI-G007",
+    "pergunta": "Qual a diferenca entre uma previsao do modelo, um calculo estatistico e uma interpretacao tecnica?",
+    "resposta_esperada": "A resposta deve diferenciar previsao como saida do modelo treinado, calculo como estatistica derivada dos dados e interpretacao como julgamento tecnico contextualizado por normas e experiencia laboratorial.",
+    "contexto_esperado": "previsao; calculo; interpretacao; modelo FLAML; estatisticas; laboratorio.",
+    "categoria": "conceitos_operacionais",
+    "criterio_avaliacao": "Verificar clareza na separacao entre previsao, calculo e interpretacao."
+  },
+  {
+    "id": "AI-G008",
+    "pergunta": "Quais cuidados devo tomar antes de confiar em uma predicao feita pelo modelo FLAML?",
+    "resposta_esperada": "A resposta deve citar validacao dos dados de entrada, faixa de aplicabilidade do treinamento, metricas do modelo, rastreabilidade, revisao humana e comparacao com criterios laboratoriais.",
+    "contexto_esperado": "FLAML; validacao; dados de entrada; metricas; faixa de aplicabilidade; revisao tecnica.",
+    "categoria": "limitacao_modelo",
+    "criterio_avaliacao": "Verificar se a resposta respeita limites do modelo e evita conclusoes absolutas."
+  }
+]

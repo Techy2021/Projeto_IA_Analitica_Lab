@@ -1,0 +1,1051 @@
+MANUAL DE AMOSTRAGEM E PREPARO DE AMOSTRAS NO PROCESSAMENTO DE SOJA, FARELO, OLEO E CASCA
+Base de conhecimento tecnica para sistemas RAG
+
+============================================================
+1. OBJETIVO
+============================================================
+
+Este manual tem como objetivo orientar a amostragem, identificacao, homogeneizacao,
+preparo, armazenamento e avaliacao de amostras no processamento industrial de soja,
+farelo de soja, oleo de soja e casca de soja.
+
+O material foi estruturado para uso em sistemas RAG. Por isso, os blocos foram
+organizados com linguagem direta, repeticao controlada de termos tecnicos e foco em
+perguntas praticas de laboratorio.
+
+Este manual ajuda o RAG a responder perguntas como:
+
+- Como coletar amostra de soja na recepcao?
+- Como coletar amostra de farelo de soja?
+- Como coletar amostra de oleo de soja?
+- Como coletar amostra de casca de soja?
+- Como evitar erro de amostragem?
+- Como homogeneizar uma amostra?
+- Como reduzir uma amostra sem perder representatividade?
+- Quando repetir uma analise?
+- Como preparar amostra para NIR?
+- Como armazenar amostras de soja, farelo, oleo e casca?
+- Como identificar possivel contaminacao cruzada?
+- Por que dois resultados do mesmo lote podem apresentar diferenca?
+
+============================================================
+2. IMPORTANCIA DA AMOSTRAGEM NO CONTROLE DE QUALIDADE
+============================================================
+
+A amostragem e uma das etapas mais importantes do controle de qualidade. Mesmo que
+o metodo analitico esteja correto, o resultado pode ser inadequado se a amostra nao
+representar o lote, o ponto de processo ou o produto avaliado.
+
+Um resultado laboratorial confiavel depende de tres fatores principais:
+
+1. Amostra representativa.
+2. Preparo adequado da amostra.
+3. Metodo analitico controlado.
+
+A falha de amostragem pode gerar interpretacoes erradas, como concluir que existe
+um problema de processo quando, na verdade, o problema esta na coleta, na
+homogeneizacao, na moagem, na identificacao ou no armazenamento da amostra.
+
+Exemplos de impactos da amostragem inadequada:
+
+- Proteina do farelo aparentemente baixa por amostra com excesso de casca.
+- Fibra do farelo aparentemente alta por coleta em ponto nao representativo.
+- Umidade do farelo incorreta por perda de agua antes da analise.
+- Fosforo do oleo variavel por amostra coletada sem homogeneizacao da linha.
+- Acidez do oleo alterada por armazenamento inadequado da amostra.
+- Resultado NIR instavel por moagem irregular ou amostra mal compactada.
+- Casca com proteina alta por contaminacao com farelo durante a coleta.
+
+============================================================
+3. CONCEITOS BASICOS
+============================================================
+
+Amostra primaria:
+Quantidade de material retirada de um ponto especifico do lote ou processo.
+
+Amostra composta:
+Conjunto formado pela uniao de varias amostras primarias. A amostra composta
+representa melhor um lote heterogeneo.
+
+Amostra laboratorial:
+Parte da amostra composta enviada ao laboratorio para preparo e analise.
+
+Amostra de ensaio:
+Porcao final preparada para execucao do metodo analitico.
+
+Lote:
+Quantidade definida de produto, materia-prima ou coproduto considerada uniforme para
+fins de controle, armazenamento, expedicao ou avaliacao.
+
+Ponto de coleta:
+Local definido onde a amostra e retirada. Pode ser caminhao, correia transportadora,
+linha de oleo, tanque, silo, rosca, descarga, produto final ou outro ponto do processo.
+
+Representatividade:
+Capacidade da amostra de refletir as caracteristicas reais do lote ou do fluxo de
+processo.
+
+Homogeneizacao:
+Processo de misturar adequadamente a amostra para reduzir variacoes internas antes
+da retirada da porcao de ensaio.
+
+Reducao de amostra:
+Processo de diminuir a massa ou volume da amostra mantendo sua representatividade.
+
+Contaminacao cruzada:
+Transferencia indesejada de material de uma amostra para outra, podendo alterar o
+resultado analitico.
+
+Rastreabilidade:
+Capacidade de identificar origem, data, hora, lote, ponto de coleta, responsavel,
+metodo, equipamento e historico da amostra.
+
+============================================================
+4. PRINCIPIOS GERAIS DE BOA AMOSTRAGEM
+============================================================
+
+Uma boa amostragem deve seguir principios basicos:
+
+- Coletar amostra em ponto representativo.
+- Coletar quantidade suficiente para analise e repeticao.
+- Coletar varias porcoes quando o lote for heterogeneo.
+- Evitar segregacao de particulas grandes, finas, leves ou pesadas.
+- Evitar perda de umidade.
+- Evitar contaminacao cruzada.
+- Utilizar frascos ou sacos limpos e adequados.
+- Identificar a amostra imediatamente apos a coleta.
+- Registrar data, hora, ponto de coleta e responsavel.
+- Transportar a amostra em condicao adequada.
+- Homogeneizar antes de retirar a porcao de ensaio.
+- Armazenar a amostra conforme sua natureza.
+- Seguir procedimento interno e metodo aplicavel.
+
+============================================================
+5. ERROS COMUNS DE AMOSTRAGEM
+============================================================
+
+Erros frequentes:
+
+- Coletar apenas uma pequena porcao de um lote heterogeneo.
+- Coletar amostra somente da superficie.
+- Coletar amostra em ponto com segregacao.
+- Usar recipiente sujo ou contaminado.
+- Nao identificar a amostra corretamente.
+- Deixar a amostra aberta antes da analise de umidade.
+- Nao homogeneizar antes de subamostrar.
+- Moer apenas parte da amostra sem homogeneizar.
+- Usar peneira, moinho ou recipiente com residuo de amostra anterior.
+- Coletar oleo com linha parada ou mal purgada.
+- Coletar oleo em tanque sem considerar estratificacao.
+- Coletar farelo em ponto com excesso de finos ou casca.
+- Coletar casca contaminada com farelo.
+- Armazenar amostra em local quente, umido ou exposto a luz.
+- Registrar dados incompletos.
+
+Consequencia dos erros:
+
+- Resultados incoerentes.
+- Repeticoes desnecessarias.
+- Investigacoes incorretas.
+- Decisoes operacionais equivocadas.
+- Perda de confianca no laboratorio.
+- Dificuldade de rastreabilidade.
+
+============================================================
+6. AMOSTRAGEM DA SOJA NA RECEPCAO
+============================================================
+
+A amostragem da soja na recepcao deve representar o lote recebido. A soja pode
+apresentar variacoes de umidade, impurezas, graos avariados, graos verdes, graos
+quebrados, teor de oleo e teor de proteina.
+
+Amostragem inadequada na recepcao pode comprometer a classificacao da materia-prima,
+a decisao de armazenamento, o direcionamento do lote e a interpretacao futura da
+qualidade do oleo, do farelo e da casca.
+
+------------------------------------------------------------
+6.1 Pontos importantes na coleta de soja
+------------------------------------------------------------
+
+Pontos de atencao:
+
+- Coletar em diferentes pontos do veiculo ou fluxo.
+- Evitar coletar somente na superficie.
+- Considerar a variacao entre frente, meio e fundo da carga.
+- Utilizar equipamento de coleta limpo e adequado.
+- Evitar perda de impurezas durante a coleta.
+- Evitar separacao de graos inteiros, quebrados e impurezas.
+- Formar amostra composta quando necessario.
+- Homogeneizar antes da reducao da amostra.
+- Identificar corretamente o lote, origem e data.
+
+------------------------------------------------------------
+6.2 Parametros avaliados na soja recebida
+------------------------------------------------------------
+
+Parametros comuns:
+
+- Umidade.
+- Impurezas.
+- Graos verdes.
+- Graos avariados.
+- Graos ardidos.
+- Graos mofados.
+- Graos quebrados.
+- Graos danificados por insetos.
+- Proteina.
+- Oleo.
+- Acidez do oleo extraido, quando aplicavel.
+- Micotoxinas, quando aplicavel.
+
+------------------------------------------------------------
+6.3 Cuidados na amostragem de soja para umidade
+------------------------------------------------------------
+
+A umidade e sensivel ao tempo, temperatura e exposicao ao ambiente. Uma amostra
+aberta pode perder ou ganhar umidade, alterando o resultado.
+
+Cuidados recomendados:
+
+- Coletar a amostra em recipiente limpo e fechado.
+- Evitar exposicao prolongada ao ar.
+- Identificar imediatamente.
+- Analisar o mais rapido possivel.
+- Evitar armazenar proximo a fontes de calor.
+- Nao deixar amostra aberta sobre bancada.
+- Homogeneizar rapidamente antes da analise.
+
+------------------------------------------------------------
+6.4 Cuidados na amostragem de soja para impurezas e classificacao
+------------------------------------------------------------
+
+A classificacao fisica depende da manutencao da composicao original da amostra.
+
+Cuidados recomendados:
+
+- Nao descartar po, palha ou material fino antes da analise.
+- Evitar peneiramento acidental durante o transporte.
+- Manter a amostra integral ate a classificacao.
+- Homogeneizar sem perder impurezas.
+- Registrar qualquer observacao visual relevante.
+
+------------------------------------------------------------
+6.5 Interpretacao de problemas na amostra de soja
+------------------------------------------------------------
+
+Se os resultados de soja apresentarem alta variabilidade, verificar:
+
+- O lote era heterogeneo?
+- A coleta foi feita em varios pontos?
+- A amostra foi bem homogeneizada?
+- Houve segregacao de impurezas?
+- A amostra perdeu umidade antes da analise?
+- O recipiente estava limpo?
+- A identificacao estava correta?
+- A massa analisada era suficiente?
+
+============================================================
+7. AMOSTRAGEM DO FARELO DE SOJA
+============================================================
+
+O farelo de soja e um produto solido e particulado. Pode apresentar variacao de
+granulometria, umidade, teor de proteina, fibra, casca incorporada, oleo residual,
+urease e solubilidade proteica.
+
+A amostragem do farelo deve representar o fluxo ou lote. Como o farelo pode segregar
+particulas finas e grossas, a coleta em apenas um ponto pode gerar resultado parcial.
+
+------------------------------------------------------------
+7.1 Pontos de coleta do farelo
+------------------------------------------------------------
+
+Possiveis pontos de coleta:
+
+- Saida do tostador.
+- Saida do secador.
+- Saida do resfriador.
+- Correia transportadora.
+- Rosca transportadora.
+- Silo de farelo.
+- Carregamento.
+- Produto final ensacado ou a granel.
+
+A escolha do ponto deve estar relacionada ao objetivo da analise.
+
+Exemplo:
+
+- Para avaliar processo termico, coletar proximo a saida do tostador ou secador.
+- Para avaliar produto final, coletar no ponto de expedicao ou silo.
+- Para investigar casca no farelo, coletar em ponto representativo apos mistura final.
+
+------------------------------------------------------------
+7.2 Cuidados na coleta de farelo
+------------------------------------------------------------
+
+Cuidados recomendados:
+
+- Coletar em fluxo continuo sempre que possivel.
+- Evitar coletar apenas material depositado em cantos ou superficies.
+- Evitar excesso de finos ou material segregado.
+- Formar amostra composta em lotes grandes.
+- Utilizar coletor limpo e seco.
+- Evitar contaminacao com casca, soja ou farelo antigo.
+- Fechar o recipiente apos a coleta.
+- Identificar ponto, lote, data e hora.
+
+------------------------------------------------------------
+7.3 Amostragem de farelo para proteina
+------------------------------------------------------------
+
+A proteina pode variar com teor de casca, umidade e composicao da soja. Uma amostra
+com excesso de casca ou finos pode nao representar corretamente o lote.
+
+Cuidados recomendados:
+
+- Homogeneizar a amostra antes da retirada da porcao.
+- Evitar segregacao de casca.
+- Avaliar a base do resultado: natural ou base seca.
+- Relacionar proteina com fibra e umidade.
+- Repetir a analise se houver suspeita de amostragem ruim.
+
+------------------------------------------------------------
+7.4 Amostragem de farelo para fibra
+------------------------------------------------------------
+
+A fibra esta muito relacionada a presenca de casca. Por isso, a amostra deve
+representar bem a distribuicao de casca no farelo.
+
+Cuidados recomendados:
+
+- Evitar coletar somente regioes com excesso de casca.
+- Homogeneizar bem antes da analise.
+- Avaliar visualmente a presenca de casca.
+- Comparar com proteina do mesmo lote.
+- Verificar se a casca foi incorporada de forma uniforme.
+
+------------------------------------------------------------
+7.5 Amostragem de farelo para extrato etereo
+------------------------------------------------------------
+
+O extrato etereo representa o oleo residual no farelo. A amostra deve refletir a
+eficiencia da extracao e nao apenas uma variacao pontual.
+
+Cuidados recomendados:
+
+- Coletar amostra representativa do fluxo.
+- Evitar amostra de pontos mortos ou acumulados.
+- Homogeneizar antes da moagem.
+- Evitar contaminacao com oleo externo.
+- Comparar com dados de extracao e rendimento.
+
+------------------------------------------------------------
+7.6 Amostragem de farelo para urease e solubilidade proteica
+------------------------------------------------------------
+
+Urease e solubilidade proteica sao indicadores sensiveis ao processamento termico.
+A amostra deve representar o material tratado termicamente.
+
+Cuidados recomendados:
+
+- Coletar no ponto correto do processo.
+- Registrar horario e condicao operacional.
+- Evitar mistura de farelo de horarios diferentes quando o objetivo for diagnostico.
+- Homogeneizar adequadamente.
+- Evitar aquecimento adicional da amostra.
+- Armazenar em recipiente fechado.
+- Analisar em tempo adequado.
+
+------------------------------------------------------------
+7.7 Preparo de farelo para analise
+------------------------------------------------------------
+
+Etapas comuns:
+
+1. Receber a amostra identificada.
+2. Conferir integridade do recipiente.
+3. Registrar entrada no laboratorio.
+4. Homogeneizar a amostra.
+5. Reduzir a amostra, se necessario.
+6. Moer, quando o metodo exigir.
+7. Evitar aquecimento excessivo durante moagem.
+8. Armazenar porcao preparada em frasco limpo.
+9. Realizar analise conforme metodo.
+10. Registrar qualquer desvio observado.
+
+============================================================
+8. AMOSTRAGEM DO OLEO DE SOJA
+============================================================
+
+O oleo de soja pode ser amostrado em diferentes etapas: oleo bruto, oleo degomado,
+oleo neutralizado, oleo branqueado, oleo desodorizado ou oleo final. Cada etapa
+exige cuidados especificos.
+
+O oleo pode apresentar variacoes de umidade, fosforo, acidez, cor, clorofila,
+impurezas, peroxido e estabilidade oxidativa. A coleta deve evitar contaminacao,
+entrada de agua, oxidacao e erro por linha nao purgada.
+
+------------------------------------------------------------
+8.1 Pontos de coleta de oleo
+------------------------------------------------------------
+
+Possiveis pontos de coleta:
+
+- Saida da extracao.
+- Tanque de oleo bruto.
+- Antes da degomagem.
+- Depois da degomagem.
+- Antes e depois da centrifuga.
+- Tanque de oleo degomado.
+- Antes e depois do refino.
+- Linha de carregamento.
+- Tanque de produto final.
+
+A escolha do ponto depende da pergunta tecnica.
+
+Exemplo:
+
+- Para avaliar degomagem, comparar oleo bruto e oleo degomado.
+- Para avaliar armazenamento, coletar do tanque.
+- Para avaliar processo em tempo real, coletar na linha.
+
+------------------------------------------------------------
+8.2 Cuidados gerais na coleta de oleo
+------------------------------------------------------------
+
+Cuidados recomendados:
+
+- Usar frasco limpo, seco e adequado.
+- Evitar frasco com residuo de agua, detergente ou oleo anterior.
+- Purgar a linha antes da coleta, quando aplicavel.
+- Evitar coletar material parado em valvula ou ponto morto.
+- Fechar o frasco imediatamente.
+- Evitar exposicao prolongada ao ar e luz.
+- Identificar tipo de oleo, ponto, tanque, data e hora.
+- Registrar temperatura, quando relevante.
+- Evitar contaminacao com agua ou particulas.
+- Homogeneizar o tanque ou considerar procedimento interno para tanques.
+
+------------------------------------------------------------
+8.3 Amostragem de oleo para acidez
+------------------------------------------------------------
+
+A acidez pode ser afetada por deterioracao da materia-prima, umidade e armazenamento.
+A amostra deve ser protegida contra contaminacao e degradacao.
+
+Cuidados recomendados:
+
+- Usar frasco limpo e seco.
+- Evitar entrada de agua.
+- Fechar imediatamente.
+- Analisar em tempo adequado.
+- Registrar origem do oleo e historico do lote.
+- Comparar com acidez de amostras anteriores.
+
+------------------------------------------------------------
+8.4 Amostragem de oleo para fosforo
+------------------------------------------------------------
+
+O fosforo no oleo esta relacionado a fosfolipidios e gomas. A coleta deve ser
+representativa, especialmente em oleos com particulas, emulsao ou separacao de fases.
+
+Cuidados recomendados:
+
+- Homogeneizar adequadamente antes da coleta, quando aplicavel.
+- Evitar coletar apenas fase sobrenadante ou fundo.
+- Purgar a linha.
+- Coletar em frasco limpo e seco.
+- Registrar se a amostra e oleo bruto, degomado ou de outra etapa.
+- Comparar fosforo antes e depois da degomagem.
+- Evitar contaminacao com goma ou borra, exceto se o objetivo for investigar arraste.
+
+------------------------------------------------------------
+8.5 Amostragem de oleo para umidade
+------------------------------------------------------------
+
+A umidade no oleo pode variar por separacao de fases, emulsao, condensacao ou falha
+de secagem. A amostra deve representar o sistema real.
+
+Cuidados recomendados:
+
+- Fechar o frasco imediatamente.
+- Evitar absorcao ou perda de umidade.
+- Evitar condensacao no frasco.
+- Analisar rapidamente.
+- Registrar temperatura.
+- Verificar se ha agua livre, turbidez ou emulsao.
+
+------------------------------------------------------------
+8.6 Amostragem de oleo para peroxido, cor e clorofila
+------------------------------------------------------------
+
+Parametros de oxidacao e pigmentacao podem ser afetados por luz, oxigenio, calor e
+tempo de armazenamento.
+
+Cuidados recomendados:
+
+- Proteger a amostra da luz.
+- Evitar excesso de ar no frasco.
+- Fechar imediatamente.
+- Evitar aquecimento desnecessario.
+- Analisar em tempo adequado.
+- Registrar condicao de armazenamento.
+- Usar frasco amber ou protegido da luz, quando disponivel.
+
+------------------------------------------------------------
+8.7 Interpretacao de problemas na amostragem de oleo
+------------------------------------------------------------
+
+Se resultados de oleo forem instaveis, verificar:
+
+- A linha foi purgada antes da coleta?
+- O tanque estava homogeneizado?
+- Houve separacao de fase?
+- O frasco estava seco?
+- A amostra foi exposta a luz ou calor?
+- A amostra ficou muito tempo antes da analise?
+- Houve contaminacao com agua, goma ou borra?
+- O ponto de coleta representa realmente a etapa avaliada?
+
+============================================================
+9. AMOSTRAGEM DA CASCA DE SOJA
+============================================================
+
+A casca de soja e um coproduto fibroso obtido no descascamento. Pode apresentar
+variacao de fibra, proteina residual, umidade, granulometria, presenca de finos e
+contaminacao com farelo.
+
+A amostragem da casca deve avaliar tanto a qualidade do produto quanto a eficiencia
+de separacao entre casca e farelo.
+
+------------------------------------------------------------
+9.1 Pontos de coleta da casca
+------------------------------------------------------------
+
+Possiveis pontos de coleta:
+
+- Saida do sistema de descascamento.
+- Sistema de aspiracao.
+- Correia ou rosca de casca.
+- Silo de casca.
+- Ponto de carregamento.
+- Produto final.
+
+A escolha do ponto depende do objetivo.
+
+Exemplo:
+
+- Para avaliar eficiencia de separacao, coletar proximo ao descascamento.
+- Para avaliar produto final, coletar no silo ou carregamento.
+- Para investigar arraste de farelo, coletar em pontos antes e depois da separacao.
+
+------------------------------------------------------------
+9.2 Cuidados na coleta de casca
+------------------------------------------------------------
+
+Cuidados recomendados:
+
+- Coletar em fluxo representativo.
+- Evitar coletar somente material leve acumulado.
+- Evitar perda de finos.
+- Evitar contaminacao com farelo.
+- Homogeneizar a amostra antes de reduzir.
+- Registrar ponto de coleta e condicao operacional.
+- Fechar o recipiente para evitar ganho ou perda de umidade.
+
+------------------------------------------------------------
+9.3 Amostragem de casca para fibra
+------------------------------------------------------------
+
+A fibra e o principal indicador da natureza da casca. Uma amostra contaminada com
+farelo pode apresentar fibra menor e proteina maior.
+
+Cuidados recomendados:
+
+- Coletar varias porcoes.
+- Evitar concentrar farelo arrastado.
+- Homogeneizar antes da analise.
+- Relacionar fibra com proteina residual.
+- Avaliar aspecto visual.
+
+------------------------------------------------------------
+9.4 Amostragem de casca para proteina residual
+------------------------------------------------------------
+
+Proteina residual alta pode indicar arraste de farelo ou separacao incompleta.
+
+Cuidados recomendados:
+
+- Avaliar se a amostra contem farelo visivel.
+- Comparar com fibra da casca.
+- Verificar regulagem do sistema de aspiracao.
+- Verificar teor de finos.
+- Comparar com proteina do farelo do mesmo periodo.
+
+------------------------------------------------------------
+9.5 Amostragem de casca para umidade
+------------------------------------------------------------
+
+A umidade da casca influencia armazenamento, risco microbiologico e manuseio.
+
+Cuidados recomendados:
+
+- Coletar em recipiente seco.
+- Fechar rapidamente.
+- Evitar exposicao ao ambiente.
+- Analisar em tempo adequado.
+- Registrar condicao de armazenamento.
+
+============================================================
+10. HOMOGENEIZACAO DA AMOSTRA
+============================================================
+
+A homogeneizacao e essencial para reduzir a variabilidade da amostra. Amostras mal
+homogeneizadas podem gerar resultados diferentes mesmo quando pertencem ao mesmo lote.
+
+Principios gerais:
+
+- Misturar todo o material antes de retirar a porcao de ensaio.
+- Evitar perda de particulas finas.
+- Evitar separacao por tamanho, densidade ou umidade.
+- Usar recipiente limpo e adequado.
+- Nao misturar amostras de lotes diferentes, exceto quando o objetivo for formar
+  amostra composta conforme procedimento.
+- Registrar qualquer anormalidade.
+
+Para soja:
+Homogeneizar sem perder impurezas, graos quebrados ou material fino.
+
+Para farelo:
+Homogeneizar evitando segregacao de casca, finos e particulas grossas.
+
+Para oleo:
+Homogeneizar conforme procedimento interno, considerando tanque, linha, emulsao ou
+separacao de fases.
+
+Para casca:
+Homogeneizar preservando finos e evitando concentrar farelo arrastado.
+
+============================================================
+11. REDUCAO DE AMOSTRA
+============================================================
+
+A reducao de amostra deve diminuir a quantidade de material sem perder
+representatividade. A reducao inadequada e uma fonte comum de erro.
+
+Boas praticas:
+
+- Homogeneizar antes de reduzir.
+- Utilizar quarteamento, divisor ou metodo definido internamente.
+- Evitar escolher manualmente apenas a parte mais fina ou mais grossa.
+- Evitar descartar particulas que fazem parte da amostra.
+- Manter identificacao durante todo o processo.
+- Garantir quantidade suficiente para analise, repeticao e contraprova.
+
+Exemplo de erro:
+
+Se o analista reduz uma amostra de farelo coletando apenas a parte superior do
+recipiente, pode selecionar mais finos ou mais casca, alterando proteina e fibra.
+
+============================================================
+12. MOAGEM E PREPARO DE AMOSTRAS SOLIDAS
+============================================================
+
+A moagem pode ser necessaria para soja, farelo e casca, dependendo do metodo
+analitico. A moagem deve produzir granulometria adequada sem alterar a composicao
+da amostra.
+
+Cuidados gerais:
+
+- Limpar o moinho antes do uso.
+- Evitar contaminacao entre amostras.
+- Evitar aquecimento excessivo durante moagem.
+- Moer quantidade representativa.
+- Homogeneizar apos a moagem.
+- Controlar granulometria quando exigido.
+- Registrar dificuldades ou anormalidades.
+- Descartar ou limpar adequadamente entre amostras diferentes.
+
+Riscos da moagem inadequada:
+
+- Perda de umidade por aquecimento.
+- Perda de material fino.
+- Contaminacao cruzada.
+- Granulometria irregular.
+- Resultado NIR instavel.
+- Diferenca entre duplicatas.
+- Erro em analises de proteina, fibra ou extrato etereo.
+
+============================================================
+13. PREPARO DE AMOSTRAS PARA NIR
+============================================================
+
+A espectroscopia NIR depende fortemente de preparo, homogeneidade, granulometria,
+umidade, compactacao e representatividade da amostra.
+
+Cuidados para NIR em soja, farelo e casca:
+
+- Usar amostra representativa.
+- Homogeneizar antes da leitura.
+- Moer quando o metodo ou curva exigir.
+- Controlar granulometria.
+- Evitar amostra com segregacao de particulas.
+- Evitar contaminacao cruzada.
+- Preencher a celula de leitura de forma uniforme.
+- Evitar espacos vazios ou compactacao irregular.
+- Limpar a celula entre amostras.
+- Verificar se a amostra pertence a matriz validada pela curva.
+- Verificar se o resultado esta dentro da faixa de calibracao.
+- Registrar leituras fora do esperado.
+
+Problemas comuns no NIR:
+
+- Resultado instavel por moagem irregular.
+- Resultado divergente por amostra fora da faixa da curva.
+- Resultado incorreto por matriz diferente da calibracao.
+- Erro por celula suja.
+- Erro por umidade fora da faixa.
+- Erro por baixa homogeneidade.
+- Erro por amostra com granulometria muito diferente da base de calibracao.
+
+============================================================
+14. IDENTIFICACAO E RASTREABILIDADE
+============================================================
+
+A identificacao correta da amostra e obrigatoria para garantir rastreabilidade.
+
+Informacoes recomendadas:
+
+- Codigo da amostra.
+- Produto ou matriz.
+- Lote.
+- Origem.
+- Data da coleta.
+- Hora da coleta.
+- Ponto de coleta.
+- Responsavel pela coleta.
+- Responsavel pelo recebimento no laboratorio.
+- Tipo de analise solicitada.
+- Condicao do processo no momento da coleta.
+- Observacoes relevantes.
+- Equipamento ou linha relacionada.
+- Tanque, silo ou veiculo, quando aplicavel.
+
+Exemplo de identificacao:
+
+Produto: farelo de soja.
+Lote: FS-2026-001.
+Ponto: saida do resfriador.
+Data: 15/06/2026.
+Hora: 10:30.
+Analises: umidade, proteina, fibra, urease e solubilidade.
+Responsavel: analista de turno.
+Observacao: coleta durante ajuste de tostagem.
+
+============================================================
+15. ARMAZENAMENTO DE AMOSTRAS
+============================================================
+
+O armazenamento correto evita alteracoes antes da analise ou durante a guarda de
+contraprova.
+
+------------------------------------------------------------
+15.1 Armazenamento de soja
+------------------------------------------------------------
+
+Cuidados:
+
+- Manter em recipiente limpo e fechado.
+- Evitar umidade externa.
+- Evitar calor excessivo.
+- Evitar insetos e contaminacao.
+- Preservar impurezas quando a amostra for de classificacao.
+- Analisar umidade o mais rapido possivel.
+
+------------------------------------------------------------
+15.2 Armazenamento de farelo
+------------------------------------------------------------
+
+Cuidados:
+
+- Manter em recipiente fechado.
+- Evitar ganho ou perda de umidade.
+- Evitar contaminacao com casca ou outros farelos.
+- Evitar exposicao a calor.
+- Identificar claramente.
+- Controlar tempo de guarda.
+
+------------------------------------------------------------
+15.3 Armazenamento de oleo
+------------------------------------------------------------
+
+Cuidados:
+
+- Usar frasco limpo e seco.
+- Proteger da luz quando avaliar oxidacao, cor ou clorofila.
+- Fechar bem o frasco.
+- Evitar espaco excessivo com ar quando possivel.
+- Evitar contaminacao com agua.
+- Evitar calor.
+- Analisar parametros sensiveis em tempo adequado.
+
+------------------------------------------------------------
+15.4 Armazenamento de casca
+------------------------------------------------------------
+
+Cuidados:
+
+- Manter em recipiente fechado.
+- Evitar umidade.
+- Evitar perda de finos.
+- Evitar contaminacao com farelo.
+- Identificar ponto de coleta.
+- Controlar tempo de armazenamento.
+
+============================================================
+16. CRITERIOS PARA REPETICAO DE ANALISE
+============================================================
+
+A repeticao de uma analise pode ser necessaria quando houver suspeita de erro
+analitico, erro de amostragem ou resultado incoerente com o processo.
+
+Situacoes que justificam repeticao:
+
+- Resultado fora do historico sem explicacao operacional.
+- Resultado muito diferente da amostra anterior ou posterior.
+- Duplicatas com diferenca acima do criterio interno.
+- Amostra mal identificada.
+- Amostra com suspeita de contaminacao.
+- Amostra recebida aberta ou danificada.
+- Falha de equipamento.
+- Erro no preparo.
+- Moagem inadequada.
+- Resultado NIR fora da faixa de calibracao.
+- Resultado incompativel com outros parametros relacionados.
+
+Exemplos:
+
+- Proteina baixa e fibra normal: repetir proteina e verificar amostragem.
+- Fibra alta e proteina baixa: verificar excesso de casca e repetir se a amostra nao
+  for representativa.
+- Fosforo alto no oleo degomado: confirmar resultado e comparar com oleo bruto.
+- Umidade de farelo muito diferente do historico: repetir rapidamente e avaliar
+  secagem.
+- Urease alta: repetir analise e verificar ponto de coleta e condicao de tostagem.
+- NIR divergente do metodo quimico: verificar moagem, curva, matriz e faixa de
+  calibracao.
+
+============================================================
+17. RELACAO ENTRE ERRO DE AMOSTRAGEM E RESULTADO LABORATORIAL
+============================================================
+
+Erro possivel: amostra de farelo com excesso de casca.
+Resultado afetado: fibra alta e proteina baixa.
+Interpretacao: pode parecer problema de formulacao ou descascamento, mas pode ser
+erro de coleta.
+
+Erro possivel: amostra de oleo coletada sem purgar a linha.
+Resultado afetado: fosforo, umidade, impurezas ou acidez.
+Interpretacao: pode representar material parado e nao o fluxo real.
+
+Erro possivel: frasco de oleo umido.
+Resultado afetado: umidade e possivelmente acidez.
+Interpretacao: contaminacao com agua pode alterar o resultado.
+
+Erro possivel: amostra de soja aberta por muito tempo.
+Resultado afetado: umidade.
+Interpretacao: a amostra pode perder ou ganhar umidade antes da analise.
+
+Erro possivel: moinho sujo.
+Resultado afetado: proteina, fibra, oleo residual ou NIR.
+Interpretacao: contaminacao cruzada pode alterar a composicao.
+
+Erro possivel: moagem irregular.
+Resultado afetado: NIR, proteina, fibra e extrato etereo.
+Interpretacao: granulometria diferente pode prejudicar repetibilidade.
+
+Erro possivel: casca contaminada com farelo.
+Resultado afetado: proteina alta e fibra baixa na casca.
+Interpretacao: pode indicar erro de coleta ou separacao deficiente.
+
+============================================================
+18. CHECKLIST RAPIDO DE AMOSTRAGEM
+============================================================
+
+Antes da coleta:
+
+- O ponto de coleta esta definido?
+- O recipiente esta limpo e adequado?
+- A identificacao esta preparada?
+- A quantidade de amostra sera suficiente?
+- O material representa o lote ou fluxo?
+- Ha risco de contaminacao cruzada?
+
+Durante a coleta:
+
+- A coleta foi feita no ponto correto?
+- A amostra foi coletada em quantidade suficiente?
+- Foram coletadas varias porcoes quando necessario?
+- A linha de oleo foi purgada, se aplicavel?
+- O recipiente foi fechado rapidamente?
+- Houve observacao visual relevante?
+
+Depois da coleta:
+
+- A amostra foi identificada?
+- A data e hora foram registradas?
+- O ponto de coleta foi registrado?
+- O responsavel foi registrado?
+- A amostra foi enviada ao laboratorio corretamente?
+- A amostra foi armazenada em condicao adequada?
+
+Antes da analise:
+
+- A amostra foi homogeneizada?
+- A reducao foi representativa?
+- A moagem foi adequada?
+- O equipamento esta limpo?
+- O metodo e aplicavel para a matriz?
+- O resultado deve ser expresso em base natural ou base seca?
+
+============================================================
+19. PERGUNTAS FREQUENTES PARA O RAG
+============================================================
+
+Pergunta: Por que dois resultados do mesmo lote deram diferentes?
+Resposta: Dois resultados do mesmo lote podem diferir por heterogeneidade do lote,
+erro de amostragem, falta de homogeneizacao, reducao inadequada da amostra, moagem
+irregular, contaminacao cruzada, perda de umidade, erro de identificacao ou variacao
+real do processo. Antes de concluir que houve desvio de processo, deve-se verificar
+a representatividade da amostra e a repetibilidade da analise.
+
+Pergunta: Como coletar amostra de soja na recepcao?
+Resposta: A amostra de soja na recepcao deve representar o lote recebido. Recomenda-se
+coletar porcoes em diferentes pontos, evitar coleta apenas superficial, preservar
+impurezas para classificacao, formar amostra composta quando necessario, homogeneizar
+antes da reducao e identificar lote, origem, data, hora e responsavel.
+
+Pergunta: Como coletar amostra de farelo de soja?
+Resposta: A amostra de farelo deve ser coletada em ponto representativo do fluxo ou
+produto final. Deve-se evitar pontos com segregacao de casca, finos ou material
+acumulado. A amostra deve ser homogeneizada antes da reducao e preparada conforme o
+metodo analitico.
+
+Pergunta: Como coletar amostra de oleo de soja?
+Resposta: A amostra de oleo deve ser coletada em frasco limpo e seco. Quando a coleta
+for em linha, deve-se purgar o ponto antes da coleta. O frasco deve ser fechado
+rapidamente e protegido de luz, calor e contaminacao. Para avaliar degomagem,
+recomenda-se comparar amostras de oleo bruto e oleo degomado.
+
+Pergunta: Como coletar amostra de casca de soja?
+Resposta: A casca deve ser coletada em ponto representativo, evitando perda de finos
+e contaminacao com farelo. A amostra deve ser homogeneizada antes da analise e
+avaliada principalmente por fibra, proteina residual, umidade e granulometria.
+
+Pergunta: Quando repetir uma analise?
+Resposta: Uma analise deve ser repetida quando o resultado estiver fora do historico
+sem explicacao, quando houver diferenca elevada entre duplicatas, quando a amostra
+estiver mal identificada, quando houver suspeita de contaminacao, quando houver falha
+de preparo ou quando o resultado for incoerente com parametros relacionados.
+
+Pergunta: Como preparar amostra para NIR?
+Resposta: Para NIR, a amostra deve ser representativa, homogenea e preparada conforme
+a curva de calibracao. Deve-se controlar moagem, granulometria, umidade, preenchimento
+da celula, limpeza da celula e faixa de aplicacao da curva. Amostras fora da matriz
+ou fora da faixa validada podem gerar resultados incorretos.
+
+Pergunta: Como evitar contaminacao cruzada?
+Resposta: Para evitar contaminacao cruzada, deve-se limpar coletores, frascos, moinhos,
+peneiras, celulas de leitura e bancadas entre amostras. Tambem e importante manter
+as amostras fechadas, identificadas e fisicamente separadas.
+
+Pergunta: Por que a amostra de oleo deve ser protegida da luz?
+Resposta: A luz pode acelerar processos de oxidacao e alterar parametros sensiveis
+como indice de peroxido, cor e estabilidade. Por isso, amostras destinadas a avaliacao
+de oxidacao ou pigmentos devem ser protegidas da luz e analisadas em tempo adequado.
+
+Pergunta: Como saber se o problema foi amostragem ou processo?
+Resposta: Deve-se comparar o resultado com historico, repetir a analise, verificar
+duplicatas, conferir ponto de coleta, avaliar homogeneizacao, revisar preparo da
+amostra e comparar com parametros relacionados. Se a repeticao confirmar o resultado
+e houver coerencia com outros indicadores, a chance de desvio de processo aumenta.
+
+============================================================
+20. REFERENCIAS BIBLIOGRAFICAS E FONTES TECNICAS
+============================================================
+
+AMERICAN OIL CHEMISTS' SOCIETY. Official Methods and Recommended Practices of the
+AOCS. AOCS Press. Referencia geral para metodos analiticos aplicados a oleos,
+gorduras, oleaginosas, farelo de soja, acidez, fosforo, peroxidos, atividade
+ureatica e produtos de soja.
+
+AMERICAN OIL CHEMISTS' SOCIETY. Soybean Oil Laboratory Proficiency Testing.
+Referencia sobre ensaios laboratoriais de oleo de soja, incluindo acidos graxos
+livres, cor e outros parametros de rotina.
+
+INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. ISO 664: Oilseeds - Reduction of
+laboratory sample to test sample. Norma tecnica sobre reducao de amostras
+laboratoriais de oleaginosas para amostras de ensaio.
+
+UNITED STATES SOYBEAN EXPORT COUNCIL. Quality Manual and Analysis for Soybean
+Products in the Feed Industry. USSEC. Manual tecnico com orientacoes sobre qualidade
+de produtos de soja, farelo de soja, amostragem, solubilidade proteica, atividade
+ureatica e indicadores de processamento.
+
+VAN EYS, J. E.; OFFNER, A.; BACH, A. Manual of Quality Analyses for Soybean Products
+in the Feed Industry. American Soybean Association, 2004. Referencia sobre analises
+de qualidade de produtos de soja destinados a nutricao animal.
+
+FEEDIPEDIA. Soybean meal. INRAE, CIRAD, AFZ and FAO. Base tecnica sobre composicao,
+classificacao e uso do farelo de soja em alimentacao animal.
+
+FEEDIPEDIA. Soybean hulls. INRAE, CIRAD, AFZ and FAO. Base tecnica sobre composicao,
+caracteristicas e uso da casca de soja em alimentacao animal.
+
+PARSONS, C. M.; HASHIMOTO, K.; WEDEKIND, K. J.; BAKER, D. H. Soybean protein
+solubility in potassium hydroxide: an in vitro test of in vivo protein quality.
+Journal of Animal Science, 1991.
+
+ARABA, M.; DALE, N. M. Evaluation of protein solubility as an indicator of
+overprocessing soybean meal. Poultry Science, 1990.
+
+LIU, K.; RUIZ, N. Trypsin inhibitor and urease activity of soybean meal products
+from different countries and regions. Journal of the American Oil Chemists' Society,
+2020.
+
+JOHNSON, L. A.; WHITE, P. J.; GALLOWAY, R. Soybeans: Chemistry, Production,
+Processing, and Utilization. AOCS Press, 2008.
+
+SHAHIDI, F. Bailey's Industrial Oil and Fat Products. Wiley. Obra de referencia
+sobre oleos e gorduras, controle de qualidade, oxidacao, processamento e refino.
+
+============================================================
+21. LIMITACOES DO MANUAL
+============================================================
+
+Este manual e um material tecnico de apoio para sistemas RAG e para treinamento de
+interpretacao laboratorial. Ele nao substitui procedimentos operacionais padrao,
+metodos oficiais, especificacoes internas, normas de seguranca, contratos comerciais
+ou legislacao aplicavel.
+
+Cada laboratorio deve adaptar as orientacoes deste manual aos seus metodos, seus
+equipamentos, seus criterios de aceitacao, seus planos de amostragem e seus
+procedimentos internos.
+
+============================================================
+22. RESUMO FINAL
+============================================================
+
+A qualidade de soja, farelo, oleo e casca depende fortemente da amostragem e do
+preparo das amostras. Uma amostra nao representativa pode gerar resultados
+incorretos, diagnosticos equivocados e decisoes operacionais inadequadas.
+
+Para soja, os principais cuidados estao relacionados a representatividade do lote,
+umidade, impurezas e classificacao. Para farelo, os cuidados envolvem homogeneizacao,
+segregacao de casca, moagem, umidade, proteina, fibra, urease, solubilidade e oleo
+residual. Para oleo, os cuidados envolvem frasco limpo e seco, purga de linha,
+homogeneizacao, protecao contra luz, calor, agua e oxidacao. Para casca, os cuidados
+envolvem perda de finos, contaminacao com farelo, fibra, proteina residual e umidade.
+
+Um bom sistema RAG deve ser capaz de recuperar informacoes sobre como coletar,
+preparar, armazenar, repetir e interpretar amostras. Este manual fornece uma base
+estruturada para apoiar esse tipo de resposta.

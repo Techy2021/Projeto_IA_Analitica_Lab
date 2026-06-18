@@ -1,0 +1,1 @@
+"""Prompts reutilizaveis dos agentes."""

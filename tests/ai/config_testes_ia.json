@@ -1,0 +1,7 @@
+{
+  "modelo_teste_ollama": "qwen2.5:1.5b",
+  "modelo_julgador_ollama": "llama3.2:3b",
+  "max_linhas_resposta_fast": 8,
+  "contexto_reduzido": true,
+  "usar_crewai_no_modo_fast": false
+}

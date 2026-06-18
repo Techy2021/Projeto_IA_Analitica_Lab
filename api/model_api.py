@@ -4,12 +4,14 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-from src.database import consultar_sql
-from src.predict import (
+from ai.modeling.predict import (
     carregar_metadata_modelo,
     gerar_previsao_detalhada,
     obter_colunas_usadas,
 )
+from ai.intent_router import identificar_intencao
+from ai.numeric_query_engine import executar_consulta_numerica, formatar_resposta_consulta
+from database.consultas import consultar_sql
 
 
 app = FastAPI(title="API IA Analitica Laboratorial")
@@ -21,6 +23,10 @@ class PrevisaoRequest(BaseModel):
 
 class ConsultaRequest(BaseModel):
     query: str
+
+
+class PerguntaRequest(BaseModel):
+    pergunta: str
 
 
 COMANDOS_BLOQUEADOS = {
@@ -49,6 +55,7 @@ def health():
 
 @app.get("/metadata")
 def metadata():
+    """Expoe somente os campos de metadados necessarios aos consumidores da API."""
     try:
         dados = carregar_metadata_modelo()
         return {
@@ -64,6 +71,7 @@ def metadata():
 
 @app.get("/metricas")
 def metricas():
+    """Retorna o metadata completo, incluindo metricas da ultima versao treinada."""
     try:
         return carregar_metadata_modelo()
     except Exception as erro:
@@ -114,6 +122,53 @@ def consultar(payload: ConsultaRequest):
         }
     except Exception as erro:
         raise HTTPException(status_code=400, detail=str(erro)) from erro
+
+
+@app.post("/perguntar")
+def perguntar(payload: PerguntaRequest):
+    """Roteia perguntas numericas para DuckDB sem acionar o Ollama."""
+    pergunta_usuario = payload.pergunta.strip()
+    if not pergunta_usuario:
+        raise HTTPException(status_code=400, detail="Pergunta vazia.")
+
+    roteamento = identificar_intencao(pergunta_usuario)
+    tipo = roteamento["intencao"]
+    if tipo == "consulta_numerica":
+        try:
+            resultado = executar_consulta_numerica(roteamento)
+            return {
+                "tipo": tipo,
+                "roteamento": roteamento,
+                "fonte": "duckdb",
+                "chamou_ollama": False,
+                "resultado": resultado,
+                "resposta": formatar_resposta_consulta(resultado),
+            }
+        except Exception as erro:
+            raise HTTPException(status_code=400, detail=str(erro)) from erro
+
+    from ai.agentes.crewai_agents_lab import executar_crew_lab
+
+    resultado = executar_crew_lab(pergunta_usuario)
+    return {
+        "tipo": tipo,
+        "roteamento": roteamento,
+        "fonte": "roteador",
+        "chamou_ollama": resultado.get("modelo_ollama") != "nao_utilizado",
+        "resultado": resultado,
+        "resposta": resultado.get("resposta", ""),
+    }
+
+    return {
+        "tipo": tipo,
+        "fonte": "roteador",
+        "chamou_ollama": False,
+        "resposta": (
+            "Pergunta classificada como "
+            f"{tipo}. Nesta versão, apenas perguntas numéricas são respondidas "
+            "diretamente pelo DuckDB neste endpoint."
+        ),
+    }
 
 
 @app.get("/amostra")
