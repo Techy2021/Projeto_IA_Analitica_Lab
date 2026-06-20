@@ -5,6 +5,7 @@ from typing import Any, Type
 
 from pydantic import BaseModel, Field
 
+from ai.rag.index import MENSAGEM_RAG_INDISPONIVEL, verificar_disponibilidade_rag
 from ai.rag.retriever import buscar_trechos, formatar_trechos_para_contexto
 
 
@@ -15,6 +16,15 @@ class ConsultaBaseConhecimentoInput(BaseModel):
 
 
 def tool_consultar_base_conhecimento(pergunta: str, k: int = 4) -> str:
+    status_rag = verificar_disponibilidade_rag()
+    if not status_rag["disponivel"]:
+        return json.dumps(
+            {
+                "erro": status_rag["motivo"],
+                "mensagem": MENSAGEM_RAG_INDISPONIVEL,
+            },
+            ensure_ascii=False,
+        )
     try:
         trechos = buscar_trechos(pergunta, k=k)
         if not trechos:

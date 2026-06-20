@@ -1,4 +1,6 @@
 import hashlib
+import importlib.util
+import logging
 import os
 import re
 import shutil
@@ -18,10 +20,16 @@ from app.config import (
 )
 
 
+LOGGER = logging.getLogger(__name__)
+
 RAG_COLLECTION_NAME = "base_conhecimento_lab"
 OLLAMA_EMBED_MODEL_PADRAO = "nomic-embed-text"
 MENSAGEM_CHROMADB_INDISPONIVEL = (
     "ChromaDB nao esta instalado. Execute: python -m pip install chromadb"
+)
+MENSAGEM_RAG_INDISPONIVEL = (
+    "Base de conhecimento RAG indisponível. A resposta será gerada sem "
+    "recuperação de documentos."
 )
 MENSAGEM_EMBEDDING_INDISPONIVEL = (
     "Modelo de embedding nao encontrado no Ollama. Execute: "
@@ -36,11 +44,58 @@ def obter_config_embedding() -> tuple[str, str]:
     return base_url, modelo
 
 
-def obter_collection():
+def chromadb_disponivel() -> bool:
+    """Verifica o pacote sem importá-lo nem inicializar a base vetorial."""
+    return importlib.util.find_spec("chromadb") is not None
+
+
+def verificar_disponibilidade_rag() -> dict[str, Any]:
+    """Diagnóstico leve usado antes de qualquer recuperação documental."""
+    if not chromadb_disponivel():
+        return {
+            "disponivel": False,
+            "motivo": "chromadb_ausente",
+            "mensagem": MENSAGEM_RAG_INDISPONIVEL,
+        }
+    if not VECTORSTORE_DIR.exists() or not any(VECTORSTORE_DIR.iterdir()):
+        return {
+            "disponivel": False,
+            "motivo": "base_vetorial_ausente",
+            "mensagem": MENSAGEM_RAG_INDISPONIVEL,
+        }
     try:
-        import chromadb
-    except ModuleNotFoundError as erro:
-        raise RuntimeError(MENSAGEM_CHROMADB_INDISPONIVEL) from erro
+        total = obter_collection().count()
+    except BaseException as erro:
+        if isinstance(erro, (KeyboardInterrupt, SystemExit)):
+            raise
+        LOGGER.error(
+            "Base vetorial RAG inacessível. tipo=%s detalhe=%s",
+            type(erro).__name__,
+            erro,
+        )
+        return {
+            "disponivel": False,
+            "motivo": "base_vetorial_inacessivel",
+            "mensagem": MENSAGEM_RAG_INDISPONIVEL,
+        }
+    if total <= 0:
+        return {
+            "disponivel": False,
+            "motivo": "base_vetorial_vazia",
+            "mensagem": MENSAGEM_RAG_INDISPONIVEL,
+        }
+    return {
+        "disponivel": True,
+        "motivo": None,
+        "mensagem": "Base de conhecimento RAG disponível.",
+        "vetores": total,
+    }
+
+
+def obter_collection():
+    if not chromadb_disponivel():
+        raise RuntimeError(MENSAGEM_CHROMADB_INDISPONIVEL)
+    import chromadb
 
     criar_pastas()
     cliente = chromadb.PersistentClient(path=str(VECTORSTORE_DIR))

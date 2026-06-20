@@ -30,6 +30,7 @@ from ai.modeling.predict import (
     obter_info_modelo,
 )
 from ai.rag.index import (
+    MENSAGEM_RAG_INDISPONIVEL,
     contar_documentos_indexados,
     excluir_documento_rag,
     indexar_documentos,
@@ -1226,6 +1227,8 @@ elif menu == "8. Assistente IA":
     with chat_col:
         aviso_assistente = st.session_state.pop("assistant_last_notice", None)
         if aviso_assistente:
+            if aviso_assistente.get("aviso_rag"):
+                st.warning(MENSAGEM_RAG_INDISPONIVEL)
             if aviso_assistente["tipo"] == "sucesso":
                 st.success(aviso_assistente["mensagem"])
             else:
@@ -1244,16 +1247,18 @@ elif menu == "8. Assistente IA":
         st.session_state.chat_messages.append({"role": "user", "content": pergunta})
         append_chat_history("user", pergunta)
         try:
-            with st.spinner("Consultando o provedor de IA..."):
+            with st.spinner("Consultando o assistente de IA..."):
                 resultado = executar_assistente_com_timeout(
                     pergunta,
                     st.session_state.get("llm_runtime_config"),
                     timeout_segundos=60,
                 )
             resposta, sucesso = preparar_resposta_assistente(resultado)
+            aviso_rag = resultado.get("aviso_rag")
             st.session_state["assistant_last_notice"] = {
                 "tipo": "sucesso" if sucesso else "erro",
                 "mensagem": "Resposta da IA concluída." if sucesso else resposta,
+                "aviso_rag": aviso_rag,
             }
             st.session_state.chat_messages.append({"role": "assistant", "content": resposta})
             append_chat_history("assistant", resposta)

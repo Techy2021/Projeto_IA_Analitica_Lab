@@ -365,7 +365,7 @@ class LLMProviderTests(unittest.TestCase):
             patch.object(
                 crewai_agents_lab,
                 "_gerar_contexto_ferramentas",
-                return_value=("contexto seguro", ["metadata_modelo"]),
+                return_value=("contexto seguro", ["metadata_modelo"], None),
             ),
             patch.object(
                 crewai_agents_lab,
@@ -387,6 +387,52 @@ class LLMProviderTests(unittest.TestCase):
         self.assertEqual(resultado["status"], "ok")
         self.assertEqual(resultado["modo_ferramentas"], "llm_direto_deploy")
         self.assertEqual(resultado["resposta"], "Resposta direta de produção.")
+
+    def test_chat_continua_sem_rag_e_retorna_aviso(self):
+        from ai.agentes import crewai_agents_lab
+        from ai.rag.index import MENSAGEM_RAG_INDISPONIVEL
+
+        roteamento = {
+            "intencao": "interpretacao_laboratorial",
+            "confianca": 0.9,
+            "entidades": {},
+        }
+        with (
+            patch.object(
+                crewai_agents_lab,
+                "identificar_intencao",
+                return_value=roteamento,
+            ),
+            patch.object(
+                crewai_agents_lab,
+                "verificar_disponibilidade_rag",
+                return_value={
+                    "disponivel": False,
+                    "motivo": "chromadb_ausente",
+                    "mensagem": MENSAGEM_RAG_INDISPONIVEL,
+                },
+            ),
+            patch.object(
+                crewai_agents_lab,
+                "gerar_resposta_llm",
+                return_value="funcionando",
+            ),
+            patch.object(crewai_agents_lab, "_registrar_trace"),
+            patch.object(crewai_agents_lab, "registrar_intencao"),
+        ):
+            resultado = crewai_agents_lab.executar_crew_lab(
+                "Responda apenas: funcionando.",
+                llm_config={
+                    "LLM_PROVIDER": "gemini",
+                    "GEMINI_MODEL": "gemini-2.5-flash",
+                    "GEMINI_API_KEY": "segredo-de-teste",
+                    "ASSISTANT_DIRECT_MODE": "true",
+                },
+            )
+
+        self.assertEqual(resultado["status"], "ok")
+        self.assertEqual(resultado["resposta"], "funcionando")
+        self.assertEqual(resultado["aviso_rag"], MENSAGEM_RAG_INDISPONIVEL)
 
 
 if __name__ == "__main__":

@@ -269,6 +269,13 @@ O chat classifica a pergunta antes de usar o LLM:
 O provedor do chat e independente do provedor de embeddings. Nesta versao, a
 indexacao vetorial do RAG continua usando `OLLAMA_EMBED_MODEL` no Ollama.
 
+O RAG é opcional. Quando `chromadb` não está instalado, a base vetorial não
+existe ou não pode ser aberta, o Assistente informa que a recuperação de
+documentos está indisponível e continua respondendo diretamente com Gemini,
+OpenAI ou Ollama. O ambiente enxuto de Docker/Render não instala ChromaDB por
+padrão. Para ativar RAG no deploy, adicione `chromadb` às dependências de
+produção, disponibilize armazenamento persistente e indexe os documentos.
+
 ## Docker e deploy
 
 O `.dockerignore` exclui `.env`, segredos do Streamlit, logs e caches. Passe as

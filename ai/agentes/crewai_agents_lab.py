@@ -35,6 +35,7 @@ from ai.numeric_query_engine import (
     formatar_resposta_consulta,
 )
 from ai.rag.tools import consultar_base_conhecimento, tool_consultar_base_conhecimento
+from ai.rag.index import MENSAGEM_RAG_INDISPONIVEL, verificar_disponibilidade_rag
 from ai.prompts.laboratorio import ANALISTA_ROLE, ESPECIALISTA_ROLE
 from app.config import REPORTS_DIR, criar_pastas
 
@@ -281,23 +282,31 @@ def _extrair_valores_previsao(pergunta: str) -> dict[str, float] | None:
     return None
 
 
-def _gerar_contexto_ferramentas(pergunta: str, roteamento: dict) -> tuple[str, list[str]]:
+def _gerar_contexto_ferramentas(
+    pergunta: str,
+    roteamento: dict,
+) -> tuple[str, list[str], str | None]:
     blocos = []
     ferramentas = []
     pergunta_lower = pergunta.lower()
+    aviso_rag: str | None = None
 
-    contexto_rag = tool_consultar_base_conhecimento(pergunta)
-    if (
-        contexto_rag
-        and "nenhum trecho relevante" not in contexto_rag.lower()
-        and '"erro"' not in contexto_rag.lower()
-    ):
-        ferramentas.append("tool_consultar_base_conhecimento")
-        blocos.append(
-            "Resultado da base de conhecimento RAG para "
-            "tool_consultar_base_conhecimento:\n"
-            f"{contexto_rag}"
-        )
+    status_rag = verificar_disponibilidade_rag()
+    if status_rag["disponivel"]:
+        contexto_rag = tool_consultar_base_conhecimento(pergunta)
+        if (
+            contexto_rag
+            and "nenhum trecho relevante" not in contexto_rag.lower()
+            and '"erro"' not in contexto_rag.lower()
+        ):
+            ferramentas.append("tool_consultar_base_conhecimento")
+            blocos.append(
+                "Resultado da base de conhecimento RAG para "
+                "tool_consultar_base_conhecimento:\n"
+                f"{contexto_rag}"
+            )
+    else:
+        aviso_rag = MENSAGEM_RAG_INDISPONIVEL
 
     valores_previsao = _extrair_valores_previsao(pergunta)
     if roteamento["usar_analista"] and valores_previsao:
@@ -363,13 +372,14 @@ def _gerar_contexto_ferramentas(pergunta: str, roteamento: dict) -> tuple[str, l
         )
 
     if not blocos:
-        return "", ferramentas
+        return "", ferramentas, aviso_rag
 
-    return (
+    contexto = (
         "\n\nContexto já obtido pelas ferramentas Python e pela base RAG antes de chamar o LLM "
         "(use estes dados, não invente valores):\n"
         + "\n\n".join(blocos)
-    ), ferramentas
+    )
+    return contexto, ferramentas, aviso_rag
 
 
 def _criar_tarefas(
@@ -540,10 +550,11 @@ def executar_crew_lab(pergunta: str, llm_config: dict | None = None) -> dict:
         if erro_configuracao:
             raise RuntimeError(erro_configuracao)
 
-        contexto_ferramentas, ferramentas_utilizadas = _gerar_contexto_ferramentas(
-            pergunta,
-            roteamento,
-        )
+        (
+            contexto_ferramentas,
+            ferramentas_utilizadas,
+            aviso_rag,
+        ) = _gerar_contexto_ferramentas(pergunta, roteamento)
 
         modo_direto_assistente = str(
             (llm_config or {}).get("ASSISTANT_DIRECT_MODE", "")
@@ -577,6 +588,7 @@ def executar_crew_lab(pergunta: str, llm_config: dict | None = None) -> dict:
                     "erro" if resposta_llm_com_erro(resposta_direta) else "ok"
                 ),
                 "modo_ferramentas": "llm_direto_deploy",
+                "aviso_rag": aviso_rag,
             }
             tempo_execucao_ms = int((time.perf_counter() - inicio) * 1000)
             _registrar_trace(
@@ -638,6 +650,7 @@ def executar_crew_lab(pergunta: str, llm_config: dict | None = None) -> dict:
                 if not usar_tools_nativas
                 else "tools_nativas"
             ),
+            "aviso_rag": aviso_rag,
         }
     except Exception as exc:
         erro = sanitizar_texto(exc, config_llm)
