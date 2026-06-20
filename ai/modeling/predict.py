@@ -7,6 +7,16 @@ import pandas as pd
 from app.config import METADATA_MODEL_PATH, MODEL_PATH
 
 
+ALIASES_ENTRADA_MODELO = {
+    "umidade_pct": "farelo_umidade_pct",
+    "extrato_etereo_pct": "farelo_oleo_pct",
+    "fibras_pct": "farelo_fibras_pct",
+    "materia_mineral_pct": "farelo_materia_mineral_pct",
+    "urease_uph": "farelo_urease_delta_ph",
+    "solubilidade_pct": "farelo_solubilidade_koh_pct",
+}
+
+
 def modelo_treinado_existe() -> bool:
     """Confirma que modelo e metadados existem como um par utilizavel."""
     return MODEL_PATH.exists() and METADATA_MODEL_PATH.exists()
@@ -118,6 +128,24 @@ def montar_dataframe_previsao(
     return dataframe, colunas_preenchidas, colunas_extras
 
 
+def adaptar_aliases_entrada(
+    valores_digitados: dict,
+    colunas_usadas: list[str],
+) -> dict:
+    """Converte nomes simplificados da interface para o contrato salvo do modelo."""
+    valores_adaptados = dict(valores_digitados)
+    for alias, coluna_modelo in ALIASES_ENTRADA_MODELO.items():
+        if (
+            alias in valores_digitados
+            and coluna_modelo in colunas_usadas
+            and coluna_modelo not in valores_adaptados
+        ):
+            valores_adaptados[coluna_modelo] = valores_digitados[alias]
+            if alias not in colunas_usadas:
+                valores_adaptados.pop(alias, None)
+    return valores_adaptados
+
+
 def gerar_previsao(valores_digitados: dict) -> Any:
     resultado = gerar_previsao_detalhada(valores_digitados)
     return resultado["previsao"]
@@ -128,6 +156,7 @@ def gerar_previsao_detalhada(valores_digitados: dict) -> dict:
     metadata = carregar_metadata_modelo()
     modelo = carregar_modelo_salvo()
     colunas_usadas = obter_colunas_usadas(metadata)
+    valores_digitados = adaptar_aliases_entrada(valores_digitados, colunas_usadas)
     entrada, colunas_preenchidas, colunas_extras = montar_dataframe_previsao(
         valores_digitados,
         colunas_usadas,

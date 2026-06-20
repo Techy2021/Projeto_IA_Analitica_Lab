@@ -8,11 +8,17 @@ import requests
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
+from ai.modeling.predict import (
+    carregar_metadata_modelo,
+    gerar_previsao_detalhada,
+    obter_colunas_usadas,
+    obter_medianas_imputacao,
+)
+from database.consultas import consultar_sql
 
-API_BASE_URL_PADRAO = "http://localhost:8000"
+
 MENSAGEM_API_INDISPONIVEL = (
-    "API local não encontrada. Inicie com: "
-    "python -m uvicorn api.model_api:app --reload --port 8000"
+    "API FastAPI indisponível. O recurso tentou usar o modo interno da aplicação."
 )
 COMANDOS_BLOQUEADOS = {
     "DROP",
@@ -62,15 +68,15 @@ class ConsultaDadosLaboratorioInput(BaseModel):
     query: str = Field(..., description="Consulta SQL SELECT para executar no DuckDB.")
 
 
-def _resposta_api(requisicao):
+def _resposta_api(requisicao, fallback=None):
     try:
         resposta = requisicao()
         resposta.raise_for_status()
         return resposta.json()
     except requests.exceptions.ConnectionError:
-        return {"erro": MENSAGEM_API_INDISPONIVEL}
+        return _executar_fallback(fallback)
     except requests.exceptions.Timeout:
-        return {"erro": "Tempo excedido ao chamar a API local configurada em API_BASE_URL."}
+        return _executar_fallback(fallback)
     except requests.exceptions.HTTPError as erro:
         try:
             detalhe = erro.response.json().get("detail", str(erro))
@@ -79,6 +85,20 @@ def _resposta_api(requisicao):
         return {"erro": detalhe}
     except Exception as erro:
         return {"erro": f"Erro ao chamar a API local: {erro}"}
+
+
+def _executar_fallback(fallback):
+    if fallback is None:
+        return {"erro": MENSAGEM_API_INDISPONIVEL}
+    try:
+        return fallback()
+    except Exception as erro:
+        return {
+            "erro": (
+                "Recurso indisponível neste ambiente. "
+                f"Detalhes: {erro}"
+            )
+        }
 
 
 def _formatar(resultado: Any) -> str:
@@ -93,22 +113,43 @@ def _normalizar_argumentos(args: tuple, kwargs: dict) -> dict:
     return dict(kwargs)
 
 
-def obter_api_base_url() -> str:
+def obter_api_base_url() -> str | None:
     load_dotenv()
-    return os.getenv("API_BASE_URL", API_BASE_URL_PADRAO).rstrip("/")
+    api_base_url = os.getenv("API_BASE_URL") or os.getenv("API_URL")
+    return api_base_url.rstrip("/") if api_base_url else None
+
+
+def _usar_api_ou_fallback(requisicao, fallback):
+    if requisicao is None:
+        return _executar_fallback(fallback)
+    return _resposta_api(requisicao, fallback)
 
 
 def prever_farelo_soja_func(*args, **kwargs) -> str:
     dados = _normalizar_argumentos(args, kwargs)
     api_base_url = obter_api_base_url()
-    resultado = _resposta_api(
-        lambda: requests.post(
-            f"{api_base_url}/prever",
-            json={"dados": dados},
-            timeout=15,
+    requisicao = None
+    if api_base_url:
+        requisicao = lambda: requests.post(
+            f"{api_base_url}/prever", json={"dados": dados}, timeout=15
         )
+    resultado = _usar_api_ou_fallback(
+        requisicao,
+        lambda: _prever_localmente(dados),
     )
     return _formatar(resultado)
+
+
+def _prever_localmente(dados: dict) -> dict:
+    resultado = gerar_previsao_detalhada(dados)
+    return {
+        "previsao": resultado["previsao"],
+        "alvo": resultado["alvo"],
+        "tarefa": resultado["tarefa"],
+        "colunas_preenchidas": resultado["colunas_preenchidas"],
+        "colunas_extras_ignoradas": resultado["colunas_extras_ignoradas"],
+        "fonte": "modelo_local",
+    }
 
 
 def _validar_select_seguro(query: str) -> str | None:
@@ -134,30 +175,75 @@ def consultar_dados_laboratorio_func(query: str) -> str:
         return _formatar({"erro": erro_validacao})
 
     api_base_url = obter_api_base_url()
-    resultado = _resposta_api(
-        lambda: requests.post(
-            f"{api_base_url}/consultar",
-            json={"query": query},
-            timeout=20,
+    requisicao = None
+    if api_base_url:
+        requisicao = lambda: requests.post(
+            f"{api_base_url}/consultar", json={"query": query}, timeout=20
         )
+    resultado = _usar_api_ou_fallback(
+        requisicao,
+        lambda: _consultar_localmente(query),
     )
     return _formatar(resultado)
+
+
+def _consultar_localmente(query: str) -> dict:
+    df = consultar_sql(query)
+    return {
+        "linhas": int(len(df)),
+        "registros": df.where(df.notna(), None).to_dict(orient="records"),
+        "fonte": "duckdb_local",
+    }
 
 
 def obter_metadata_modelo_func() -> str:
     api_base_url = obter_api_base_url()
-    resultado = _resposta_api(
-        lambda: requests.get(f"{api_base_url}/metadata", timeout=15)
+    requisicao = None
+    if api_base_url:
+        requisicao = lambda: requests.get(f"{api_base_url}/metadata", timeout=15)
+    resultado = _usar_api_ou_fallback(
+        requisicao,
+        _obter_metadata_local,
     )
     return _formatar(resultado)
+
+
+def _obter_metadata_local() -> dict:
+    dados = carregar_metadata_modelo()
+    return {
+        "alvo": dados.get("alvo"),
+        "tarefa": dados.get("tipo_problema", dados.get("tarefa")),
+        "melhor_estimador": dados.get("melhor_estimador"),
+        "colunas_usadas": dados.get("colunas_usadas", []),
+        "metricas": dados.get("metricas", {}),
+        "fonte": "metadata_local",
+    }
 
 
 def obter_amostra_media_func() -> str:
     api_base_url = obter_api_base_url()
-    resultado = _resposta_api(
-        lambda: requests.get(f"{api_base_url}/amostra", timeout=15)
+    requisicao = None
+    if api_base_url:
+        requisicao = lambda: requests.get(f"{api_base_url}/amostra", timeout=15)
+    resultado = _usar_api_ou_fallback(
+        requisicao,
+        _obter_amostra_local,
     )
     return _formatar(resultado)
+
+
+def _obter_amostra_local() -> dict:
+    metadata = carregar_metadata_modelo()
+    colunas_usadas = obter_colunas_usadas(metadata)
+    medianas = obter_medianas_imputacao(metadata)
+    return {
+        "dados": {
+            coluna: medianas.get(coluna, 0)
+            for coluna in colunas_usadas
+        },
+        "colunas_usadas": colunas_usadas,
+        "fonte": "medianas_modelo_salvo",
+    }
 
 
 if CREWAI_TOOLS_DISPONIVEL:

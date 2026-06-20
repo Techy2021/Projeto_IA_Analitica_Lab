@@ -213,7 +213,7 @@ def runtime_status():
     )
     erro_llm = validar_configuracao(config_llm)
     status = {
-        "FastAPI": ("Offline", "http://localhost:8000"),
+        "FastAPI": ("Opcional", "Modo interno"),
         "Provedor IA": (
             "Atenção" if erro_llm else "Configurado",
             f"{config_llm.provedor} / {config_llm.modelo}",
@@ -226,7 +226,7 @@ def runtime_status():
         from ai.agentes.crewai_tools_lab import obter_api_base_url
 
         api_url = obter_api_base_url()
-        if requests.get(f"{api_url}/health", timeout=2).ok:
+        if api_url and requests.get(f"{api_url}/health", timeout=2).ok:
             status["FastAPI"] = ("Online", api_url)
     except Exception:
         pass
@@ -1125,16 +1125,27 @@ elif menu == "8. Assistente IA":
         from ai.agentes.crewai_tools_lab import obter_api_base_url
 
         api_base_url = obter_api_base_url()
-        resposta_health = requests.get(f"{api_base_url}/health", timeout=3)
-        if resposta_health.ok:
-            diagnostico["API FastAPI ativa"] = "Sim"
-            st.success(f"API FastAPI local ativa em {api_base_url}.")
+        if not api_base_url:
+            diagnostico["API FastAPI ativa"] = "Não — modo interno ativo"
+            st.info(
+                "API local não disponível. "
+                "Usando modelo carregado diretamente no aplicativo."
+            )
         else:
-            st.warning(f"API FastAPI respondeu com status {resposta_health.status_code}.")
+            resposta_health = requests.get(f"{api_base_url}/health", timeout=3)
+            if resposta_health.ok:
+                diagnostico["API FastAPI ativa"] = "Sim"
+                st.success(f"API FastAPI ativa em {api_base_url}.")
+            else:
+                st.warning(
+                    f"API FastAPI respondeu com status {resposta_health.status_code}. "
+                    "Usando o modo interno quando necessário."
+                )
     except requests.exceptions.RequestException:
-        st.error(
-            "API local não encontrada. Inicie com: "
-            "python -m uvicorn api.model_api:app --reload --port 8000"
+        diagnostico["API FastAPI ativa"] = "Não — modo interno ativo"
+        st.info(
+            "API local não disponível. "
+            "Usando modelo carregado diretamente no aplicativo."
         )
 
     with st.expander("Diagnóstico do ambiente", expanded=False):
