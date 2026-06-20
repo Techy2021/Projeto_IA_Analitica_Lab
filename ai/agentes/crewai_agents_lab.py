@@ -20,14 +20,14 @@ from ai.agentes.crewai_tools_lab import (
     prever_farelo_soja,
     prever_farelo_soja_func,
 )
-from ai.agentes.ollama_check import (
-    MENSAGEM_MODELO_INDISPONIVEL,
-    OLLAMA_MODEL_PADRAO,
-    modelo_ollama_disponivel,
-    obter_config_ollama,
-    verificar_ollama,
-)
 from ai.intent_router import identificar_intencao, registrar_intencao
+from ai.llm_provider import (
+    criar_llm_crewai,
+    gerar_resposta_llm,
+    obter_configuracao_llm,
+    sanitizar_texto,
+    validar_configuracao,
+)
 from ai.modeling.predict import carregar_metadata_modelo
 from ai.numeric_query_engine import (
     executar_consulta_numerica,
@@ -63,15 +63,26 @@ except Exception as erro:
 
 AGENTE_ANALISTA = "Agente Analista de Qualidade Laboratorial"
 AGENTE_ESPECIALISTA = "Agente Especialista em Modelo Preditivo"
-TRACE_PATH = REPORTS_DIR / "traces_crewai_ollama.jsonl"
+TRACE_PATH = REPORTS_DIR / "traces_crewai_llm.jsonl"
 
 
 def _registrar_trace(registro: dict) -> None:
     """Persiste uma execucao completa em JSONL para observabilidade."""
     criar_pastas()
     TRACE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    registro_seguro = _sanitizar_registro(registro)
     with open(TRACE_PATH, "a", encoding="utf-8") as arquivo:
-        arquivo.write(json.dumps(registro, ensure_ascii=False) + "\n")
+        arquivo.write(json.dumps(registro_seguro, ensure_ascii=False) + "\n")
+
+
+def _sanitizar_registro(valor):
+    if isinstance(valor, dict):
+        return {chave: _sanitizar_registro(item) for chave, item in valor.items()}
+    if isinstance(valor, list):
+        return [_sanitizar_registro(item) for item in valor]
+    if isinstance(valor, str):
+        return sanitizar_texto(valor)
+    return valor
 
 
 def _responder_intencao_local(roteamento: dict) -> tuple[str, str] | None:
@@ -117,24 +128,6 @@ def _responder_intencao_local(roteamento: dict) -> tuple[str, str] | None:
             "resposta_segura_fora_escopo",
         )
     return None
-
-
-def _criar_llm_ollama():
-    base_url, modelo = obter_config_ollama()
-    try:
-        return LLM(
-            model=f"ollama/{modelo}",
-            base_url=base_url,
-            timeout=60,
-            max_tokens=500,
-        )
-    except TypeError:
-        return LLM(
-            model=f"ollama/{modelo}",
-            api_base=base_url,
-            timeout=60,
-            max_tokens=500,
-        )
 
 
 def rotear_tarefa_crewai(pergunta: str) -> dict:
@@ -431,12 +424,14 @@ def _criar_tarefas(
     return tarefas
 
 
-def executar_crew_lab(pergunta: str) -> dict:
+def executar_crew_lab(pergunta: str, llm_config: dict | None = None) -> dict:
     """Roteia a pergunta e executa o menor fluxo capaz de responde-la."""
     inicio = time.perf_counter()
     load_dotenv()
     pergunta = (pergunta or "").strip()
-    modelo = os.getenv("OLLAMA_MODEL", OLLAMA_MODEL_PADRAO)
+    config_llm = obter_configuracao_llm(llm_config)
+    modelo = config_llm.modelo
+    provedor = config_llm.provedor
     agentes_usados: list[str] = []
     ferramentas_utilizadas: list[str] = []
     erro: str | None = None
@@ -457,6 +452,8 @@ def executar_crew_lab(pergunta: str) -> dict:
                 "agentes": [],
                 "ferramenta_utilizada": ferramentas_utilizadas,
                 "modelo_ollama": "nao_utilizado",
+                "llm_provider": "nao_utilizado",
+                "llm_model": "nao_utilizado",
                 "status": "ok" if resposta_numerica.get("status") == "ok" else "sem_dados",
                 "tipo_pergunta": tipo_pergunta,
                 "resultado_numerico": resposta_numerica,
@@ -471,6 +468,8 @@ def executar_crew_lab(pergunta: str) -> dict:
                     "agentes": resultado.get("agentes", []),
                     "ferramenta_utilizada": ferramentas_utilizadas,
                     "modelo_ollama": "nao_utilizado",
+                    "llm_provider": "nao_utilizado",
+                    "llm_model": "nao_utilizado",
                     "tempo_execucao_ms": tempo_execucao_ms,
                     "erro": None,
                     "tipo_pergunta": tipo_pergunta,
@@ -496,6 +495,8 @@ def executar_crew_lab(pergunta: str) -> dict:
                 "agentes": [],
                 "ferramenta_utilizada": [ferramenta],
                 "modelo_ollama": "nao_utilizado",
+                "llm_provider": "nao_utilizado",
+                "llm_model": "nao_utilizado",
                 "status": "ok",
                 "tipo_pergunta": tipo_pergunta,
                 "roteamento": roteamento_intencao,
@@ -510,6 +511,8 @@ def executar_crew_lab(pergunta: str) -> dict:
                     "agentes": [],
                     "ferramenta_utilizada": [ferramenta],
                     "modelo_ollama": "nao_utilizado",
+                    "llm_provider": "nao_utilizado",
+                    "llm_model": "nao_utilizado",
                     "tempo_execucao_ms": tempo_execucao_ms,
                     "erro": None,
                     "tipo_pergunta": tipo_pergunta,
@@ -527,32 +530,62 @@ def executar_crew_lab(pergunta: str) -> dict:
         roteamento = rotear_tarefa_crewai(pergunta)
         agentes_usados = roteamento["agentes"]
 
-        # A partir daqui o fluxo depende de LLM e agentes locais.
-        status_ollama = verificar_ollama()
-        if status_ollama.get("status") != "ok":
-            raise RuntimeError(status_ollama.get("mensagem"))
-
-        status_modelo = modelo_ollama_disponivel(modelo)
-        if status_modelo.get("status") != "ok":
-            mensagem = status_modelo.get("mensagem") or MENSAGEM_MODELO_INDISPONIVEL
-            raise RuntimeError(mensagem)
-
-        if not CREWAI_DISPONIVEL:
-            raise RuntimeError(CREWAI_IMPORT_ERROR or "CrewAI não encontrado.")
-
-        if not CREWAI_TOOLS_DISPONIVEL:
-            raise RuntimeError(
-                CREWAI_TOOLS_IMPORT_ERROR
-                or "Ferramentas CrewAI não encontradas."
-            )
+        # A partir daqui o fluxo depende do provedor de LLM selecionado.
+        erro_configuracao = validar_configuracao(config_llm)
+        if erro_configuracao:
+            raise RuntimeError(erro_configuracao)
 
         contexto_ferramentas, ferramentas_utilizadas = _gerar_contexto_ferramentas(
             pergunta,
             roteamento,
         )
+
+        if not CREWAI_DISPONIVEL or not CREWAI_TOOLS_DISPONIVEL:
+            resposta_direta = gerar_resposta_llm(
+                (
+                    "Atue como assistente de inteligência laboratorial. Responda "
+                    "em português técnico e claro, sem inventar resultados e sem "
+                    "autorizar liberação automática de lotes.\n\n"
+                    f"Pergunta: {pergunta}"
+                ),
+                contexto=contexto_ferramentas or None,
+                overrides=llm_config,
+            )
+            resultado = {
+                "pergunta": pergunta,
+                "resposta": resposta_direta,
+                "agentes": [],
+                "ferramenta_utilizada": ferramentas_utilizadas,
+                "modelo_ollama": (
+                    modelo if provedor == "ollama" else "nao_utilizado"
+                ),
+                "llm_provider": provedor,
+                "llm_model": modelo,
+                "status": "ok",
+                "modo_ferramentas": "llm_direto_deploy",
+            }
+            tempo_execucao_ms = int((time.perf_counter() - inicio) * 1000)
+            _registrar_trace(
+                {
+                    "timestamp": datetime.now().isoformat(timespec="seconds"),
+                    **resultado,
+                    "tempo_execucao_ms": tempo_execucao_ms,
+                    "erro": None,
+                }
+            )
+            registrar_intencao(
+                pergunta,
+                roteamento_intencao,
+                ferramenta="llm_direto_deploy",
+                tempo_execucao_ms=tempo_execucao_ms,
+                status="ok",
+            )
+            resultado["tempo_execucao_ms"] = tempo_execucao_ms
+            return resultado
+
         usar_tools_nativas = False
 
-        llm = _criar_llm_ollama()
+        llm = criar_llm_crewai(llm_config)
         analista = criar_agente_analista_qualidade(
             llm,
             usar_tools=usar_tools_nativas,
@@ -582,7 +615,9 @@ def executar_crew_lab(pergunta: str) -> dict:
             "resposta": str(resposta),
             "agentes": agentes_usados,
             "ferramenta_utilizada": ferramentas_utilizadas,
-            "modelo_ollama": modelo,
+            "modelo_ollama": modelo if provedor == "ollama" else "nao_utilizado",
+            "llm_provider": provedor,
+            "llm_model": modelo,
             "status": "ok",
             "modo_ferramentas": (
                 "contexto_precarregado"
@@ -591,15 +626,17 @@ def executar_crew_lab(pergunta: str) -> dict:
             ),
         }
     except Exception as exc:
-        erro = str(exc)
+        erro = sanitizar_texto(exc, config_llm)
         resultado = {
             "pergunta": pergunta,
             "resposta": erro,
             "agentes": agentes_usados,
             "ferramenta_utilizada": ferramentas_utilizadas,
-            "modelo_ollama": modelo,
+            "modelo_ollama": modelo if provedor == "ollama" else "nao_utilizado",
+            "llm_provider": provedor,
+            "llm_model": modelo,
             "status": "erro",
-            "traceback": traceback.format_exc(),
+            "traceback": sanitizar_texto(traceback.format_exc(), config_llm),
         }
 
     tempo_execucao_ms = int((time.perf_counter() - inicio) * 1000)
@@ -615,6 +652,8 @@ def executar_crew_lab(pergunta: str) -> dict:
                 ferramentas_utilizadas,
             ),
             "modelo_ollama": resultado.get("modelo_ollama", modelo),
+            "llm_provider": resultado.get("llm_provider", provedor),
+            "llm_model": resultado.get("llm_model", modelo),
             "tempo_execucao_ms": tempo_execucao_ms,
             "erro": erro,
         }
@@ -624,7 +663,7 @@ def executar_crew_lab(pergunta: str) -> dict:
         locals().get("roteamento_intencao", identificar_intencao(pergunta)),
         ferramenta=(
             ",".join(resultado.get("ferramenta_utilizada") or [])
-            or "crewai_ollama"
+            or f"crewai_{provedor}"
         ),
         tempo_execucao_ms=tempo_execucao_ms,
         status=resultado.get("status", "erro"),

@@ -1,0 +1,24 @@
+# Interface e dados
+streamlit==1.57.0
+pandas==3.0.3
+numpy==2.4.6
+duckdb==1.5.3
+plotly==6.7.0
+openpyxl==3.1.5
+
+# Modelo preditivo e treinamento disponivel pela interface
+scikit-learn==1.8.0
+joblib==1.5.3
+flaml[automl]==2.6.0
+
+# Configuracao, HTTP e validacao
+python-dotenv==1.2.2
+requests==2.34.2
+pydantic==2.12.5
+
+# Chat com provedores Ollama/OpenAI
+litellm==1.85.1
+
+# Leitura dos formatos aceitos pela Base de Conhecimento
+pypdf==6.12.2
+python-docx==1.2.0

@@ -126,7 +126,7 @@ def consultar(payload: ConsultaRequest):
 
 @app.post("/perguntar")
 def perguntar(payload: PerguntaRequest):
-    """Roteia perguntas numericas para DuckDB sem acionar o Ollama."""
+    """Roteia perguntas numericas para DuckDB sem acionar um LLM."""
     pergunta_usuario = payload.pergunta.strip()
     if not pergunta_usuario:
         raise HTTPException(status_code=400, detail="Pergunta vazia.")
@@ -141,6 +141,7 @@ def perguntar(payload: PerguntaRequest):
                 "roteamento": roteamento,
                 "fonte": "duckdb",
                 "chamou_ollama": False,
+                "chamou_llm": False,
                 "resultado": resultado,
                 "resposta": formatar_resposta_consulta(resultado),
             }
@@ -154,7 +155,10 @@ def perguntar(payload: PerguntaRequest):
         "tipo": tipo,
         "roteamento": roteamento,
         "fonte": "roteador",
-        "chamou_ollama": resultado.get("modelo_ollama") != "nao_utilizado",
+        "chamou_ollama": resultado.get("llm_provider") == "ollama",
+        "chamou_llm": resultado.get("llm_provider") not in {None, "nao_utilizado"},
+        "provedor_llm": resultado.get("llm_provider"),
+        "modelo_llm": resultado.get("llm_model"),
         "resultado": resultado,
         "resposta": resultado.get("resposta", ""),
     }

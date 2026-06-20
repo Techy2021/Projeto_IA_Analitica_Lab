@@ -1,7 +1,7 @@
 # Projeto IA Analitica Lab
 
 Plataforma local para analise de dados laboratoriais, treinamento de modelos
-preditivos, consultas numericas com DuckDB, agentes de IA com Ollama e recuperacao
+preditivos, consultas numericas com DuckDB, agentes de IA com LLM local ou online e recuperacao
 de conhecimento por RAG.
 
 ## Objetivo
@@ -13,7 +13,7 @@ O projeto centraliza dados laboratoriais de soja, farelo e casca para:
 - treinar modelos com FLAML AutoML;
 - executar previsoes com o modelo salvo;
 - responder perguntas numericas diretamente pelo DuckDB;
-- responder perguntas conceituais com agentes CrewAI e Ollama;
+- responder perguntas conceituais com agentes CrewAI e um provedor de LLM configuravel;
 - indexar documentos e recuperar trechos com ChromaDB;
 - registrar traces, metricas e resultados de testes.
 
@@ -31,7 +31,7 @@ laboratorial, revisao humana ou criterios formais de liberacao de lotes.
 | AutoML | FLAML e scikit-learn |
 | Persistencia do modelo | joblib |
 | Agentes | CrewAI |
-| LLM local | Ollama |
+| LLM | Ollama local, OpenAI API ou endpoint compativel via LiteLLM |
 | RAG e vetores | ChromaDB e embeddings Ollama |
 | Graficos | Plotly e Matplotlib |
 | Testes de IA | unittest, scripts golden dataset e DeepEval opcional |
@@ -42,6 +42,7 @@ laboratorial, revisao humana ou criterios formais de liberacao de lotes.
 app/                    Interface Streamlit, configuracao e componentes
 ai/
   intent_router.py      Classificacao de intencao e extracao de entidades
+  llm_provider.py       Selecao central, teste e chamada segura dos provedores LLM
   numeric_query_engine.py Consultas estatisticas seguras no DuckDB
   agentes/              Orquestracao CrewAI, ferramentas e respostas
   prompts/              Prompts compartilhados
@@ -79,11 +80,20 @@ Detalhes adicionais:
 
 - Windows com PowerShell;
 - Python 3.11 recomendado;
-- Ollama para agentes e embeddings;
-- modelo Ollama configurado no `.env`;
+- Ollama para uso local do chat e para embeddings, quando aplicavel;
+- ou uma chave de API de provedor online para o chat em deploy;
 - ambiente virtual Python.
 
 ## Instalacao
+
+O projeto possui dois arquivos de dependencias:
+
+- `requirements.txt`: ambiente completo para desenvolvimento, testes, RAG,
+  avaliacao de IA e execucao local;
+- `requirements-deploy.txt`: ambiente reduzido para a aplicacao Streamlit em
+  Docker e no Render.
+
+Para desenvolvimento local:
 
 ```powershell
 python -m venv .venv
@@ -93,8 +103,65 @@ python -m pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-O `.env.example` nao possui chaves reais. Ajuste o modelo Ollama e os caminhos
-somente quando necessario.
+Para reproduzir apenas o ambiente de producao:
+
+```powershell
+python -m pip install -r requirements-deploy.txt
+```
+
+O `.env.example` nao possui chaves reais. Ajuste o provedor, o modelo e os caminhos
+somente quando necessario. Nunca versione o arquivo `.env`.
+
+## Configuracao do provedor de IA
+
+O chat usa `ai/llm_provider.py` como ponto central. A configuracao aplicada na
+tela **Configuracoes** vale apenas para a sessao atual do Streamlit. Ela nao
+altera o `.env` e a chave digitada permanece somente em memoria.
+
+A precedencia e:
+
+1. configuracao aplicada na sessao do Streamlit;
+2. variaveis de ambiente;
+3. valores padrao seguros.
+
+### Ollama local
+
+```env
+LLM_PROVIDER=ollama
+OLLAMA_MODEL=gemma3:1b
+OLLAMA_BASE_URL=http://localhost:11434
+```
+
+Inicie o Ollama, confirme que o modelo foi baixado e execute normalmente a API
+e o Streamlit. Outros exemplos de modelo sao `gemma3:4b` e `llama3.2:3b`.
+
+### OpenAI API
+
+```env
+LLM_PROVIDER=openai
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_BASE_URL=
+```
+
+Defina `OPENAI_API_KEY` no gerenciador de segredos do ambiente de deploy.
+`OPENAI_BASE_URL` deve permanecer vazio para o endpoint oficial. A chave nao
+deve ser colocada no Dockerfile, na imagem, no repositorio ou em logs.
+
+### Outro endpoint via API
+
+Endpoints compativeis com a API da OpenAI podem ser usados por meio do LiteLLM:
+
+```env
+LLM_PROVIDER=custom
+OTHER_LLM_API_KEY=
+OTHER_LLM_MODEL=nome-do-modelo
+OTHER_LLM_BASE_URL=https://provedor.exemplo/v1
+```
+
+Na interface, abra **Configuracoes > Configuracao do provedor de IA**, selecione
+o provedor, informe o modelo e use **Testar conexao com o provedor de IA**.
+O teste faz uma chamada curta e nao exibe nem registra a chave.
 
 ## Execucao
 
@@ -167,10 +234,64 @@ O chat classifica a pergunta antes de usar o LLM:
 
 - `ai/intent_router.py` identifica intencao, confianca e entidades;
 - `ai/numeric_query_engine.py` executa consultas com lista branca de colunas;
-- perguntas numericas suportadas usam DuckDB e nao chamam Ollama;
+- perguntas numericas suportadas usam DuckDB e nao chamam LLM;
 - perguntas sobre modelo usam metadados e metricas;
 - perguntas documentais podem recuperar trechos do ChromaDB;
-- perguntas gerais podem seguir para CrewAI e Ollama.
+- perguntas gerais podem seguir para CrewAI e o provedor de LLM ativo.
+
+O provedor do chat e independente do provedor de embeddings. Nesta versao, a
+indexacao vetorial do RAG continua usando `OLLAMA_EMBED_MODEL` no Ollama.
+
+## Docker e deploy
+
+O `.dockerignore` exclui `.env`, segredos do Streamlit, logs e caches. Passe as
+variaveis no runtime ou pelo gerenciador de segredos da plataforma:
+
+```powershell
+docker build -t projeto-ia-analitica .
+docker run --rm -p 8501:8501 `
+  -e LLM_PROVIDER=openai `
+  -e OPENAI_MODEL=gpt-4o-mini `
+  -e OPENAI_API_KEY=$env:OPENAI_API_KEY `
+  projeto-ia-analitica
+```
+
+O Dockerfile instala `requirements-deploy.txt`. Dependencias exclusivas de
+testes, avaliacao de IA, Windows e desenvolvimento permanecem somente em
+`requirements.txt`.
+
+O ambiente de deploy usa a camada central LiteLLM diretamente para o chat.
+CrewAI, ChromaDB e suas dependencias pesadas permanecem no ambiente completo de
+desenvolvimento. Quando CrewAI esta instalado, a orquestracao local continua
+disponivel; sem ele, o sistema usa o modo direto de producao.
+
+Para um Ollama executado fora do container, `localhost` aponta para o proprio
+container. Use um hostname acessivel pelo container, por exemplo
+`http://host.docker.internal:11434` no Docker Desktop, ou execute os servicos na
+mesma rede Docker.
+
+### Deploy no Render
+
+Crie um **Web Service** usando o Dockerfile do repositorio. O Render fornece a
+variavel `PORT`, utilizada automaticamente pelo comando de inicializacao.
+
+Configure no painel do servico:
+
+```env
+LLM_PROVIDER=openai
+OPENAI_API_KEY=chave_configurada_como_secret
+OPENAI_MODEL=gpt-4o-mini
+DATABASE_PATH=/tmp/lab_ia.duckdb
+```
+
+Nao coloque a chave no Dockerfile ou no repositorio. O filesystem do Render pode
+ser efemero; arquivos enviados, banco DuckDB, traces e indices vetoriais podem
+ser perdidos em reinicios ou novos deploys. Para persistencia, configure um
+disco persistente e aponte os caminhos de dados para o ponto de montagem.
+
+O container inicia somente o Streamlit. Se os recursos que dependem da FastAPI
+forem usados, publique a API como um segundo servico e configure `API_BASE_URL`
+com a URL desse servico.
 
 A tolerancia padrao para filtros aproximados e `0.2`. Portanto, uma consulta por
 proteina igual a 46% usa a faixa de 45,8% a 46,2%.
@@ -200,7 +321,7 @@ faixa de aplicacao, risco operacional e validacao externa.
 
 ## Testes
 
-Testes minimos sem Ollama:
+Testes minimos sem acesso real a provedores:
 
 ```powershell
 python -m unittest discover -s tests/unit -v
@@ -222,7 +343,7 @@ Os testes com CrewAI/Ollama dependem de servicos externos locais e podem demorar
 
 ## Logs e rastreabilidade
 
-- `reports/traces_crewai_ollama.jsonl`: execucoes dos agentes;
+- `reports/traces_crewai_llm.jsonl`: execucoes dos agentes e provedor ativo;
 - `reports/rag_numeric_router.jsonl`: classificacao e tempo das consultas numericas;
 - `reports/predictions_history.jsonl`: historico de previsoes manuais;
 - `reports/assistant_chat_history.jsonl`: historico do chat;

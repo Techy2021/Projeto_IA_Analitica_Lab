@@ -21,5 +21,5 @@ pypdf
 python-docx
 markdown
 
-pywin32
+pywin32; platform_system == "Windows"
 deepeval

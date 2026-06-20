@@ -1,21 +1,15 @@
 import json
-import os
 import re
 from typing import Any
 
 import pandas as pd
-import requests
-
 from ai.intent_router import identificar_intencao
+from ai.llm_provider import gerar_resposta_llm, obter_configuracao_llm
 from ai.numeric_query_engine import (
     executar_consulta_numerica,
     formatar_resposta_consulta,
 )
 from app.config import METADATA_MODEL_PATH, REPORTS_DIR
-
-
-MODELO_TESTE_OLLAMA = os.getenv("OLLAMA_TEST_MODEL", "qwen2.5:1.5b")
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 
 
 def responder_pergunta(pergunta: str) -> dict[str, Any]:
@@ -55,7 +49,13 @@ def _extrair_contexto(resultado: dict[str, Any]) -> str:
     if agentes:
         partes.append("Agentes utilizados: " + ", ".join(map(str, agentes)))
 
-    if resultado.get("modelo_ollama"):
+    if resultado.get("llm_model"):
+        partes.append(
+            "LLM: "
+            f"{resultado.get('llm_provider', 'indefinido')} / "
+            f"{resultado['llm_model']}"
+        )
+    elif resultado.get("modelo_ollama"):
         partes.append(f"Modelo LLM: {resultado['modelo_ollama']}")
 
     if resultado.get("status"):
@@ -119,11 +119,15 @@ def responder_pergunta_teste(pergunta: str) -> dict[str, Any]:
             "resposta_conceitual_local",
         )
 
-    resposta_ollama = _responder_com_ollama_curto(pergunta)
+    resposta_llm = _responder_com_llm_curto(pergunta)
+    config_llm = obter_configuracao_llm()
     return _montar_resposta_teste(
         pergunta,
-        resposta_ollama,
-        f"ollama_model={MODELO_TESTE_OLLAMA}; contexto_reduzido=true",
+        resposta_llm,
+        (
+            f"llm_provider={config_llm.provedor}; "
+            f"llm_model={config_llm.modelo}; contexto_reduzido=true"
+        ),
     )
 
 
@@ -132,7 +136,7 @@ def _montar_resposta_teste(pergunta: str, resposta: str, contexto: str) -> dict[
         "pergunta": pergunta,
         "resposta": _limitar_linhas(resposta),
         "contexto": contexto,
-        "modelo_teste": MODELO_TESTE_OLLAMA,
+        "modelo_teste": obter_configuracao_llm().modelo,
         "modo": "fast_local",
     }
 
@@ -214,36 +218,14 @@ def _responder_conceitual_curto(pergunta_normalizada: str) -> str | None:
     return None
 
 
-def _responder_com_ollama_curto(pergunta: str) -> str:
+def _responder_com_llm_curto(pergunta: str) -> str:
     prompt = (
         "Responda em portugues tecnico para laboratorio, em no maximo 8 linhas. "
         "Nao invente valores. Nao recomende liberacao automatica de lotes. "
         "Se faltarem dados, diga claramente.\n\n"
         f"Pergunta: {pergunta}"
     )
-    try:
-        resposta = requests.post(
-            f"{OLLAMA_BASE_URL}/api/generate",
-            json={
-                "model": MODELO_TESTE_OLLAMA,
-                "prompt": prompt,
-                "stream": False,
-                "keep_alive": "10m",
-                "options": {
-                    "temperature": 0.1,
-                    "num_predict": 160,
-                    "num_ctx": 1024,
-                },
-            },
-            timeout=20,
-        )
-        resposta.raise_for_status()
-        texto = resposta.json().get("response", "").strip()
-        if not texto:
-            return "Nao ha dado suficiente para responder com seguranca."
-        return texto
-    except Exception as erro:
-        return f"Nao ha dado suficiente para responder com seguranca. Falha no Ollama local: {erro}"
+    return gerar_resposta_llm(prompt)
 
 
 def _carregar_metadata() -> dict[str, Any]:

@@ -9,9 +9,14 @@ import pandas as pd
 import plotly.express as px
 import requests
 
-from app.config import BASE_DIR, KNOWLEDGE_BASE_DIR, REPORTS_DIR, criar_pastas
+from app.config import KNOWLEDGE_BASE_DIR, REPORTS_DIR, criar_pastas
 from app.components.navigation import navigate
 from ai.modeling.automl_train import treinar_modelo_flaml
+from ai.llm_provider import (
+    obter_configuracao_llm,
+    testar_conexao_llm,
+    validar_configuracao,
+)
 from ai.modeling.predict import (
     carregar_metadata_modelo,
     gerar_previsao,
@@ -130,9 +135,13 @@ def load_platform_stats():
     try:
         stats["docs"] = len(carregar_documentos())
         stats["vectors"] = contar_documentos_indexados()
-    except Exception:
+    except BaseException:
+        # ChromaDB pode propagar PanicException do binding Rust, que nao herda
+        # de Exception. O dashboard deve continuar disponivel sem o vectorstore.
         pass
-    traces_path = REPORTS_DIR / "traces_crewai_ollama.jsonl"
+    traces_path = REPORTS_DIR / "traces_crewai_llm.jsonl"
+    if not traces_path.exists():
+        traces_path = REPORTS_DIR / "traces_crewai_ollama.jsonl"
     if traces_path.exists():
         try:
             traces = [json.loads(line) for line in traces_path.read_text(encoding="utf-8").splitlines() if line.strip()]
@@ -198,9 +207,16 @@ def delete_knowledge_document(documento):
 
 
 def runtime_status():
+    config_llm = obter_configuracao_llm(
+        st.session_state.get("llm_runtime_config")
+    )
+    erro_llm = validar_configuracao(config_llm)
     status = {
         "FastAPI": ("Offline", "http://localhost:8000"),
-        "Ollama": ("Offline", "http://localhost:11434"),
+        "Provedor IA": (
+            "Atenção" if erro_llm else "Configurado",
+            f"{config_llm.provedor} / {config_llm.modelo}",
+        ),
         "Modelo preditivo": ("Pronto" if modelo_treinado_existe() else "Ausente", "models/modelo_flaml.pkl"),
         "DuckDB": ("Offline", "data/lab_ia.duckdb"),
         "RAG": ("0 vetores", "vectorstore"),
@@ -214,21 +230,14 @@ def runtime_status():
     except Exception:
         pass
     try:
-        from ai.agentes.ollama_check import obter_config_ollama
-
-        ollama_url, ollama_model = obter_config_ollama()
-        if requests.get(f"{ollama_url}/api/tags", timeout=2).ok:
-            status["Ollama"] = ("Online", ollama_model)
-    except Exception:
-        pass
-    try:
         listar_tabelas()
         status["DuckDB"] = ("Online", "data/lab_ia.duckdb")
     except Exception:
         pass
     try:
         status["RAG"] = (f"{contar_documentos_indexados()} vetores", "ChromaDB local")
-    except Exception:
+    except BaseException:
+        # Mantem a interface acessivel mesmo se o binding nativo do ChromaDB falhar.
         pass
     return status
 
@@ -266,7 +275,7 @@ if area == "📂 Dados":
             st.session_state["active_data_module"] = option
             st.rerun()
     submenu = st.session_state["active_data_module"]
-menu_map = {"📊 Dashboard":"0. Dashboard","🤖 Modelos IA":"4. Treinar modelo AutoML","📈 Predições":"5. Previsão manual","🧠 Assistente IA":"8. Agentes CrewAI + Ollama","📚 Base de Conhecimento":"9. Base de Conhecimento / RAG","🔎 RAG":"9. Base de Conhecimento / RAG","📜 Observabilidade":"7. Observabilidade","⚙️ Configurações":"10. Configurações"}
+menu_map = {"📊 Dashboard":"0. Dashboard","🤖 Modelos IA":"4. Treinar modelo AutoML","📈 Predições":"5. Previsão manual","🧠 Assistente IA":"8. Assistente IA","📚 Base de Conhecimento":"9. Base de Conhecimento / RAG","🔎 RAG":"9. Base de Conhecimento / RAG","📜 Observabilidade":"7. Observabilidade","⚙️ Configurações":"10. Configurações"}
 data_map = {"Carregar dataset":"1. Carregar dados","Explorar dados":"2. Explorar dados","SQL Studio":"3. Consultar DuckDB"}
 menu = data_map.get(submenu, menu_map.get(area))
 st.sidebar.markdown("---")
@@ -884,10 +893,12 @@ elif menu == "5. Previsão manual":
 elif menu == "7. Observabilidade":
     page_header("Tracing & analytics", "Observabilidade", "Monitore interações, latência, erros e uso dos agentes de IA.")
 
-    traces_path = REPORTS_DIR / "traces_crewai_ollama.jsonl"
+    traces_path = REPORTS_DIR / "traces_crewai_llm.jsonl"
+    if not traces_path.exists():
+        traces_path = REPORTS_DIR / "traces_crewai_ollama.jsonl"
 
     if not traces_path.exists():
-        st.info("Nenhum trace encontrado ainda em reports/traces_crewai_ollama.jsonl.")
+        st.info("Nenhum trace de LLM encontrado ainda.")
         st.stop()
 
     registros = []
@@ -918,11 +929,25 @@ elif menu == "7. Observabilidade":
         "agentes",
         "ferramenta_utilizada",
         "modelo_ollama",
+        "llm_provider",
+        "llm_model",
         "tempo_execucao_ms",
         "erro",
     ]:
         if coluna not in df_traces.columns:
             df_traces[coluna] = None
+    df_traces["llm_model"] = df_traces["llm_model"].fillna(
+        df_traces["modelo_ollama"]
+    )
+    df_traces["llm_provider"] = df_traces["llm_provider"].fillna(
+        df_traces["modelo_ollama"].apply(
+            lambda valor: (
+                "nao_utilizado"
+                if str(valor) == "nao_utilizado"
+                else "ollama"
+            )
+        )
+    )
 
     df_traces["tempo_execucao_ms"] = pd.to_numeric(
         df_traces["tempo_execucao_ms"],
@@ -936,7 +961,7 @@ elif menu == "7. Observabilidade":
     )
 
     st.markdown('<div class="section-label">Filtros</div>', unsafe_allow_html=True)
-    filter_col1, filter_col2, filter_col3 = st.columns(3)
+    filter_col1, filter_col2, filter_col3, filter_col4 = st.columns(4)
     status_options = ["Todos"] + sorted(df_traces["status"].dropna().astype(str).unique().tolist())
     with filter_col1:
         status_filter = st.selectbox("Status", status_options)
@@ -944,14 +969,18 @@ elif menu == "7. Observabilidade":
     with filter_col2:
         agent_filter = st.selectbox("Agente", ["Todos"] + agent_values)
     with filter_col3:
-        model_filter = st.selectbox("Modelo", ["Todos"] + sorted(df_traces["modelo_ollama"].dropna().astype(str).unique().tolist()))
+        provider_filter = st.selectbox("Provedor", ["Todos"] + sorted(df_traces["llm_provider"].dropna().astype(str).unique().tolist()))
+    with filter_col4:
+        model_filter = st.selectbox("Modelo", ["Todos"] + sorted(df_traces["llm_model"].dropna().astype(str).unique().tolist()))
 
     if status_filter != "Todos":
         df_traces = df_traces[df_traces["status"].astype(str) == status_filter]
     if agent_filter != "Todos":
         df_traces = df_traces[df_traces["agentes_texto"].str.contains(agent_filter, na=False, regex=False)]
+    if provider_filter != "Todos":
+        df_traces = df_traces[df_traces["llm_provider"].astype(str) == provider_filter]
     if model_filter != "Todos":
-        df_traces = df_traces[df_traces["modelo_ollama"].astype(str) == model_filter]
+        df_traces = df_traces[df_traces["llm_model"].astype(str) == model_filter]
 
     total_interacoes = len(df_traces)
     total_erros = int((df_traces["status"] == "erro").sum())
@@ -1006,7 +1035,8 @@ elif menu == "7. Observabilidade":
     colunas_tabela = [
         "timestamp",
         "status",
-        "modelo_ollama",
+        "llm_provider",
+        "llm_model",
         "tempo_execucao_ms",
         "agentes_texto",
         "ferramentas_texto",
@@ -1023,7 +1053,7 @@ elif menu == "7. Observabilidade":
     st.download_button(
         "Baixar traces em CSV",
         data=csv_traces,
-        file_name="traces_crewai_ollama.csv",
+        file_name="traces_crewai_llm.csv",
         mime="text/csv",
     )
 
@@ -1031,7 +1061,7 @@ elif menu == "7. Observabilidade":
         st.warning(f"Linhas inválidas ignoradas: {linhas_invalidas}")
 
 
-elif menu == "8. Agentes CrewAI + Ollama":
+elif menu == "8. Assistente IA":
     page_header("Agentic intelligence", "Assistente IA", "Converse com agentes especializados conectados aos dados, modelos e ferramentas do laboratório.")
 
     diagnostico = {
@@ -1040,8 +1070,9 @@ elif menu == "8. Agentes CrewAI + Ollama":
         "CrewAI encontrado": "Sim" if importlib.util.find_spec("crewai") else "Não",
         "LiteLLM encontrado": "Sim" if importlib.util.find_spec("litellm") else "Não",
         "Requests encontrado": "Sim" if importlib.util.find_spec("requests") else "Não",
-        "Ollama ativo": "Não",
-        "Modelo Ollama configurado": "Indefinido",
+        "Provedor de IA": "Indefinido",
+        "Modelo configurado": "Indefinido",
+        "Configuração do provedor": "Pendente",
         "API FastAPI ativa": "Não",
     }
     comando_instalacao_crewai = (
@@ -1051,31 +1082,22 @@ elif menu == "8. Agentes CrewAI + Ollama":
         "python -m pip install crewai crewai-tools litellm requests python-dotenv"
     )
 
-    try:
-        from ai.agentes.ollama_check import (
-            modelo_ollama_disponivel,
-            obter_config_ollama,
-            verificar_ollama,
+    config_llm_ativa = obter_configuracao_llm(
+        st.session_state.get("llm_runtime_config")
+    )
+    diagnostico["Provedor de IA"] = config_llm_ativa.provedor
+    diagnostico["Modelo configurado"] = config_llm_ativa.modelo
+    erro_config_llm = validar_configuracao(config_llm_ativa)
+    diagnostico["Configuração do provedor"] = (
+        "Pendente" if erro_config_llm else "Pronta"
+    )
+    if erro_config_llm:
+        st.warning(erro_config_llm)
+    else:
+        st.success(
+            "Provedor de IA configurado: "
+            f"{config_llm_ativa.provedor} / {config_llm_ativa.modelo}."
         )
-
-        ollama_base_url, ollama_model = obter_config_ollama()
-        diagnostico["Modelo Ollama configurado"] = ollama_model
-        status_ollama = verificar_ollama()
-        if status_ollama.get("status") == "ok":
-            diagnostico["Ollama ativo"] = "Sim"
-            st.success(f"Ollama ativo em {ollama_base_url}.")
-        else:
-            st.error(status_ollama.get("mensagem"))
-
-        status_modelo = modelo_ollama_disponivel(ollama_model)
-        if status_modelo.get("status") == "ok":
-            st.success(f"Modelo Ollama configurado: {ollama_model}.")
-        else:
-            st.error(status_modelo.get("mensagem"))
-    except Exception as erro:
-        ollama_model = "llama3.2:3b"
-        diagnostico["Modelo Ollama configurado"] = ollama_model
-        st.error(f"Não foi possível verificar o Ollama: {erro}")
 
     try:
         from ai.agentes.crewai_tools_lab import obter_api_base_url
@@ -1099,12 +1121,15 @@ elif menu == "8. Agentes CrewAI + Ollama":
         st.write("CrewAI encontrado:", diagnostico["CrewAI encontrado"])
         st.write("LiteLLM encontrado:", diagnostico["LiteLLM encontrado"])
         st.write("Requests encontrado:", diagnostico["Requests encontrado"])
-        st.write("Ollama ativo:", diagnostico["Ollama ativo"])
-        st.write("Modelo Ollama configurado:", diagnostico["Modelo Ollama configurado"])
+        st.write("Provedor de IA:", diagnostico["Provedor de IA"])
+        st.write("Modelo configurado:", diagnostico["Modelo configurado"])
+        st.write("Configuração do provedor:", diagnostico["Configuração do provedor"])
         st.write("API FastAPI ativa:", diagnostico["API FastAPI ativa"])
         if diagnostico["CrewAI encontrado"] == "Não":
-            st.error("CrewAI não encontrado no ambiente virtual atual.")
-            st.code(comando_instalacao_crewai, language="powershell")
+            st.info(
+                "CrewAI não está instalado. O chat usará o modo direto LiteLLM, "
+                "adequado ao ambiente enxuto de deploy."
+            )
 
     exemplos = [
         (
@@ -1133,7 +1158,10 @@ elif menu == "8. Agentes CrewAI + Ollama":
         for indice, exemplo in enumerate(exemplos):
             if st.button(exemplo[:45] + ("…" if len(exemplo) > 45 else ""), key=f"example_{indice}", use_container_width=True):
                 selected_prompt = exemplo
-        st.caption(f"Modelo ativo: {ollama_model}")
+        st.caption(
+            f"Provedor ativo: {config_llm_ativa.provedor} · "
+            f"Modelo: {config_llm_ativa.modelo}"
+        )
         if CHAT_HISTORY_PATH.exists():
             st.download_button(
                 "Baixar histórico",
@@ -1157,7 +1185,10 @@ elif menu == "8. Agentes CrewAI + Ollama":
             from ai.agentes.crewai_agents_lab import executar_crew_lab
 
             with st.spinner("Orquestrando agentes e ferramentas..."):
-                resultado = executar_crew_lab(pergunta)
+                resultado = executar_crew_lab(
+                    pergunta,
+                    llm_config=st.session_state.get("llm_runtime_config"),
+                )
             resposta = resultado.get("resposta", "Sem resposta.")
             if resultado.get("status") != "ok":
                 resposta = f"Não foi possível concluir a execução.\n\n{resposta}"
@@ -1365,20 +1396,144 @@ elif menu == "9. Base de Conhecimento / RAG":
 
 
 elif menu == "10. Configurações":
-    page_header("Platform administration", "Configurações", "Visualize integrações, runtime local e parâmetros da plataforma.")
+    page_header("Platform administration", "Configurações", "Configure integrações, runtime e parâmetros da plataforma sem persistir segredos.")
 
-    env_values = {}
-    env_path = BASE_DIR / ".env"
-    if env_path.exists():
-        for line in env_path.read_text(encoding="utf-8").splitlines():
-            if "=" in line and not line.strip().startswith("#"):
-                key, value = line.split("=", 1)
-                env_values[key.strip()] = value.strip()
+    config_openai = obter_configuracao_llm({"LLM_PROVIDER": "openai"})
+    config_ativa = obter_configuracao_llm(
+        st.session_state.get("llm_runtime_config")
+    )
+    erro_config_ativa = validar_configuracao(config_ativa)
+    status_chave = (
+        "Não aplicável"
+        if config_ativa.provedor == "ollama"
+        else ("Configurada" if config_ativa.api_key else "Não configurada")
+    )
+    detalhe_endpoint = (
+        config_ativa.base_url
+        if config_ativa.provedor == "ollama"
+        else status_chave
+    )
 
     c1, c2, c3 = st.columns(3)
     c1.markdown('<div class="model-card"><span class="status-pill">● CONNECTED</span><div class="model-name">DuckDB</div><div class="model-meta">Banco analítico local<br>Persistência: data/lab_ia.duckdb</div></div>', unsafe_allow_html=True)
-    c2.markdown(f'<div class="model-card"><span class="status-pill">● CONFIGURED</span><div class="model-name">Ollama Runtime</div><div class="model-meta">Endpoint: {env_values.get("OLLAMA_BASE_URL", "http://localhost:11434")}<br>Modelo: {env_values.get("OLLAMA_MODEL", "não definido")}</div></div>', unsafe_allow_html=True)
-    c3.markdown(f'<div class="model-card"><span class="status-pill">● CONNECTED</span><div class="model-name">FastAPI</div><div class="model-meta">Endpoint: {env_values.get("API_BASE_URL", "http://localhost:8000")}<br>Serviço de inferência</div></div>', unsafe_allow_html=True)
+    c2.markdown(f'<div class="model-card"><span class="status-pill">● {"ATTENTION" if erro_config_ativa else "CONFIGURED"}</span><div class="model-name">Provedor de IA</div><div class="model-meta">Provedor: {config_ativa.provedor}<br>Modelo: {config_ativa.modelo or "não configurado"}<br>{"URL base" if config_ativa.provedor == "ollama" else "Chave online"}: {detalhe_endpoint or "não configurada"}</div></div>', unsafe_allow_html=True)
+    c3.markdown('<div class="model-card"><span class="status-pill">● CONNECTED</span><div class="model-name">FastAPI</div><div class="model-meta">Endpoint configurável por API_BASE_URL<br>Serviço de inferência</div></div>', unsafe_allow_html=True)
+    if erro_config_ativa:
+        st.warning(erro_config_ativa)
+
+    st.markdown('<div class="section-label">Configuração do provedor de IA</div>', unsafe_allow_html=True)
+    nomes_provedores = {
+        "Ollama local": "ollama",
+        "OpenAI API": "openai",
+        "Outro provedor via API": "custom",
+    }
+    nome_atual = next(
+        (
+            nome
+            for nome, valor in nomes_provedores.items()
+            if valor == config_ativa.provedor
+        ),
+        "Ollama local",
+    )
+    with st.form("llm_provider_form"):
+        provedor_nome = st.selectbox(
+            "Provedor de IA",
+            list(nomes_provedores),
+            index=list(nomes_provedores).index(nome_atual),
+        )
+        provedor_valor = nomes_provedores[provedor_nome]
+        if provedor_valor == "ollama":
+            modelo = st.text_input(
+                "Modelo",
+                value=config_ativa.modelo,
+                help="Exemplos: gemma3:1b, gemma3:4b, llama3.2:3b.",
+            )
+            base_url = st.text_input(
+                "URL base do Ollama",
+                value=config_ativa.base_url or "http://localhost:11434",
+            )
+        elif provedor_valor == "openai":
+            modelo = st.text_input(
+                "Modelo",
+                value=(
+                    config_ativa.modelo
+                    if config_ativa.provedor == "openai"
+                    else config_openai.modelo
+                ),
+                help="O padrão de deploy pode ser definido em OPENAI_MODEL.",
+            )
+            base_url = st.text_input(
+                "URL base opcional",
+                value=config_ativa.base_url or "",
+                help="Deixe vazio para usar o endpoint oficial da OpenAI.",
+            )
+        else:
+            modelo = st.text_input(
+                "Modelo LiteLLM",
+                value=config_ativa.modelo if config_ativa.provedor == "custom" else "",
+                help="Informe o modelo aceito pelo endpoint compatível com OpenAI.",
+            )
+            base_url = st.text_input(
+                "URL base da API",
+                value=config_ativa.base_url or "",
+            )
+        api_key = st.text_input(
+            "Chave de API",
+            type="password",
+            value="",
+            help=(
+                "A chave digitada fica somente na memória desta sessão. "
+                "Deixe vazio para usar a variável de ambiente correspondente."
+            ),
+        )
+        aplicar = st.form_submit_button(
+            "Aplicar nesta sessão",
+            type="primary",
+        )
+        testar = st.form_submit_button("Testar conexão com o provedor de IA")
+
+    if aplicar or testar:
+        overrides_llm = {
+            "LLM_PROVIDER": provedor_valor,
+            "LLM_TIMEOUT": "60",
+        }
+        if provedor_valor == "ollama":
+            overrides_llm.update(
+                {"OLLAMA_MODEL": modelo, "OLLAMA_BASE_URL": base_url}
+            )
+        elif provedor_valor == "openai":
+            overrides_llm.update({"OPENAI_MODEL": modelo})
+            if base_url:
+                overrides_llm["OPENAI_BASE_URL"] = base_url
+            if api_key:
+                overrides_llm["OPENAI_API_KEY"] = api_key
+        else:
+            overrides_llm.update(
+                {
+                    "OTHER_LLM_MODEL": modelo,
+                    "OTHER_LLM_BASE_URL": base_url,
+                }
+            )
+            if api_key:
+                overrides_llm["OTHER_LLM_API_KEY"] = api_key
+
+        st.session_state["llm_runtime_config"] = overrides_llm
+        if aplicar:
+            st.success(
+                "Configuração aplicada somente nesta sessão. "
+                "Nenhuma chave foi salva em arquivo."
+            )
+        if testar:
+            with st.spinner("Testando o provedor de IA..."):
+                resultado_teste = testar_conexao_llm(overrides_llm)
+            if resultado_teste["status"] == "ok":
+                st.success(resultado_teste["mensagem"])
+                st.caption(
+                    f"{resultado_teste['provedor']} / "
+                    f"{resultado_teste['modelo']}"
+                )
+            else:
+                st.error(resultado_teste["mensagem"])
 
     st.markdown('<div class="section-label">Preferências da plataforma</div>', unsafe_allow_html=True)
     left, right = st.columns(2)
@@ -1388,7 +1543,9 @@ elif menu == "10. Configurações":
         st.selectbox("Idioma", ["Português (Brasil)"])
         st.toggle("Animações e microinterações", value=True)
     with right:
-        st.selectbox("Runtime de IA", ["Ollama local"])
         st.selectbox("Motor vetorial", ["ChromaDB local"])
         st.toggle("Registrar traces de agentes", value=True)
-    st.info("As configurações exibidas refletem o ambiente local atual. Alterações persistentes continuam sendo administradas pelo arquivo .env.")
+    st.info(
+        "Variáveis de ambiente são a fonte principal no deploy. A configuração "
+        "aplicada pela interface vale apenas para a sessão atual e não altera o .env."
+    )
