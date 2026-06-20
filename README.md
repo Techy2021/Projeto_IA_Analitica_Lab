@@ -31,7 +31,7 @@ laboratorial, revisao humana ou criterios formais de liberacao de lotes.
 | AutoML | FLAML e scikit-learn |
 | Persistencia do modelo | joblib |
 | Agentes | CrewAI |
-| LLM | Ollama local, OpenAI API ou endpoint compativel via LiteLLM |
+| LLM | Ollama local, OpenAI API, Google Gemini ou endpoint compativel via LiteLLM |
 | RAG e vetores | ChromaDB e embeddings Ollama |
 | Graficos | Plotly e Matplotlib |
 | Testes de IA | unittest, scripts golden dataset e DeepEval opcional |
@@ -114,6 +114,13 @@ somente quando necessario. Nunca versione o arquivo `.env`.
 
 ## Configuracao do provedor de IA
 
+O sistema oferece tres provedores principais para o chat:
+
+- Ollama local;
+- OpenAI API;
+- Google Gemini via Google AI Studio.
+
+Tambem existe suporte a endpoints customizados compativeis com a API da OpenAI.
 O chat usa `ai/llm_provider.py` como ponto central. A configuracao aplicada na
 tela **Configuracoes** vale apenas para a sessao atual do Streamlit. Ela nao
 altera o `.env` e a chave digitada permanece somente em memoria.
@@ -128,12 +135,13 @@ A precedencia e:
 
 ```env
 LLM_PROVIDER=ollama
-OLLAMA_MODEL=gemma3:1b
+OLLAMA_MODEL=qwen3-vl:4b
 OLLAMA_BASE_URL=http://localhost:11434
 ```
 
 Inicie o Ollama, confirme que o modelo foi baixado e execute normalmente a API
-e o Streamlit. Outros exemplos de modelo sao `gemma3:4b` e `llama3.2:3b`.
+e o Streamlit. Para o alias `qwen3-vl:4b`, o chat usa automaticamente a variante
+`qwen3-vl:4b-instruct`. Outros exemplos sao `gemma3:4b` e `llama3.2:3b`.
 
 ### OpenAI API
 
@@ -147,6 +155,22 @@ OPENAI_BASE_URL=
 Defina `OPENAI_API_KEY` no gerenciador de segredos do ambiente de deploy.
 `OPENAI_BASE_URL` deve permanecer vazio para o endpoint oficial. A chave nao
 deve ser colocada no Dockerfile, na imagem, no repositorio ou em logs.
+
+### Google Gemini via Google AI Studio
+
+Crie uma chave no Google AI Studio e configure:
+
+```env
+LLM_PROVIDER=gemini
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+O projeto usa o LiteLLM com o formato `gemini/gemini-2.5-flash`, necessário
+para acessar a Gemini API com uma chave do Google AI Studio. Mantenha
+`GEMINI_API_KEY` somente no ambiente local ou no gerenciador de segredos do
+Docker/Render. Se a chave estiver vazia, a interface informa
+`Chave GEMINI_API_KEY não configurada.` sem interromper a aplicação.
 
 ### Outro endpoint via API
 
@@ -250,9 +274,9 @@ variaveis no runtime ou pelo gerenciador de segredos da plataforma:
 ```powershell
 docker build -t projeto-ia-analitica .
 docker run --rm -p 8501:8501 `
-  -e LLM_PROVIDER=openai `
-  -e OPENAI_MODEL=gpt-4o-mini `
-  -e OPENAI_API_KEY=$env:OPENAI_API_KEY `
+  -e LLM_PROVIDER=gemini `
+  -e GEMINI_MODEL=gemini-2.5-flash `
+  -e GEMINI_API_KEY=$env:GEMINI_API_KEY `
   projeto-ia-analitica
 ```
 
@@ -278,13 +302,14 @@ variavel `PORT`, utilizada automaticamente pelo comando de inicializacao.
 Configure no painel do servico:
 
 ```env
-LLM_PROVIDER=openai
-OPENAI_API_KEY=chave_configurada_como_secret
-OPENAI_MODEL=gpt-4o-mini
+LLM_PROVIDER=gemini
+GEMINI_API_KEY=chave_configurada_como_secret
+GEMINI_MODEL=gemini-2.5-flash
 DATABASE_PATH=/tmp/lab_ia.duckdb
 ```
 
-Nao coloque a chave no Dockerfile ou no repositorio. O filesystem do Render pode
+Para OpenAI, use alternativamente `LLM_PROVIDER=openai`, `OPENAI_API_KEY` e
+`OPENAI_MODEL`. Nao coloque nenhuma chave no Dockerfile ou no repositorio. O filesystem do Render pode
 ser efemero; arquivos enviados, banco DuckDB, traces e indices vetoriais podem
 ser perdidos em reinicios ou novos deploys. Para persistencia, configure um
 disco persistente e aponte os caminhos de dados para o ponto de montagem.
@@ -352,7 +377,7 @@ Os testes com CrewAI/Ollama dependem de servicos externos locais e podem demorar
 ## Limitacoes conhecidas
 
 - o roteador numerico cobre apenas padroes e variaveis explicitamente mapeados;
-- respostas gerais dependem da disponibilidade e qualidade do modelo Ollama;
+- respostas gerais dependem da disponibilidade e qualidade do provedor LLM ativo;
 - o RAG recupera trechos, mas nao garante que o documento contenha a resposta;
 - o modelo pode degradar fora das faixas observadas no treinamento;
 - os dados atuais incluem registros simulados e nao representam validacao oficial;

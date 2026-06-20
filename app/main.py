@@ -1432,6 +1432,7 @@ elif menu == "10. Configurações":
     page_header("Platform administration", "Configurações", "Configure integrações, runtime e parâmetros da plataforma sem persistir segredos.")
 
     config_openai = obter_configuracao_llm({"LLM_PROVIDER": "openai"})
+    config_gemini = obter_configuracao_llm({"LLM_PROVIDER": "gemini"})
     config_ativa = obter_configuracao_llm(
         st.session_state.get("llm_runtime_config")
     )
@@ -1458,6 +1459,7 @@ elif menu == "10. Configurações":
     nomes_provedores = {
         "Ollama local": "ollama",
         "OpenAI API": "openai",
+        "Google Gemini (AI Studio)": "gemini",
         "Outro provedor via API": "custom",
     }
     nome_atual = next(
@@ -1479,7 +1481,10 @@ elif menu == "10. Configurações":
             modelo = st.text_input(
                 "Modelo",
                 value=config_ativa.modelo,
-                help="Exemplos: gemma3:1b, gemma3:4b, llama3.2:3b.",
+                help=(
+                    "Exemplos: gemma3:1b, llama3.2:3b ou qwen3-vl:4b-instruct. "
+                    "Para chat, prefira variantes instruct; modelos thinking são lentos."
+                ),
             )
             base_url = st.text_input(
                 "URL base do Ollama",
@@ -1500,6 +1505,20 @@ elif menu == "10. Configurações":
                 value=config_ativa.base_url or "",
                 help="Deixe vazio para usar o endpoint oficial da OpenAI.",
             )
+        elif provedor_valor == "gemini":
+            modelo = st.text_input(
+                "Modelo Gemini",
+                value=(
+                    config_ativa.modelo
+                    if config_ativa.provedor == "gemini"
+                    else config_gemini.modelo
+                ),
+                help=(
+                    "Modelo do Google AI Studio. O prefixo gemini/ é aplicado "
+                    "automaticamente pelo LiteLLM."
+                ),
+            )
+            base_url = ""
         else:
             modelo = st.text_input(
                 "Modelo LiteLLM",
@@ -1528,7 +1547,7 @@ elif menu == "10. Configurações":
     if aplicar or testar:
         overrides_llm = {
             "LLM_PROVIDER": provedor_valor,
-            "LLM_TIMEOUT": "60",
+            "LLM_TIMEOUT": "180" if provedor_valor == "ollama" else "60",
         }
         if provedor_valor == "ollama":
             overrides_llm.update(
@@ -1540,6 +1559,10 @@ elif menu == "10. Configurações":
                 overrides_llm["OPENAI_BASE_URL"] = base_url
             if api_key:
                 overrides_llm["OPENAI_API_KEY"] = api_key
+        elif provedor_valor == "gemini":
+            overrides_llm.update({"GEMINI_MODEL": modelo})
+            if api_key:
+                overrides_llm["GEMINI_API_KEY"] = api_key
         else:
             overrides_llm.update(
                 {

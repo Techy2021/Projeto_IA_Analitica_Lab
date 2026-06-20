@@ -16,7 +16,7 @@ python-dotenv==1.2.2
 requests==2.34.2
 pydantic==2.12.5
 
-# Chat com provedores Ollama/OpenAI
+# Chat com provedores Ollama/OpenAI/Google Gemini
 litellm==1.85.1
 
 # Leitura dos formatos aceitos pela Base de Conhecimento
