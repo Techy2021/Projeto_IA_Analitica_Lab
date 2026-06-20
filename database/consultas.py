@@ -35,3 +35,23 @@ def listar_tabelas():
         return con.execute("SHOW TABLES").df()
     finally:
         con.close()
+
+
+def tabela_existe(nome_tabela: str = "dataset_lab") -> bool:
+    """Verifica a existencia de uma tabela sem tentar consultar seus dados."""
+    con = get_connection()
+    try:
+        resultado = con.execute(
+            """
+            SELECT EXISTS (
+                SELECT 1
+                FROM information_schema.tables
+                WHERE table_schema = current_schema()
+                  AND table_name = ?
+            )
+            """,
+            [nome_tabela],
+        ).fetchone()
+        return bool(resultado and resultado[0])
+    finally:
+        con.close()

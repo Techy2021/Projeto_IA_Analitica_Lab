@@ -42,6 +42,7 @@ from database.consultas import (
     consultar_sql,
     listar_tabelas,
     salvar_dataframe,
+    tabela_existe,
 )
 
 
@@ -508,7 +509,9 @@ elif menu == "3. Consultar DuckDB":
 elif menu == "4. Treinar modelo AutoML":
     page_header("AI model registry", "Modelos IA", "Treine, avalie e publique modelos preditivos com AutoML.")
 
-    if modelo_treinado_existe():
+    modelo_publicado_disponivel = modelo_treinado_existe()
+
+    if modelo_publicado_disponivel:
         try:
             current_model = carregar_metadata_modelo()
             score = current_model.get("metricas", {}).get("accuracy", current_model.get("metricas", {}).get("R2"))
@@ -529,6 +532,25 @@ elif menu == "4. Treinar modelo AutoML":
             st.markdown('<div class="section-label">Configurar novo treinamento</div>', unsafe_allow_html=True)
         except Exception:
             pass
+
+    if not tabela_existe("dataset_lab"):
+        st.info(
+            "Base de treinamento não disponível neste ambiente. "
+            "O modelo treinado será carregado a partir dos arquivos salvos."
+        )
+        if modelo_publicado_disponivel:
+            st.success(
+                "Modelo publicado e metadados disponíveis para uso nas previsões."
+            )
+        else:
+            st.warning(
+                "Os arquivos do modelo treinado não foram encontrados neste ambiente."
+            )
+        st.caption(
+            "Para preparar a base ou treinar novamente, execute o projeto no "
+            "ambiente local com a tabela dataset_lab configurada no DuckDB."
+        )
+        st.stop()
 
     try:
         df = carregar_tabela("dataset_lab")

@@ -27,6 +27,10 @@ __pycache__
 
 data/vectorstore
 data/backups
+data/*.duckdb
+data/*.db
+data/*.sqlite
+data/*.sqlite3
 reports/*.jsonl
 
 .streamlit/secrets.toml
