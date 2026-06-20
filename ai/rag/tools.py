@@ -1,4 +1,5 @@
 import json
+import logging
 import traceback
 from typing import Any, Type
 
@@ -6,6 +7,8 @@ from pydantic import BaseModel, Field
 
 from ai.rag.retriever import buscar_trechos, formatar_trechos_para_contexto
 
+
+LOGGER = logging.getLogger(__name__)
 
 class ConsultaBaseConhecimentoInput(BaseModel):
     pergunta: str = Field(..., description="Pergunta para busca semantica na base RAG.")
@@ -28,17 +31,24 @@ def tool_consultar_base_conhecimento(pergunta: str, k: int = 4) -> str:
             "dados, diga claramente que a base nao contem informacao suficiente.\n\n"
             f"{contexto}"
         )
-    except Exception as erro:
+    except BaseException as erro:
+        if isinstance(erro, (KeyboardInterrupt, SystemExit)):
+            raise
+        LOGGER.error(
+            "Falha técnica ao consultar o RAG. tipo=%s detalhe=%s\n%s",
+            type(erro).__name__,
+            erro,
+            traceback.format_exc(),
+        )
         return json.dumps(
             {
-                "erro": str(erro),
+                "erro": "Base de conhecimento temporariamente indisponível.",
                 "orientacao": (
                     "Verifique se o ChromaDB esta instalado com "
                     "python -m pip install chromadb, se o Ollama esta ativo e se o "
                     "modelo nomic-embed-text foi baixado com "
                     "ollama pull nomic-embed-text."
                 ),
-                "traceback": traceback.format_exc(),
             },
             ensure_ascii=False,
             indent=2,

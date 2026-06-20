@@ -8,12 +8,16 @@ from __future__ import annotations
 
 import os
 import re
+import logging
+import traceback
 from dataclasses import asdict, dataclass
 from typing import Any, Mapping
 
 import requests
 from dotenv import load_dotenv
 
+
+LOGGER = logging.getLogger(__name__)
 
 PROVEDOR_OLLAMA = "ollama"
 PROVEDOR_OPENAI = "openai"
@@ -36,7 +40,16 @@ MENSAGEM_CHAVE_CUSTOM_AUSENTE = (
     "Informe a chave na sessão ou configure OTHER_LLM_API_KEY no ambiente de execução."
 )
 MENSAGEM_FALHA_SEGURA = (
-    "O provedor de IA não respondeu. Verifique a configuração e tente novamente."
+    "Não foi possível concluir a resposta da IA. Verifique a configuração "
+    "do provedor e tente novamente."
+)
+MENSAGEM_TIMEOUT = (
+    "O provedor de IA demorou mais que o limite configurado para responder. "
+    "Verifique o modelo e tente novamente."
+)
+MENSAGEM_RESPOSTA_VAZIA = (
+    "O provedor de IA retornou uma resposta vazia. Verifique modelo, chave "
+    "e provedor configurado."
 )
 MENSAGEM_OLLAMA_INDISPONIVEL = (
     "O provedor Ollama foi selecionado, mas não foi possível conectar ao serviço local."
@@ -249,15 +262,18 @@ def gerar_resposta_llm(
                 "sem produzir a resposta final. Para chat, use "
                 f"{_modelo_ollama_instruct(config.modelo)}."
             )
-        return "O provedor de IA retornou uma resposta vazia."
+        return MENSAGEM_RESPOSTA_VAZIA
     except Exception as erro:
+        LOGGER.error(
+            "Falha na chamada LLM. provedor=%s modelo=%s erro=%s\n%s",
+            config.provedor,
+            config.modelo,
+            sanitizar_texto(erro, config),
+            sanitizar_texto(traceback.format_exc(), config),
+        )
+        if _erro_timeout(erro):
+            return MENSAGEM_TIMEOUT
         if config.provedor == PROVEDOR_OLLAMA:
-            if "timeout" in str(erro).lower() or "timed out" in str(erro).lower():
-                return (
-                    "O Ollama está em execução, mas o modelo demorou mais que "
-                    f"{config.timeout} segundos para responder. Tente novamente; "
-                    "a primeira resposta pode levar mais tempo enquanto o modelo carrega."
-                )
             return MENSAGEM_OLLAMA_INDISPONIVEL
         return MENSAGEM_FALHA_SEGURA
 
@@ -280,8 +296,9 @@ def testar_conexao_llm(
     )
     if resposta in {
         MENSAGEM_FALHA_SEGURA,
+        MENSAGEM_TIMEOUT,
         MENSAGEM_OLLAMA_INDISPONIVEL,
-        "O provedor de IA retornou uma resposta vazia.",
+        MENSAGEM_RESPOSTA_VAZIA,
     }:
         return {
             "status": "erro",
@@ -392,6 +409,25 @@ def _extrair_texto(resposta: Any) -> str:
 def _normalizar_url(valor: Any) -> str | None:
     texto = str(valor or "").strip()
     return texto.rstrip("/") if texto else None
+
+
+def resposta_llm_com_erro(resposta: Any) -> bool:
+    texto = str(resposta or "").strip()
+    return texto in {
+        MENSAGEM_FALHA_SEGURA,
+        MENSAGEM_TIMEOUT,
+        MENSAGEM_RESPOSTA_VAZIA,
+        MENSAGEM_OLLAMA_INDISPONIVEL,
+        MENSAGEM_CHAVE_OPENAI_AUSENTE,
+        MENSAGEM_CHAVE_GEMINI_AUSENTE,
+        MENSAGEM_CHAVE_CUSTOM_AUSENTE,
+    }
+
+
+def _erro_timeout(erro: Exception) -> bool:
+    nome = type(erro).__name__.lower()
+    texto = str(erro).lower()
+    return "timeout" in nome or "timeout" in texto or "timed out" in texto
 
 
 def _modelo_ollama_thinking(modelo: str) -> bool:

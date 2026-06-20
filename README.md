@@ -184,8 +184,11 @@ OTHER_LLM_BASE_URL=https://provedor.exemplo/v1
 ```
 
 Na interface, abra **Configuracoes > Configuracao do provedor de IA**, selecione
-o provedor, informe o modelo e use **Testar conexao com o provedor de IA**.
-O teste faz uma chamada curta e nao exibe nem registra a chave.
+`ollama`, `openai` ou `gemini`, informe os campos desejados e use
+**Testar conexao com o provedor de IA**. Os valores da interface têm prioridade
+durante a sessão; campos não preenchidos usam as variáveis de ambiente como
+fallback. As chaves são mantidas somente em `st.session_state`, não são salvas
+em arquivo, banco ou logs. O teste não exibe nem registra a chave.
 
 ## Execucao
 

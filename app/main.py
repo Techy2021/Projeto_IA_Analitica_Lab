@@ -1,6 +1,7 @@
 ﻿import importlib.util
 import sys
 import json
+import logging
 from datetime import datetime
 from pathlib import Path
 
@@ -11,6 +12,11 @@ import requests
 
 from app.config import KNOWLEDGE_BASE_DIR, REPORTS_DIR, criar_pastas
 from app.components.navigation import navigate
+from ai.assistant_runtime import (
+    MENSAGEM_ERRO_ASSISTENTE,
+    executar_assistente_com_timeout,
+    preparar_resposta_assistente,
+)
 from ai.modeling.automl_train import treinar_modelo_flaml
 from ai.llm_provider import (
     obter_configuracao_llm,
@@ -47,6 +53,7 @@ from database.consultas import (
 
 
 criar_pastas()
+LOGGER = logging.getLogger(__name__)
 
 st.set_page_config(
     page_title="Laboratory AI Intelligence Platform",
@@ -1179,17 +1186,29 @@ elif menu == "8. Assistente IA":
             "role": "assistant",
             "content": "Olá. Sou o assistente de inteligência laboratorial. Posso consultar dados, interpretar métricas e executar previsões com os agentes disponíveis.",
         }]
+    if "assistant_request_in_progress" not in st.session_state:
+        st.session_state.assistant_request_in_progress = False
 
     history_col, chat_col = st.columns([1, 3])
     selected_prompt = None
+    assistente_processando = st.session_state.assistant_request_in_progress
     with history_col:
         st.markdown("##### Nova conversa")
-        if st.button("＋ Limpar conversa", use_container_width=True):
+        if st.button(
+            "＋ Limpar conversa",
+            use_container_width=True,
+            disabled=assistente_processando,
+        ):
             st.session_state.chat_messages = st.session_state.chat_messages[:1]
             st.rerun()
         st.markdown("##### Sugestões")
         for indice, exemplo in enumerate(exemplos):
-            if st.button(exemplo[:45] + ("…" if len(exemplo) > 45 else ""), key=f"example_{indice}", use_container_width=True):
+            if st.button(
+                exemplo[:45] + ("…" if len(exemplo) > 45 else ""),
+                key=f"example_{indice}",
+                use_container_width=True,
+                disabled=assistente_processando,
+            ):
                 selected_prompt = exemplo
         st.caption(
             f"Provedor ativo: {config_llm_ativa.provedor} · "
@@ -1205,32 +1224,62 @@ elif menu == "8. Assistente IA":
             )
 
     with chat_col:
+        aviso_assistente = st.session_state.pop("assistant_last_notice", None)
+        if aviso_assistente:
+            if aviso_assistente["tipo"] == "sucesso":
+                st.success(aviso_assistente["mensagem"])
+            else:
+                st.error(aviso_assistente["mensagem"])
         for message in st.session_state.chat_messages:
             with st.chat_message(message["role"], avatar="🤖" if message["role"] == "assistant" else None):
                 st.markdown(message["content"])
 
-    typed_prompt = st.chat_input("Pergunte sobre dados, modelos, métricas ou previsões...")
+    typed_prompt = st.chat_input(
+        "Pergunte sobre dados, modelos, métricas ou previsões...",
+        disabled=assistente_processando,
+    )
     pergunta = selected_prompt or typed_prompt
-    if pergunta:
+    if pergunta and not assistente_processando:
+        st.session_state.assistant_request_in_progress = True
         st.session_state.chat_messages.append({"role": "user", "content": pergunta})
         append_chat_history("user", pergunta)
         try:
-            from ai.agentes.crewai_agents_lab import executar_crew_lab
-
-            with st.spinner("Orquestrando agentes e ferramentas..."):
-                resultado = executar_crew_lab(
+            with st.spinner("Consultando o provedor de IA..."):
+                resultado = executar_assistente_com_timeout(
                     pergunta,
-                    llm_config=st.session_state.get("llm_runtime_config"),
+                    st.session_state.get("llm_runtime_config"),
+                    timeout_segundos=60,
                 )
-            resposta = resultado.get("resposta", "Sem resposta.")
-            if resultado.get("status") != "ok":
-                resposta = f"Não foi possível concluir a execução.\n\n{resposta}"
+            resposta, sucesso = preparar_resposta_assistente(resultado)
+            st.session_state["assistant_last_notice"] = {
+                "tipo": "sucesso" if sucesso else "erro",
+                "mensagem": "Resposta da IA concluída." if sucesso else resposta,
+            }
             st.session_state.chat_messages.append({"role": "assistant", "content": resposta})
             append_chat_history("assistant", resposta)
-        except Exception as erro:
-            fallback_response = f"Não foi possível carregar a camada de agentes: {erro}"
+        except TimeoutError as erro:
+            fallback_response = str(erro)
+            st.session_state["assistant_last_notice"] = {
+                "tipo": "erro",
+                "mensagem": fallback_response,
+            }
             st.session_state.chat_messages.append({"role": "assistant", "content": fallback_response})
             append_chat_history("assistant", fallback_response)
+        except Exception as erro:
+            LOGGER.error(
+                "Falha não tratada na interface do Assistente de IA. tipo=%s",
+                type(erro).__name__,
+            )
+            st.session_state["assistant_last_notice"] = {
+                "tipo": "erro",
+                "mensagem": MENSAGEM_ERRO_ASSISTENTE,
+            }
+            st.session_state.chat_messages.append(
+                {"role": "assistant", "content": MENSAGEM_ERRO_ASSISTENTE}
+            )
+            append_chat_history("assistant", MENSAGEM_ERRO_ASSISTENTE)
+        finally:
+            st.session_state.assistant_request_in_progress = False
         st.rerun()
 
 
@@ -1431,10 +1480,16 @@ elif menu == "9. Base de Conhecimento / RAG":
 elif menu == "10. Configurações":
     page_header("Platform administration", "Configurações", "Configure integrações, runtime e parâmetros da plataforma sem persistir segredos.")
 
-    config_openai = obter_configuracao_llm({"LLM_PROVIDER": "openai"})
-    config_gemini = obter_configuracao_llm({"LLM_PROVIDER": "gemini"})
-    config_ativa = obter_configuracao_llm(
-        st.session_state.get("llm_runtime_config")
+    config_sessao = dict(st.session_state.get("llm_runtime_config") or {})
+    config_ativa = obter_configuracao_llm(config_sessao)
+    config_ollama = obter_configuracao_llm(
+        {**config_sessao, "LLM_PROVIDER": "ollama"}
+    )
+    config_openai = obter_configuracao_llm(
+        {**config_sessao, "LLM_PROVIDER": "openai"}
+    )
+    config_gemini = obter_configuracao_llm(
+        {**config_sessao, "LLM_PROVIDER": "gemini"}
     )
     erro_config_ativa = validar_configuracao(config_ativa)
     status_chave = (
@@ -1456,88 +1511,68 @@ elif menu == "10. Configurações":
         st.warning(erro_config_ativa)
 
     st.markdown('<div class="section-label">Configuração do provedor de IA</div>', unsafe_allow_html=True)
-    nomes_provedores = {
-        "Ollama local": "ollama",
-        "OpenAI API": "openai",
-        "Google Gemini (AI Studio)": "gemini",
-        "Outro provedor via API": "custom",
-    }
-    nome_atual = next(
-        (
-            nome
-            for nome, valor in nomes_provedores.items()
-            if valor == config_ativa.provedor
-        ),
-        "Ollama local",
+    st.info(
+        "As configurações feitas aqui valem para a sessão atual. Para produção "
+        "no Render, configure as variáveis de ambiente no painel do Render."
+    )
+
+    provedores_interface = ["ollama", "openai", "gemini"]
+    provedor_atual = (
+        config_ativa.provedor
+        if config_ativa.provedor in provedores_interface
+        else "ollama"
     )
     with st.form("llm_provider_form"):
-        provedor_nome = st.selectbox(
-            "Provedor de IA",
-            list(nomes_provedores),
-            index=list(nomes_provedores).index(nome_atual),
+        provedor_valor = st.selectbox(
+            "LLM_PROVIDER",
+            provedores_interface,
+            index=provedores_interface.index(provedor_atual),
         )
-        provedor_valor = nomes_provedores[provedor_nome]
-        if provedor_valor == "ollama":
-            modelo = st.text_input(
-                "Modelo",
-                value=config_ativa.modelo,
-                help=(
-                    "Exemplos: gemma3:1b, llama3.2:3b ou qwen3-vl:4b-instruct. "
-                    "Para chat, prefira variantes instruct; modelos thinking são lentos."
-                ),
-            )
-            base_url = st.text_input(
-                "URL base do Ollama",
-                value=config_ativa.base_url or "http://localhost:11434",
-            )
-        elif provedor_valor == "openai":
-            modelo = st.text_input(
-                "Modelo",
-                value=(
-                    config_ativa.modelo
-                    if config_ativa.provedor == "openai"
-                    else config_openai.modelo
-                ),
-                help="O padrão de deploy pode ser definido em OPENAI_MODEL.",
-            )
-            base_url = st.text_input(
-                "URL base opcional",
-                value=config_ativa.base_url or "",
-                help="Deixe vazio para usar o endpoint oficial da OpenAI.",
-            )
-        elif provedor_valor == "gemini":
-            modelo = st.text_input(
-                "Modelo Gemini",
-                value=(
-                    config_ativa.modelo
-                    if config_ativa.provedor == "gemini"
-                    else config_gemini.modelo
-                ),
-                help=(
-                    "Modelo do Google AI Studio. O prefixo gemini/ é aplicado "
-                    "automaticamente pelo LiteLLM."
-                ),
-            )
-            base_url = ""
-        else:
-            modelo = st.text_input(
-                "Modelo LiteLLM",
-                value=config_ativa.modelo if config_ativa.provedor == "custom" else "",
-                help="Informe o modelo aceito pelo endpoint compatível com OpenAI.",
-            )
-            base_url = st.text_input(
-                "URL base da API",
-                value=config_ativa.base_url or "",
-            )
-        api_key = st.text_input(
-            "Chave de API",
+
+        st.markdown("**Ollama local**")
+        ollama_model = st.text_input(
+            "OLLAMA_MODEL",
+            value=config_ollama.modelo,
+            help=(
+                "Exemplos: gemma3:1b, llama3.2:3b ou qwen3-vl:4b. "
+                "O alias qwen3-vl:4b usa a variante instruct para o chat."
+            ),
+        )
+        ollama_base_url = st.text_input(
+            "OLLAMA_BASE_URL",
+            value=config_ollama.base_url or "http://localhost:11434",
+        )
+
+        st.markdown("**OpenAI**")
+        openai_model = st.text_input(
+            "OPENAI_MODEL",
+            value=config_openai.modelo,
+        )
+        openai_api_key = st.text_input(
+            "OPENAI_API_KEY",
             type="password",
             value="",
             help=(
-                "A chave digitada fica somente na memória desta sessão. "
-                "Deixe vazio para usar a variável de ambiente correspondente."
+                "Deixe vazio para preservar a chave desta sessão ou usar a "
+                "variável de ambiente OPENAI_API_KEY."
             ),
         )
+
+        st.markdown("**Google Gemini via AI Studio**")
+        gemini_model = st.text_input(
+            "GEMINI_MODEL",
+            value=config_gemini.modelo,
+        )
+        gemini_api_key = st.text_input(
+            "GEMINI_API_KEY",
+            type="password",
+            value="",
+            help=(
+                "Deixe vazio para preservar a chave desta sessão ou usar a "
+                "variável de ambiente GEMINI_API_KEY."
+            ),
+        )
+
         aplicar = st.form_submit_button(
             "Aplicar nesta sessão",
             type="primary",
@@ -1546,32 +1581,18 @@ elif menu == "10. Configurações":
 
     if aplicar or testar:
         overrides_llm = {
+            **config_sessao,
             "LLM_PROVIDER": provedor_valor,
             "LLM_TIMEOUT": "180" if provedor_valor == "ollama" else "60",
+            "OLLAMA_MODEL": ollama_model,
+            "OLLAMA_BASE_URL": ollama_base_url,
+            "OPENAI_MODEL": openai_model,
+            "GEMINI_MODEL": gemini_model,
         }
-        if provedor_valor == "ollama":
-            overrides_llm.update(
-                {"OLLAMA_MODEL": modelo, "OLLAMA_BASE_URL": base_url}
-            )
-        elif provedor_valor == "openai":
-            overrides_llm.update({"OPENAI_MODEL": modelo})
-            if base_url:
-                overrides_llm["OPENAI_BASE_URL"] = base_url
-            if api_key:
-                overrides_llm["OPENAI_API_KEY"] = api_key
-        elif provedor_valor == "gemini":
-            overrides_llm.update({"GEMINI_MODEL": modelo})
-            if api_key:
-                overrides_llm["GEMINI_API_KEY"] = api_key
-        else:
-            overrides_llm.update(
-                {
-                    "OTHER_LLM_MODEL": modelo,
-                    "OTHER_LLM_BASE_URL": base_url,
-                }
-            )
-            if api_key:
-                overrides_llm["OTHER_LLM_API_KEY"] = api_key
+        if openai_api_key:
+            overrides_llm["OPENAI_API_KEY"] = openai_api_key
+        if gemini_api_key:
+            overrides_llm["GEMINI_API_KEY"] = gemini_api_key
 
         st.session_state["llm_runtime_config"] = overrides_llm
         if aplicar:
@@ -1601,7 +1622,3 @@ elif menu == "10. Configurações":
     with right:
         st.selectbox("Motor vetorial", ["ChromaDB local"])
         st.toggle("Registrar traces de agentes", value=True)
-    st.info(
-        "Variáveis de ambiente são a fonte principal no deploy. A configuração "
-        "aplicada pela interface vale apenas para a sessão atual e não altera o .env."
-    )

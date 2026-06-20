@@ -11,6 +11,8 @@ from ai.llm_provider import (
     MENSAGEM_CHAVE_OPENAI_AUSENTE,
     MENSAGEM_FALHA_SEGURA,
     MENSAGEM_OLLAMA_INDISPONIVEL,
+    MENSAGEM_RESPOSTA_VAZIA,
+    MENSAGEM_TIMEOUT,
     gerar_resposta_llm,
     obter_configuracao_llm,
     sanitizar_texto,
@@ -68,6 +70,39 @@ class LLMProviderTests(unittest.TestCase):
         self.assertEqual(config.modelo, "gemini-2.5-flash")
         self.assertTrue(config.api_key)
 
+    def test_configuracao_da_sessao_tem_prioridade_sobre_ambiente(self):
+        ambiente = {
+            "LLM_PROVIDER": "openai",
+            "OPENAI_MODEL": "modelo-do-ambiente",
+            "OPENAI_API_KEY": "chave-do-ambiente",
+        }
+        sessao = {
+            "LLM_PROVIDER": "openai",
+            "OPENAI_MODEL": "modelo-da-sessao",
+            "OPENAI_API_KEY": "chave-da-sessao",
+        }
+        with patch.dict(os.environ, ambiente, clear=True):
+            config = obter_configuracao_llm(sessao)
+
+        self.assertEqual(config.modelo, "modelo-da-sessao")
+        self.assertEqual(config.api_key, "chave-da-sessao")
+
+    def test_campo_de_sessao_vazio_usa_ambiente_como_fallback(self):
+        ambiente = {
+            "LLM_PROVIDER": "gemini",
+            "GEMINI_MODEL": "gemini-2.5-flash",
+            "GEMINI_API_KEY": "chave-do-ambiente",
+        }
+        sessao = {
+            "LLM_PROVIDER": "gemini",
+            "GEMINI_MODEL": "gemini-2.5-flash",
+            "GEMINI_API_KEY": "",
+        }
+        with patch.dict(os.environ, ambiente, clear=True):
+            config = obter_configuracao_llm(sessao)
+
+        self.assertEqual(config.api_key, "chave-do-ambiente")
+
     def test_openai_sem_chave_retorna_mensagem_segura(self):
         ambiente = {"LLM_PROVIDER": "openai", "OPENAI_MODEL": "modelo-online"}
         with patch.dict(os.environ, ambiente, clear=True):
@@ -116,6 +151,35 @@ class LLMProviderTests(unittest.TestCase):
             with patch("litellm.completion", side_effect=RuntimeError("falhou")):
                 resposta = gerar_resposta_llm("teste")
         self.assertEqual(resposta, MENSAGEM_FALHA_SEGURA)
+
+    def test_timeout_do_provedor_retorna_mensagem_especifica(self):
+        ambiente = {
+            "LLM_PROVIDER": "gemini",
+            "GEMINI_MODEL": "gemini-2.5-flash",
+            "GEMINI_API_KEY": "chave-gemini-de-teste",
+        }
+        with patch.dict(os.environ, ambiente, clear=True):
+            with patch(
+                "litellm.completion",
+                side_effect=TimeoutError("request timed out"),
+            ):
+                resposta = gerar_resposta_llm("teste")
+
+        self.assertEqual(resposta, MENSAGEM_TIMEOUT)
+
+    def test_resposta_vazia_do_provedor_retorna_orientacao_completa(self):
+        ambiente = {
+            "LLM_PROVIDER": "gemini",
+            "GEMINI_MODEL": "gemini-2.5-flash",
+            "GEMINI_API_KEY": "chave-gemini-de-teste",
+        }
+        resposta_mock = {"choices": [{"message": {"content": ""}}]}
+        with patch.dict(os.environ, ambiente, clear=True):
+            with patch("litellm.completion", return_value=resposta_mock):
+                resposta = gerar_resposta_llm("teste")
+
+        self.assertEqual(resposta, MENSAGEM_RESPOSTA_VAZIA)
+        self.assertIn("modelo, chave", resposta)
 
     def test_falha_do_ollama_retorna_mensagem_especifica(self):
         ambiente = {

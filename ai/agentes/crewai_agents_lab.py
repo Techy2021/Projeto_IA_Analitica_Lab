@@ -25,6 +25,7 @@ from ai.llm_provider import (
     criar_llm_crewai,
     gerar_resposta_llm,
     obter_configuracao_llm,
+    resposta_llm_com_erro,
     sanitizar_texto,
     validar_configuracao,
 )
@@ -286,7 +287,11 @@ def _gerar_contexto_ferramentas(pergunta: str, roteamento: dict) -> tuple[str, l
     pergunta_lower = pergunta.lower()
 
     contexto_rag = tool_consultar_base_conhecimento(pergunta)
-    if contexto_rag and "nenhum trecho relevante" not in contexto_rag.lower():
+    if (
+        contexto_rag
+        and "nenhum trecho relevante" not in contexto_rag.lower()
+        and '"erro"' not in contexto_rag.lower()
+    ):
         ferramentas.append("tool_consultar_base_conhecimento")
         blocos.append(
             "Resultado da base de conhecimento RAG para "
@@ -540,7 +545,14 @@ def executar_crew_lab(pergunta: str, llm_config: dict | None = None) -> dict:
             roteamento,
         )
 
-        if not CREWAI_DISPONIVEL or not CREWAI_TOOLS_DISPONIVEL:
+        modo_direto_assistente = str(
+            (llm_config or {}).get("ASSISTANT_DIRECT_MODE", "")
+        ).lower() in {"1", "true", "yes"}
+        if (
+            modo_direto_assistente
+            or not CREWAI_DISPONIVEL
+            or not CREWAI_TOOLS_DISPONIVEL
+        ):
             resposta_direta = gerar_resposta_llm(
                 (
                     "Atue como assistente de inteligência laboratorial. Responda "
@@ -561,7 +573,9 @@ def executar_crew_lab(pergunta: str, llm_config: dict | None = None) -> dict:
                 ),
                 "llm_provider": provedor,
                 "llm_model": modelo,
-                "status": "ok",
+                "status": (
+                    "erro" if resposta_llm_com_erro(resposta_direta) else "ok"
+                ),
                 "modo_ferramentas": "llm_direto_deploy",
             }
             tempo_execucao_ms = int((time.perf_counter() - inicio) * 1000)
@@ -578,7 +592,7 @@ def executar_crew_lab(pergunta: str, llm_config: dict | None = None) -> dict:
                 roteamento_intencao,
                 ferramenta="llm_direto_deploy",
                 tempo_execucao_ms=tempo_execucao_ms,
-                status="ok",
+                status=resultado["status"],
             )
             resultado["tempo_execucao_ms"] = tempo_execucao_ms
             return resultado
