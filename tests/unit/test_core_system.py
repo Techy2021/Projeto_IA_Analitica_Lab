@@ -14,6 +14,11 @@ from ai.rag import router
 
 
 class ModeloPreditivoTests(unittest.TestCase):
+    def test_flaml_automl_pode_ser_importado(self):
+        from flaml import AutoML
+
+        self.assertTrue(callable(AutoML))
+
     def test_modelo_e_metadados_estao_disponiveis(self):
         self.assertTrue(modelo_treinado_existe())
         modelo = carregar_modelo_salvo()

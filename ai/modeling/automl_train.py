@@ -5,7 +5,7 @@ from typing import Any
 import joblib
 import numpy as np
 import pandas as pd
-from flaml import AutoML
+from flaml.automl import AutoML
 from sklearn.metrics import (
     accuracy_score,
     classification_report,

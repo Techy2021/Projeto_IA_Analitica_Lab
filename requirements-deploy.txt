@@ -9,9 +9,12 @@ openpyxl==3.1.5
 # Modelo preditivo e treinamento disponivel pela interface
 scikit-learn==1.8.0
 joblib==1.5.3
-# O artefato publicado usa ExtraTrees/scikit-learn. Evita baixar XGBoost e
-# bibliotecas NVIDIA desnecessárias no container enxuto do Render.
-flaml==2.6.0
+# O artefato publicado usa ExtraTrees/scikit-learn, mas o FLAML importa
+# xgboost ao carregar AutoML. A versão 1.7.6 usa wheel CPU e evita as
+# bibliotecas NVIDIA trazidas pelas versões atuais do extra flaml[automl].
+flaml[automl]==2.6.0
+xgboost==1.7.6
+lightgbm==4.6.0
 
 # Configuracao, HTTP e validacao
 python-dotenv==1.2.2
